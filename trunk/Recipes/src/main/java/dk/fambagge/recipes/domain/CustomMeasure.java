@@ -5,6 +5,7 @@
  */
 package dk.fambagge.recipes.domain;
 
+import java.io.Serializable;
 import javax.persistence.*;
 import org.hibernate.annotations.Type;
 
@@ -14,12 +15,12 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table( name = "CustomMeasures" )
-public class CustomMeasure {
+public class CustomMeasure implements Serializable {
 
     private int id;
     private String name;
     private String symbol;
-    private double customToReferenceRatio;
+    private double referenceToCustomRatio;
     private Measure referenceMeasure;
 
     public CustomMeasure() {
@@ -29,7 +30,7 @@ public class CustomMeasure {
     public CustomMeasure(String name, String symbol, double customToReferenceRatio, Measure referenceMeasure) {
         this.name = name;
         this.symbol = symbol;
-        this.customToReferenceRatio = customToReferenceRatio;
+        this.referenceToCustomRatio = customToReferenceRatio;
         this.referenceMeasure = referenceMeasure;
 
     }
@@ -81,18 +82,18 @@ public class CustomMeasure {
     }
 
     /**
-     * @return the customToReferenceRatio
+     * @return the referenceToCustomRatio
      */
-    @Column( name = "customToReferenceRatio", nullable = false )
-    public double getCustomToReferenceRatio() {
-        return customToReferenceRatio;
+    @Column( name = "referenceToCustomRatio", nullable = false )
+    public double getReferenceToCustomRatio() {
+        return referenceToCustomRatio;
     }
 
     /**
-     * @param customToReferenceRatio the customToReferenceRatio to set
+     * @param referenceToCustomRatio the customToReferenceRatio to set
      */
-    public void setCustomToReferenceRatio(double customToReferenceRatio) {
-        this.customToReferenceRatio = customToReferenceRatio;
+    public void setReferenceToCustomRatio(double referenceToCustomRatio) {
+        this.referenceToCustomRatio = referenceToCustomRatio;
     }
 
     /**

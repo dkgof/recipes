@@ -95,9 +95,9 @@ public class Recipe implements Serializable {
     @OneToMany( cascade = CascadeType.ALL )
     @JoinTable(name = "Recipe_RecipeIngredients",
             joinColumns = {
-                @JoinColumn(name = "RecipeId")},
+                @JoinColumn(name = "recipeId")},
             inverseJoinColumns = {
-                @JoinColumn(name = "RecipeIngredientId")}
+                @JoinColumn(name = "recipeIngredientId")}
     )
     public Set<RecipeIngredient> getIngredients() {
         return ingredients;
@@ -109,9 +109,9 @@ public class Recipe implements Serializable {
     @OneToMany( cascade = CascadeType.ALL )
     @JoinTable(name = "Recipe_RecipeSteps",
             joinColumns = {
-                @JoinColumn(name = "RecipeId")},
+                @JoinColumn(name = "recipeId")},
             inverseJoinColumns = {
-                @JoinColumn(name = "RecipeStepId")}
+                @JoinColumn(name = "recipeStepId")}
     )
     public Set<RecipeStep> getSteps() {
         return steps;
@@ -123,9 +123,9 @@ public class Recipe implements Serializable {
     @OneToMany( cascade = CascadeType.ALL )
     @JoinTable(name = "Recipe_Sidedishes",
             joinColumns = {
-                @JoinColumn(name = "RecipeId")},
+                @JoinColumn(name = "recipeId")},
             inverseJoinColumns = {
-                @JoinColumn(name = "SidedishId")}
+                @JoinColumn(name = "sidedishId")}
     )
     public Set<Recipe> getSidedishRecipes() {
         return sidedishRecipes;
