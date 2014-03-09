@@ -125,9 +125,9 @@ public class Ingredient implements Serializable {
     @OneToMany( cascade = CascadeType.ALL )
     @JoinTable(name = "Ingredient_CustomMeasures",
             joinColumns = {
-                @JoinColumn(name = "IngredientId")},
+                @JoinColumn(name = "ingredientId")},
             inverseJoinColumns = {
-                @JoinColumn(name = "CustomMeasureId")}
+                @JoinColumn(name = "customMeasureId")}
     )
     public Set<CustomMeasure> getCustomMeasures() {
         return customMeasures;

@@ -26,17 +26,21 @@ public class RecipeIngredient implements Serializable {
     private Measure measure;
     private double amount;
     
+    private CustomMeasure overrideMeasure;
+    
     public RecipeIngredient() {
         id = -1;
         this.amount = 0;
         this.measure = null;
         this.ingredient = null;
+        this.overrideMeasure = null;
     }
     
     public RecipeIngredient(Ingredient ingredient, double amount, Measure measure) {
         this.ingredient = ingredient;
         this.measure = measure;
         this.amount = amount;
+        this.overrideMeasure = null;
     }
 
     /**
@@ -60,7 +64,7 @@ public class RecipeIngredient implements Serializable {
      * @return the ingredient
      */
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn( name = "IngredientId", nullable = false)
+    @JoinColumn( name = "ingredientId", nullable = false)
     public Ingredient getIngredient() {
         return ingredient;
     }
@@ -101,6 +105,22 @@ public class RecipeIngredient implements Serializable {
      */
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    /**
+     * @return the overrideMeasure
+     */
+    @ManyToOne
+    @JoinColumn( name = "overrideMeasureId" )
+    public CustomMeasure getOverrideMeasure() {
+        return overrideMeasure;
+    }
+
+    /**
+     * @param overrideMeasure the overrideMeasure to set
+     */
+    public void setOverrideMeasure(CustomMeasure overrideMeasure) {
+        this.overrideMeasure = overrideMeasure;
     }
     
     @Override
