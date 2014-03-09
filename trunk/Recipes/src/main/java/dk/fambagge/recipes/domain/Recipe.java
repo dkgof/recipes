@@ -7,7 +7,6 @@ package dk.fambagge.recipes.domain;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -23,6 +22,8 @@ public class Recipe implements Serializable {
 
     private String name;
 
+    private int servings;
+    
     private Set<RecipeIngredient> ingredients;
 
     private Set<RecipeStep> steps;
@@ -30,11 +31,19 @@ public class Recipe implements Serializable {
     private Set<Recipe> sidedishRecipes;
 
     public Recipe() {
+        id = -1;
+        name = "";
+        servings = 0;
         ingredients = new HashSet<>();
         steps = new HashSet<>();
         sidedishRecipes = new HashSet<>();
     }
 
+    public Recipe(String name, int servings) {
+        this.name = name;
+        this.servings = servings;
+    }
+    
     public void addIngredient(RecipeIngredient ingredient) {
         getIngredients().add(ingredient);
     }
@@ -75,7 +84,7 @@ public class Recipe implements Serializable {
     /**
      * @return the ingredients
      */
-    @OneToMany
+    @OneToMany( cascade = CascadeType.ALL )
     @JoinTable(name = "Recipe_RecipeIngredients",
             joinColumns = {
                 @JoinColumn(name = "RecipeId")},
@@ -97,7 +106,13 @@ public class Recipe implements Serializable {
     /**
      * @return the sidedishRecipes
      */
-    @Transient
+    @OneToMany( cascade = CascadeType.ALL )
+    @JoinTable(name = "Recipe_Sidedishes",
+            joinColumns = {
+                @JoinColumn(name = "RecipeId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "SidedishId")}
+    )
     public Set<Recipe> getSidedishRecipes() {
         return sidedishRecipes;
     }
@@ -135,5 +150,20 @@ public class Recipe implements Serializable {
      */
     public void setSidedishRecipes(Set<Recipe> sidedishRecipes) {
         this.sidedishRecipes = sidedishRecipes;
+    }
+
+    /**
+     * @return the servings
+     */
+    @Column( name = "servings", nullable = false )
+    public int getServings() {
+        return servings;
+    }
+
+    /**
+     * @param servings the servings to set
+     */
+    public void setServings(int servings) {
+        this.servings = servings;
     }
 }
