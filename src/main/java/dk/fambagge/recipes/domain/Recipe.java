@@ -98,7 +98,13 @@ public class Recipe implements Serializable {
     /**
      * @return the steps
      */
-    @Transient
+    @OneToMany( cascade = CascadeType.ALL )
+    @JoinTable(name = "Recipe_RecipeSteps",
+            joinColumns = {
+                @JoinColumn(name = "RecipeId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "RecipeStepId")}
+    )
     public Set<RecipeStep> getSteps() {
         return steps;
     }
