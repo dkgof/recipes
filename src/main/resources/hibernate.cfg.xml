@@ -25,5 +25,6 @@
         <mapping class="dk.fambagge.recipes.domain.Recipe" />
         <mapping class="dk.fambagge.recipes.domain.RecipeIngredient" />
         <mapping class="dk.fambagge.recipes.domain.RecipeStep" />
+        <mapping class="dk.fambagge.recipes.domain.CustomMeasure" />
     </session-factory>
 </hibernate-configuration>
