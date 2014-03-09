@@ -48,6 +48,14 @@ public class Recipe implements Serializable {
         getIngredients().add(ingredient);
     }
 
+    public void addStep(RecipeStep step) {
+        steps.add(step);
+    }
+
+    public void addSidedish(Recipe sidedish) {
+        sidedishRecipes.add(sidedish);
+    }
+
     @Transient
     public double getEnergyInCalories() {
         return getEnergyInKiloJoule() * Constants.KCAL_PER_KILOJOULE;

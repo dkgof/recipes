@@ -11,11 +11,16 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.Session;
 import org.hibernate.annotations.Type;
@@ -34,6 +39,8 @@ public class Ingredient implements Serializable {
     private double energyPerHundred; //Kilojoule per 100 gram
     private String name;
 
+    private Set<CustomMeasure> customMeasures;
+    
     /**
      * @return the id
      */
@@ -110,6 +117,31 @@ public class Ingredient implements Serializable {
      */
     public void setPreferredMeasure(Measure preferredMeasure) {
         this.preferredMeasure = preferredMeasure;
+    }
+    
+    /**
+     * @return the customMeasures
+     */
+    @OneToMany( cascade = CascadeType.ALL )
+    @JoinTable(name = "Ingredient_CustomMeasures",
+            joinColumns = {
+                @JoinColumn(name = "IngredientId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "CustomMeasureId")}
+    )
+    public Set<CustomMeasure> getCustomMeasures() {
+        return customMeasures;
+    }
+
+    /**
+     * @param customMeasures the customMeasures to set
+     */
+    public void setCustomMeasures(Set<CustomMeasure> customMeasures) {
+        this.customMeasures = customMeasures;
+    }
+    
+    public void addCustomMeasure(CustomMeasure customMeasure) {
+        this.customMeasures.add(customMeasure);
     }
     
     @Override

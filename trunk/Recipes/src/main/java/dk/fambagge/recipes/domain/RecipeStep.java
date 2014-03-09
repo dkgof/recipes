@@ -25,7 +25,6 @@ public class RecipeStep implements Serializable {
     }
     
     public RecipeStep(String description) {
-        id = -1;
         this.description = description;
     }
     

@@ -27,6 +27,10 @@ public class RecipeIngredient implements Serializable {
     private double amount;
     
     public RecipeIngredient() {
+        id = -1;
+        this.amount = 0;
+        this.measure = null;
+        this.ingredient = null;
     }
     
     public RecipeIngredient(Ingredient ingredient, double amount, Measure measure) {
