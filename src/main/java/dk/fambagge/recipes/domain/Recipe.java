@@ -76,7 +76,7 @@ public class Recipe implements Serializable {
     /**
      * @return the name
      */
-    @Column(name = "name", nullable = true)
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
