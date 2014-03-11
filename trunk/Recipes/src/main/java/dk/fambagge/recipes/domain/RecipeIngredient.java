@@ -156,18 +156,18 @@ public class RecipeIngredient implements Serializable {
         return hash;
     }
 
-    private double convertWeight(double inputAmount, Weight inputMeasure, Weight outputMeasure) {
+    public static double convertWeight(double inputAmount, Weight inputMeasure, Weight outputMeasure) {
         double inputAsGrams = inputAmount * inputMeasure.getFactor();
         
         return inputAsGrams / outputMeasure.getFactor();
     }
 
-    private double convertVolume(double inputAmount, Volume inputMeasure, Volume outputMeasure) {
+    public static double convertVolume(double inputAmount, Volume inputMeasure, Volume outputMeasure) {
         double inputAsLiters = inputAmount * inputMeasure.getFactor();
         
         return inputAsLiters / outputMeasure.getFactor();
     }
-    
+
     public double getAmount(Measure outputMeasure) {
         Measure inputMeasure = this.measure;
         

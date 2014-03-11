@@ -53,7 +53,7 @@ public interface Measure extends Serializable {
         DECILITER("dl", 0.1),
         CUP_US("cup us", 0.23659),
         CUP("cup", 0.250),
-        LITER("l", 1),
+        LITER("L", 1),
         ;
         
         private final String symbol;

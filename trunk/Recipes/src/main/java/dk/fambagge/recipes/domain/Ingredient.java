@@ -34,10 +34,10 @@ import org.hibernate.annotations.Type;
 public class Ingredient implements Serializable {
     private int id;
     
-    private Measure preferredMeasure;
-    private double weightToVolume; //Gram to Liter ratio
-    private double energyPerHundred; //Kilojoule per 100 gram
     private String name;
+    private double weightToVolume; //Gram to Liter ratio
+    private Measure preferredMeasure;
+    private double energyPerHundred; //Kilojoule per 100 gram
 
     private Set<CustomMeasure> customMeasures;
     
@@ -142,6 +142,19 @@ public class Ingredient implements Serializable {
     
     public void addCustomMeasure(CustomMeasure customMeasure) {
         this.customMeasures.add(customMeasure);
+    }
+    
+    public String toHtml() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("<div class='ingredient'>");
+        sb.append("<div class='name'>").append(this.getName()).append("</div>");
+        sb.append("<div class='energy'>").append(this.getEnergyPerHundred()).append("</div>");
+        sb.append("<div class='density'>").append(this.getWeightToVolume()).append("</div>");
+        sb.append("<div class='preferred'>").append(this.getPreferredMeasure()).append("</div>");
+        sb.append("</div>");
+        
+        return sb.toString();
     }
     
     @Override
