@@ -5,8 +5,16 @@
  */
 package dk.fambagge.recipes.domain;
 
+import dk.fambagge.recipes.db.HibernateUtil;
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.LinkedList;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.annotations.Type;
 
 /**
@@ -15,7 +23,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table( name = "CustomMeasures" )
-public class CustomMeasure implements Serializable {
+public class CustomMeasure implements Measure {
 
     private int id;
     private String name;
@@ -69,6 +77,7 @@ public class CustomMeasure implements Serializable {
     /**
      * @return the symbol
      */
+    @Override
     @Column( name = "symbol", nullable = false, length = 16, unique = true )
     public String getSymbol() {
         return symbol;
@@ -110,5 +119,41 @@ public class CustomMeasure implements Serializable {
      */
     public void setReferenceMeasure(Measure referenceMeasure) {
         this.referenceMeasure = referenceMeasure;
+    }
+
+    @Override
+    public double getFactor() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static CustomMeasure getFromId(int id) {
+        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from CustomMeasures where id = :id");
+        query.setParameter("id", id);
+        final List result = query.list();
+        session.getTransaction().commit();
+        if(!result.isEmpty()) {
+            return (CustomMeasure) result.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public static List<CustomMeasure> getAll() {
+        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        final List result = session.createQuery("from CustomMeasures").list();
+        session.getTransaction().commit();
+        final List<CustomMeasure> namedResult = new LinkedList<>();
+        for(final Object resultObj : result) {
+            namedResult.add((CustomMeasure) resultObj);
+        }
+        return namedResult;
+    }
+
+    @Override
+    public String toDBString() {
+        return "custom"+this.getId();
     }
 }
