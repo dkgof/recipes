@@ -15,6 +15,7 @@ import java.io.Serializable;
 public interface Measure extends Serializable {
     public String getSymbol();
     public double getFactor();
+    public String toDBString();
     
     public enum Weight implements Measure {
         MILLIGRAM("mg", 0.001),
@@ -40,6 +41,11 @@ public interface Measure extends Serializable {
         @Override
         public double getFactor() {
             return factor;
+        }
+
+        @Override
+        public String toDBString() {
+            return this.name();
         }
     }
     
@@ -72,6 +78,11 @@ public interface Measure extends Serializable {
         @Override
         public double getFactor() {
             return factor;
+        }
+
+        @Override
+        public String toDBString() {
+            return this.name();
         }
     }
 }

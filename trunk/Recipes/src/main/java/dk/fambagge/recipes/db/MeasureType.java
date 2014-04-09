@@ -6,6 +6,7 @@
 
 package dk.fambagge.recipes.db;
 
+import dk.fambagge.recipes.domain.CustomMeasure;
 import dk.fambagge.recipes.domain.Measure;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -36,12 +37,16 @@ public class MeasureType implements UserType {
 
     @Override
     public boolean equals(Object obj1, Object obj2) throws HibernateException {
-        return obj1.toString().equals(obj2.toString());
+        if(!(obj1 instanceof Measure) || !(obj2 instanceof Measure)) {
+            throw new UnsupportedOperationException("Cannot equals on non Measure");
+        }
+        
+        return ((Measure)obj1).toDBString().equals(((Measure)obj2).toDBString());
     }
 
     @Override
     public int hashCode(Object obj) throws HibernateException {
-        return obj.toString().hashCode();
+        return ((Measure)obj).toDBString().hashCode();
     }
 
     @Override
@@ -57,7 +62,11 @@ public class MeasureType implements UserType {
         if(value == null) {
             StringType.INSTANCE.set(stm, null, index, si);
         } else {
-            String stringValue = value.toString();
+            if(!(value instanceof Measure)) {
+                throw new UnsupportedOperationException("Cannot nullSafeSet Measure from: "+value.getClass());
+            }
+            
+            String stringValue = ((Measure)value).toDBString();
             StringType.INSTANCE.set(stm, stringValue, index, si);
         }
     }
@@ -74,14 +83,18 @@ public class MeasureType implements UserType {
 
     @Override
     public Serializable disassemble(Object value) throws HibernateException {
-        return value.toString();
+        if(!(value instanceof Measure)) {
+            throw new UnsupportedOperationException("Cannot disassemble Measure from: "+value.getClass());
+        }
+        
+        return ((Measure)value).toDBString();
     }
 
     @Override
     public Object assemble(Serializable cached, Object owner) throws HibernateException {
         
         if(!(cached instanceof String)) {
-            throw new UnsupportedOperationException("Cannot assemble from: "+cached.getClass());
+            throw new UnsupportedOperationException("Cannot assemble Measure from: "+cached.getClass());
         }
         
         String stringValue = cached.toString();
@@ -95,10 +108,15 @@ public class MeasureType implements UserType {
     }
 
     public static Measure getTypeFromString(String stringValue) {
-        try {
-            return Measure.Volume.valueOf(stringValue);
-        } catch(IllegalArgumentException e) {
-            return Measure.Weight.valueOf(stringValue);
+        if(stringValue.startsWith("custom")) {
+            int id = Integer.parseInt(stringValue.replace("custom", ""));
+            return CustomMeasure.getFromId(id);
+        } else {
+            try {
+                return Measure.Volume.valueOf(stringValue);
+            } catch(IllegalArgumentException e) {
+                return Measure.Weight.valueOf(stringValue);
+            }
         }
     }
 }
