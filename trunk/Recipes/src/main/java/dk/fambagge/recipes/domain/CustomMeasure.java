@@ -6,7 +6,6 @@
 package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.HibernateUtil;
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Column;
@@ -155,5 +154,10 @@ public class CustomMeasure implements Measure {
     @Override
     public String toDBString() {
         return "custom"+this.getId();
+    }
+
+    @Override
+    public double convertTo(double amount, Measure targetMeasure) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

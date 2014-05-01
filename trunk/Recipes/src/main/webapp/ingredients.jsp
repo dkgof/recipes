@@ -31,7 +31,6 @@
             }
         %>
         
-        
         <h2>Add new ingredient</h2>
         <form action="actions/createIngredient.jsp" method="POST">
             Name: <input type="text" name="name" /><br />

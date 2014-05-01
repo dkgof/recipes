@@ -16,6 +16,7 @@ public interface Measure extends Serializable {
     public String getSymbol();
     public double getFactor();
     public String toDBString();
+    public double convertTo(double amount, Measure targetMeasure);
     
     public enum Weight implements Measure {
         MILLIGRAM("mg", 0.001),
@@ -46,6 +47,11 @@ public interface Measure extends Serializable {
         @Override
         public String toDBString() {
             return this.name();
+        }
+
+        @Override
+        public double convertTo(double amount, Measure targetMeasure) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
     
@@ -83,6 +89,11 @@ public interface Measure extends Serializable {
         @Override
         public String toDBString() {
             return this.name();
+        }
+
+        @Override
+        public double convertTo(double amount, Measure targetMeasure) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
 }
