@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.annotations.Type;
@@ -121,6 +122,7 @@ public class CustomMeasure implements Measure {
     }
 
     @Override
+    @Transient
     public double getFactor() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
