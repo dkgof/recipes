@@ -134,6 +134,7 @@ public class CustomMeasure implements Measure {
         query.setParameter("id", id);
         final List result = query.list();
         session.getTransaction().commit();
+        session.close();
         if(!result.isEmpty()) {
             return (CustomMeasure) result.get(0);
         } else {
@@ -150,6 +151,7 @@ public class CustomMeasure implements Measure {
         for(final Object resultObj : result) {
             namedResult.add((CustomMeasure) resultObj);
         }
+        session.close();
         return namedResult;
     }
 
