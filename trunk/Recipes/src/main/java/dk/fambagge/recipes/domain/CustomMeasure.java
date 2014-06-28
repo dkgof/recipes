@@ -151,7 +151,6 @@ public class CustomMeasure implements Measure {
         for(final Object resultObj : result) {
             namedResult.add((CustomMeasure) resultObj);
         }
-        session.close();
         return namedResult;
     }
 
