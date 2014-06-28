@@ -200,7 +200,6 @@ public class Ingredient implements Serializable {
         for(final Object resultObj : result) {
             namedResult.add((Ingredient) resultObj);
         }
-        session.close();
         return namedResult;
     }
     
