@@ -4,6 +4,7 @@
     Author     : Gof
 --%>
 
+<%@page import="java.util.logging.Logger"%>
 <%@page import="dk.fambagge.recipes.domain.Measure"%>
 <%@page import="dk.fambagge.recipes.db.MeasureType"%>
 <%@page import="dk.fambagge.recipes.domain.Ingredient"%>
@@ -16,6 +17,11 @@
 
 <%
     Measure preferredMeasure = MeasureType.getTypeFromString(postData.getPreferedMeasure());
+    
+    Logger.getLogger("Recepies").fine("getName: "+postData.getName());
+    Logger.getLogger("Recepies").fine("getPreferedMeasure: "+postData.getPreferedMeasure());
+    Logger.getLogger("Recepies").fine("getEnergyPerHundred: "+postData.getEnergyPerHundred());
+    Logger.getLogger("Recepies").fine("getWeightToVolume: "+postData.getWeightToVolume());
     
     Ingredient ingredient = new Ingredient();
     ingredient.setName(postData.getName());

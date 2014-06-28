@@ -200,6 +200,7 @@ public class Ingredient implements Serializable {
         for(final Object resultObj : result) {
             namedResult.add((Ingredient) resultObj);
         }
+        session.close();
         return namedResult;
     }
     
@@ -208,5 +209,6 @@ public class Ingredient implements Serializable {
         session.beginTransaction();
         session.save(this);
         session.getTransaction().commit();
+        session.close();
     }
 }
