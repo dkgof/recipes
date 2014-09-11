@@ -44,14 +44,37 @@
                             $("input#name").val("");
                             $("input#weightToVolume").val("");
                             $("input#energyPerHundred").val("");
-                            $("input#preferedMeasure").val("");
+                            $("select#preferedMeasure").val("");
                             $(this).dialog("close");
                         }
                     }
                 });
                 
+                $("div#calculateDensityDialog").dialog({
+                    autoOpen: false,
+                    title: "Calculate Density",
+                    width: 600,
+                    buttons: {
+                        "Calculate": function() {
+                            $(this).dialog("close");
+                        },
+                        "Cancel": function() {
+                            $("input#calculateDensityWeight").val("");
+                            $("input#calculateDensityVolume").val("");
+                            $("select#calculateDensityVolumeUnit").val("");
+                            $("select#calculateDensityWeightUnit").val("");
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+
                 $("#addIngredientButton").on("click", function() {
                     $("div#createIngredientDialog").dialog("open");
+                    return false;
+                });
+
+                $("#calculateDensityButton").on("click", function() {
+                    $("div#calculateDensityDialog").dialog("open");
                     return false;
                 });
             });
@@ -75,7 +98,7 @@
         <div id="createIngredientDialog">
             <form action="actions/createIngredient.jsp" method="POST" id="addIngredientsForm">
                 <label for="name">Name:</label><input type="text" id="name" name="name" /><br />
-                <label for="weightToVolume">Weight in grams of 1L:</label><input type="number" step="any" min="0" id="weightToVolume" name="weightToVolume" /><a href="">Calculate</a><br />
+                <label for="weightToVolume">Weight in grams of 1L:</label><input type="number" step="any" min="0" id="weightToVolume" name="weightToVolume" /><a href="" id="calculateDensityButton">Calculate</a><br />
                 <label for="energyPerHundred">Kilojoule in 100g:</label><input type="number" step="any" min="0" id="energyPerHundred" name="energyPerHundred" /><br />
                 Custom measures: <a href="">Add</a><br />
                 <label for="preferedMeasure">Preferred measure:</label><select id="preferedMeasure" name="preferedMeasure">
@@ -90,6 +113,26 @@
                         }
                     %>
                 </select>
+           </form>
+        </div>
+        <div id="calculateDensityDialog">
+            <form action="#" id="calculateDensityForm">
+                <label for="calculateDensityWeight">Weight:</label><input type="number" step="any" min="0" id="calculateDensityWeight" name="calculateDensityWeight" />
+                <select id="calculateDensityWeightUnit" name="calculateDensityWeightUnit">
+                    <%
+                        for (Measure.Weight w : Measure.Weight.values()) {
+                            out.println("<option value=\"" + w.toString() + "\">" + w.getSymbol() + "</option>");
+                        }
+                    %>
+                </select><br />
+                <label for="calculateDensityVolume">Volume:</label><input type="number" step="any" min="0" id="calculateDensityVolume" name="calculateDensityVolume" />
+                <select id="calculateDensityVolumeUnit" name="calculateDensityVolumeUnit">
+                    <%
+                        for (Measure.Volume v : Measure.Volume.values()) {
+                            out.println("<option value=\"" + v.toString() + "\">" + v.getSymbol() + "</option>");
+                        }
+                    %>
+                </select><br />
            </form>
         </div>
     </body>
