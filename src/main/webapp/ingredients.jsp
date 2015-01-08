@@ -25,19 +25,12 @@
                     width: 600,
                     buttons: {
                         "Add": function() {
-                            var data = new FormData($("#addIngredientsForm")[0]);
-                            var html = new XMLHttpRequest();
-                            html.open("POST", "actions/createIngredient.jsp", true);
-                            html.send(data);
-                            $(html).on("readystatechanged", function() {
-                                if(html.readyState === 4) {
-                                    if(html.status === 200) {
-                                        console.log("Ingredient added successfully");
-                                    } else {
-                                        console.log("Error adding ingredient: ", html.responseText);
-                                    }
-                                }
-                            });
+                            $.post("actions/createIngredient.jsp", $("#addIngredientsForm").serialize());
+                            
+                            $("input#name").val("");
+                            $("input#weightToVolume").val("");
+                            $("input#energyPerHundred").val("");
+                            $("select#preferedMeasure").val("");
                             $(this).dialog("close");
                         },
                         "Cancel": function() {
@@ -96,7 +89,7 @@
 
         <a href="" id="addIngredientButton">Add ingredient</a>
         <div id="createIngredientDialog">
-            <form action="actions/createIngredient.jsp" method="POST" id="addIngredientsForm">
+            <form id="addIngredientsForm">
                 <label for="name">Name:</label><input type="text" id="name" name="name" /><br />
                 <label for="weightToVolume">Weight in grams of 1L:</label><input type="number" step="any" min="0" id="weightToVolume" name="weightToVolume" /><a href="" id="calculateDensityButton">Calculate</a><br />
                 <label for="energyPerHundred">Kilojoule in 100g:</label><input type="number" step="any" min="0" id="energyPerHundred" name="energyPerHundred" /><br />
@@ -116,7 +109,7 @@
            </form>
         </div>
         <div id="calculateDensityDialog">
-            <form action="#" id="calculateDensityForm">
+            <form id="calculateDensityForm">
                 <label for="calculateDensityWeight">Weight:</label><input type="number" step="any" min="0" id="calculateDensityWeight" name="calculateDensityWeight" />
                 <select id="calculateDensityWeightUnit" name="calculateDensityWeightUnit">
                     <%
