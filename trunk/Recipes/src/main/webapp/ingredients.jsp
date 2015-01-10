@@ -30,14 +30,14 @@
                             $("input#name").val("");
                             $("input#weightToVolume").val("");
                             $("input#energyPerHundred").val("");
-                            $("select#preferedMeasure").val("");
+                            $("select#preferedMeasure").val("<%= Measure.Weight.MILLIGRAM %>");
                             $(this).dialog("close");
                         },
                         "Cancel": function() {
                             $("input#name").val("");
                             $("input#weightToVolume").val("");
                             $("input#energyPerHundred").val("");
-                            $("select#preferedMeasure").val("");
+                            $("select#preferedMeasure").val("<%= Measure.Weight.MILLIGRAM %>");
                             $(this).dialog("close");
                         }
                     }
@@ -49,13 +49,22 @@
                     width: 600,
                     buttons: {
                         "Calculate": function() {
+                            $.post("actions/calculateDensity.jsp", $("#calculateDensityForm").serialize(), function(data) {
+                                $("#weightToVolume").val(data.density);
+                            }).error(function(a,b,c) {
+                                console.log("Error calculating density: ",a,b,c);
+                            });
+                            $("input#calculateDensityWeight").val("");
+                            $("input#calculateDensityVolume").val("");
+                            $("select#calculateDensityVolumeUnit").val("<%= Measure.Volume.MILLILITER %>");
+                            $("select#calculateDensityWeightUnit").val("<%= Measure.Weight.MILLIGRAM %>");
                             $(this).dialog("close");
                         },
                         "Cancel": function() {
                             $("input#calculateDensityWeight").val("");
                             $("input#calculateDensityVolume").val("");
-                            $("select#calculateDensityVolumeUnit").val("");
-                            $("select#calculateDensityWeightUnit").val("");
+                            $("select#calculateDensityVolumeUnit").val("<%= Measure.Volume.MILLILITER %>");
+                            $("select#calculateDensityWeightUnit").val("<%= Measure.Weight.MILLIGRAM %>");
                             $(this).dialog("close");
                         }
                     }

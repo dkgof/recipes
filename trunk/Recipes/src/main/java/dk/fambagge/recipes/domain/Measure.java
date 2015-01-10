@@ -21,9 +21,9 @@ public interface Measure extends Serializable {
     public enum Weight implements Measure {
         MILLIGRAM("mg", 0.001),
         GRAM("g", 1),
+        KILOGRAM("kg", 1000),
         OUNCE("oz", 28.35),
         POUND("lb", 453.59),
-        KILOGRAM("kg", 1000),
         ;
         
         private final String symbol;
@@ -51,21 +51,25 @@ public interface Measure extends Serializable {
 
         @Override
         public double convertTo(double amount, Measure targetMeasure) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if((targetMeasure instanceof Weight)) {
+                return (amount * this.getFactor()) / targetMeasure.getFactor();
+            } else {
+                throw new UnsupportedOperationException("Cannot convert weight meassure to anything but weight");
+            }
         }
     }
     
     public enum Volume implements Measure {
-        DROP("drop", 0.001 / 20.0),
         MILLILITER("ml", 0.001),
+        CENTILITER("cl", 0.01),
+        DECILITER("dl", 0.1),
+        LITER("L", 1),
         TEASPOON("tsp", 0.004),
         TABLESPOON("tbsp", 0.015),
-        CENTILITER("cl", 0.01),
+        DROP("drop", 0.001 / 20.0),
         FLUID_OUNCE("fl oz", 0.029),
-        DECILITER("dl", 0.1),
         CUP_US("cup us", 0.23659),
         CUP("cup", 0.250),
-        LITER("L", 1),
         ;
         
         private final String symbol;
@@ -93,7 +97,11 @@ public interface Measure extends Serializable {
 
         @Override
         public double convertTo(double amount, Measure targetMeasure) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if((targetMeasure instanceof Volume)) {
+                return (amount * this.getFactor()) / targetMeasure.getFactor();
+            } else {
+                throw new UnsupportedOperationException("Cannot convert bolume meassure to anything but volume");
+            }
         }
     }
 }
