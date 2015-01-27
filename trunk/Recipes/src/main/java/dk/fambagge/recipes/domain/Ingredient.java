@@ -144,19 +144,6 @@ public class Ingredient implements Serializable {
         this.customMeasures.add(customMeasure);
     }
 
-    public String toHtml() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("<div class='ingredient'>");
-        sb.append("<div class='name'>").append(this.getName()).append("</div>");
-        sb.append("<div class='energy'>").append(this.getEnergyPerHundred()).append("</div>");
-        sb.append("<div class='density'>").append(this.getWeightToVolume()).append("</div>");
-        sb.append("<div class='preferred'>").append(this.getPreferredMeasure()).append("</div>");
-        sb.append("</div>");
-
-        return sb.toString();
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Ingredient)) {
