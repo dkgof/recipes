@@ -8,7 +8,7 @@ package dk.fambagge.recipes.web.servlets;
 import dk.fambagge.recipes.db.MeasureType;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
-import dk.fambagge.recipes.web.beans.CreateIngredientData;
+import dk.fambagge.recipes.web.servlets.beans.CreateIngredientData;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
