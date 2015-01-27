@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.HibernateUtil;
@@ -30,22 +29,23 @@ import org.hibernate.annotations.Type;
  * @author Gof
  */
 @Entity
-@Table( name = "Ingredients" )
+@Table(name = "Ingredients")
 public class Ingredient implements Serializable {
+
     private int id;
-    
+
     private String name;
     private double weightToVolume; //Gram to Liter ratio
     private Measure preferredMeasure;
     private double energyPerHundred; //Kilojoule per 100 gram
 
     private Set<CustomMeasure> customMeasures;
-    
+
     /**
      * @return the id
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -102,11 +102,11 @@ public class Ingredient implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     /**
      * @return the preferedMeasure
      */
-    @Type( type = "dk.fambagge.recipes.db.MeasureType" )
+    @Type(type = "dk.fambagge.recipes.db.MeasureType")
     @Column(name = "preferredMeasure", nullable = false, length = 16)
     public Measure getPreferredMeasure() {
         return preferredMeasure;
@@ -118,11 +118,11 @@ public class Ingredient implements Serializable {
     public void setPreferredMeasure(Measure preferredMeasure) {
         this.preferredMeasure = preferredMeasure;
     }
-    
+
     /**
      * @return the customMeasures
      */
-    @OneToMany( cascade = CascadeType.ALL )
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Ingredient_CustomMeasures",
             joinColumns = {
                 @JoinColumn(name = "ingredientId")},
@@ -139,44 +139,44 @@ public class Ingredient implements Serializable {
     public void setCustomMeasures(Set<CustomMeasure> customMeasures) {
         this.customMeasures = customMeasures;
     }
-    
+
     public void addCustomMeasure(CustomMeasure customMeasure) {
         this.customMeasures.add(customMeasure);
     }
-    
+
     public String toHtml() {
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append("<div class='ingredient'>");
         sb.append("<div class='name'>").append(this.getName()).append("</div>");
         sb.append("<div class='energy'>").append(this.getEnergyPerHundred()).append("</div>");
         sb.append("<div class='density'>").append(this.getWeightToVolume()).append("</div>");
         sb.append("<div class='preferred'>").append(this.getPreferredMeasure()).append("</div>");
         sb.append("</div>");
-        
+
         return sb.toString();
     }
-    
+
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Ingredient)) {
-            return false;
-        }
-        
-        Ingredient other = (Ingredient) obj;
-        
-        if(Double.doubleToLongBits(this.getEnergyPerHundred()) != Double.doubleToLongBits(other.getEnergyPerHundred())) {
+        if (!(obj instanceof Ingredient)) {
             return false;
         }
 
-        if(Double.doubleToLongBits(this.getWeightToVolume()) != Double.doubleToLongBits(other.getWeightToVolume())) {
+        Ingredient other = (Ingredient) obj;
+
+        if (Double.doubleToLongBits(this.getEnergyPerHundred()) != Double.doubleToLongBits(other.getEnergyPerHundred())) {
             return false;
         }
-        
-        if(this.getId() != other.getId()) {
+
+        if (Double.doubleToLongBits(this.getWeightToVolume()) != Double.doubleToLongBits(other.getWeightToVolume())) {
             return false;
         }
-        
+
+        if (this.getId() != other.getId()) {
+            return false;
+        }
+
         return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -190,24 +190,23 @@ public class Ingredient implements Serializable {
         hash = 89 * hash + Objects.hashCode(this.name);
         return hash;
     }
-    
+
     public static List<Ingredient> getAll() {
         final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         final List result = session.createQuery("from Ingredient").list();
         session.getTransaction().commit();
         final List<Ingredient> namedResult = new LinkedList<>();
-        for(final Object resultObj : result) {
+        for (final Object resultObj : result) {
             namedResult.add((Ingredient) resultObj);
         }
         return namedResult;
     }
-    
+
     public void save() {
         final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.save(this);
         session.getTransaction().commit();
-        session.close();
     }
 }
