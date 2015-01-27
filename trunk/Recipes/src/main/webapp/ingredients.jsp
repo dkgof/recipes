@@ -12,20 +12,17 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <link href="js/libs/jqueryui/css/base/minified/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-
-        <script src="js/libs/jquery/jquery.min.js" type="text/javascript"></script>
-        <script src="js/libs/jqueryui/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="js/libs/head.load.min.js" data-headjs-load="js/libs/init.js" type="text/javascript"></script>
 
         <script type="text/javascript">
-            $(function() {
+            head.ready(function() {
                 $("div#createIngredientDialog").dialog({
                     autoOpen: false,
                     title: "Add ingredient",
                     width: 600,
                     buttons: {
                         "Add": function() {
-                            $.post("actions/createIngredient.jsp", $("#addIngredientsForm").serialize());
+                            $.post("CreateIngredient", $("#addIngredientsForm").serialize());
                             
                             $("input#name").val("");
                             $("input#weightToVolume").val("");
@@ -49,7 +46,7 @@
                     width: 600,
                     buttons: {
                         "Calculate": function() {
-                            $.post("actions/calculateDensity.jsp", $("#calculateDensityForm").serialize(), function(data) {
+                            $.post("CalculateDensity", $("#calculateDensityForm").serialize(), function(data) {
                                 $("#weightToVolume").val(data.density);
                             }).error(function(a,b,c) {
                                 console.log("Error calculating density: ",a,b,c);
