@@ -59,10 +59,30 @@
                     </p:column>                
                 </p:dataTable>
                 
-                <p:commandButton value="Add ingredient" icon="ui-icon-extlink" actionListener="#{ingredientsView.addIngredient()}">
-                    <p:ajax event="dialogReturn" update=":form" listener="#{ingredientsView.reload()}"/>
-                </p:commandButton>
+                <p:commandButton value="Add ingredient" icon="ui-icon-extlink" onclick="PF('addIngredientDialog').show();" />
             </h:form>
+            
+            <p:dialog id="addIngredientDialog" header="Add Ingredient" widgetVar="addIngredientDialog" modal="true">
+                <h:form>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="name" value="Name:" />
+                        <p:inputText id="name" value="#{addIngredientView.name}" required="true" />
+                        <h:outputLabel for="weightToVolume" value="Grams / 1L:" />
+                        <p:inputText id="weightToVolume" value="#{addIngredientView.weightToVolume}" required="true" />
+                        <h:outputLabel for="energyPerHundred" value="Energy / 100g:" />
+                        <p:inputText id="energyPerHundred" value="#{addIngredientView.energyPerHundred}" required="true" />
+                        <h:outputLabel for="measures" value="Prefered Measure" />
+                        <p:selectOneMenu id="measures" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addIngredientView.preferedMeasure}" style="width:100%">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{addIngredientView.measures}" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+
+                    <p:commandButton value="Submit" icon="ui-icon-check" actionListener="#{addIngredientView.submitIngredient()}" oncomplete="PF('addIngredientDialog').hide()" />
+                </h:form>
+                
+                <p:ajax event="close" update=":addIngredientDialog :form" listener="#{ingredientsView.reload()}" />
+            </p:dialog>
         </h:body>
     </f:view>
 </html>

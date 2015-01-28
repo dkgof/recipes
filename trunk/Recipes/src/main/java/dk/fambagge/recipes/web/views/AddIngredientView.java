@@ -10,12 +10,9 @@ import dk.fambagge.recipes.domain.Measure;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -35,8 +32,12 @@ public class AddIngredientView implements Serializable {
         ingredient.setPreferredMeasure(preferedMeasure);
         ingredient.setWeightToVolume(weightToVolume);
         ingredient.save();
-        
-        RequestContext.getCurrentInstance().closeDialog(null);
+
+        //Reset data for next dialog
+        name = "";
+        weightToVolume = 0.0;
+        energyPerHundred = 0.0;
+        preferedMeasure = null;
     }
     
     /**
