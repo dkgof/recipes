@@ -12,8 +12,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -47,9 +50,21 @@ public class IngredientsView implements Serializable {
         if(event.getObject() instanceof Ingredient) {
             Ingredient ingredient = (Ingredient) event.getObject();
             ingredient.update();
+            
+            FacesContext context = FacesContext.getCurrentInstance();
+            
+            context.addMessage(null, new FacesMessage("Ingredient updated", "Sucessfully updated the ingredient with new data"));
         }
     }
 
     public void onRowCancel(RowEditEvent event) {
+    }
+    
+    public void addIngredient() {
+        RequestContext.getCurrentInstance().openDialog("addIngredient");
+    }
+    
+    public void reload() {
+        this.ingredients = Ingredient.getAll();
     }
 }

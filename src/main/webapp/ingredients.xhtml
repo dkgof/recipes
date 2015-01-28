@@ -14,7 +14,7 @@
 
             <h:form id="form">
                 <p:growl id="msgs" showDetail="true"/>            
-                <p:dataTable var="ingredient" value="#{ingredientsView.ingredients}" editable="true">
+                <p:dataTable var="ingredient" value="#{ingredientsView.ingredients}" editable="true" id="ingredientsTable">
 
                     <f:facet name="header">
                         Ingredients
@@ -29,24 +29,24 @@
                     <p:column headerText="Name" sortBy="#{ingredient.name}">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{ingredient.name}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{ingredient.name}" label="Name"  style="width:100%" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{ingredient.name}" style="width:100%" /></f:facet>
                         </p:cellEditor>
                     </p:column>
                     <p:column headerText="Energy / 100g" sortBy="#{ingredient.energyPerHundred}">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{ingredient.energyPerHundred}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{ingredient.energyPerHundred}" label="Name"  style="width:100%" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{ingredient.energyPerHundred}" style="width:100%" /></f:facet>
                         </p:cellEditor>
                     </p:column>
                     <p:column headerText="Grams / 1L" sortBy="#{ingredient.weightToVolume}">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{ingredient.weightToVolume}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{ingredient.weightToVolume}" label="Name"  style="width:100%" /></f:facet>
+                            <f:facet name="input"><p:inputText value="#{ingredient.weightToVolume}" style="width:100%" /></f:facet>
                         </p:cellEditor>
                     </p:column>
                     <p:column headerText="Preferred Measure" sortBy="#{ingredient.preferredMeasure.symbol}">
                         <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{ingredient.preferredMeasure.symbol}"  style="width:100%" /></f:facet>
+                            <f:facet name="output"><h:outputText value="#{ingredient.preferredMeasure.symbol}" style="width:100%" /></f:facet>
                             <f:facet name="input">
                                 <h:selectOneMenu converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{ingredient.preferredMeasure}" style="width:100%">
                                     <f:selectItems value="#{ingredientsView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
@@ -58,6 +58,10 @@
                         <p:rowEditor />
                     </p:column>                
                 </p:dataTable>
+                
+                <p:commandButton value="Add ingredient" icon="ui-icon-extlink" actionListener="#{ingredientsView.addIngredient()}">
+                    <p:ajax event="dialogReturn" update=":form" listener="#{ingredientsView.reload()}"/>
+                </p:commandButton>
             </h:form>
         </h:body>
     </f:view>

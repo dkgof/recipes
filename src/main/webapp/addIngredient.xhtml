@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Add Ingredient</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="name" value="Name:" />
+                <p:inputText id="name" value="#{addIngredientView.name}" required="true" />
+                <h:outputLabel for="weightToVolume" value="Grams / 1L:" />
+                <p:inputText id="weightToVolume" value="#{addIngredientView.weightToVolume}" required="true" />
+                <h:outputLabel for="energyPerHundred" value="Energy / 100g:" />
+                <p:inputText id="energyPerHundred" value="#{addIngredientView.energyPerHundred}" required="true" />
+                <h:outputLabel for="measures" value="Prefered Measure" />
+                <p:selectOneMenu id="measures" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addIngredientView.preferedMeasure}" style="width:100%">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItems value="#{addIngredientView.measures}" />
+                </p:selectOneMenu>
+            </h:panelGrid>
+            
+            <p:commandButton value="Submit" icon="ui-icon-check" actionListener="#{addIngredientView.submitIngredient()}"/>
+        </h:form>
+    </h:body>
+</html>
+
