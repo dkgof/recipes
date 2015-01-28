@@ -9,11 +9,11 @@
     <property name="hibernate.connection.password">recipe</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
-    <property name="connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</property>
+    <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
     <property name="hibernate.c3p0.acquire_increment">1</property>
     <property name="hibernate.c3p0.idle_test_period">60</property>
     <property name="hibernate.c3p0.min_size">1</property>
-    <property name="hibernate.c3p0.max_size">2</property>
+    <property name="hibernate.c3p0.max_size">100</property>
     <property name="hibernate.c3p0.max_statements">50</property>
     <property name="hibernate.c3p0.timeout">10</property>
     <property name="hibernate.c3p0.acquireRetryAttempts">1</property>
