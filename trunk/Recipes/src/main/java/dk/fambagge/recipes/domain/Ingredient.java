@@ -196,4 +196,11 @@ public class Ingredient implements Serializable {
         session.save(this);
         session.getTransaction().commit();
     }
+
+    public void update() {
+        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.update(this);
+        session.getTransaction().commit();
+    }
 }
