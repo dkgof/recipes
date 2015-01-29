@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -51,8 +53,7 @@ public class IngredientsView implements Serializable {
             ingredient.update();
             
             FacesContext context = FacesContext.getCurrentInstance();
-            
-            context.addMessage(null, new FacesMessage("Ingredient updated", "Sucessfully updated the ingredient with new data"));
+            context.addMessage(null, new FacesMessage("Ingredient updated"));
         }
     }
 
@@ -61,5 +62,15 @@ public class IngredientsView implements Serializable {
     
     public void reload() {
         this.ingredients = Ingredient.getAll();
+    }
+    
+    public void delete(Ingredient ingredient) {
+        Logger.getLogger("Recipes").log(Level.INFO, "Delete: "+ingredient.getId());
+        
+        ingredient.delete();
+        reload();
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Ingredient deleted"));
     }
 }

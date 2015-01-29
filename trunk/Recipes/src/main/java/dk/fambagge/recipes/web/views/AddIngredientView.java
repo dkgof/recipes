@@ -8,11 +8,18 @@ package dk.fambagge.recipes.web.views;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -20,24 +27,38 @@ import javax.faces.model.SelectItemGroup;
  */
 @ManagedBean
 public class AddIngredientView implements Serializable {
+    @Size(min=2, max=25, message="Ingredient name must be between 2-25 characters long")
     private String name;
+    @DecimalMin(value="0", message="Density can not be less than 0")
     private double weightToVolume;
+    @DecimalMin(value="0", message="Energy can not be less than 0")
     private double energyPerHundred;
+    @NotNull(message="You must select a prefered measure")
     private Measure preferedMeasure;
+    private Measure energyMeasure;
 
     public void submitIngredient() {
-        Ingredient ingredient = new Ingredient();
-        ingredient.setName(name);
-        ingredient.setEnergyPerHundred(energyPerHundred);
-        ingredient.setPreferredMeasure(preferedMeasure);
-        ingredient.setWeightToVolume(weightToVolume);
-        ingredient.save();
+        try {
+            Ingredient ingredient = new Ingredient();
+            ingredient.setName(name);
+            ingredient.setEnergyPerHundred(energyPerHundred);
+            ingredient.setPreferredMeasure(preferedMeasure);
+            ingredient.setWeightToVolume(weightToVolume);
+            ingredient.save();
 
-        //Reset data for next dialog
-        name = "";
-        weightToVolume = 0.0;
-        energyPerHundred = 0.0;
-        preferedMeasure = null;
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Ingredient added"));
+            
+            //Reset data for next dialog
+            name = "";
+            weightToVolume = 0.0;
+            energyPerHundred = 0.0;
+            preferedMeasure = null;
+        } catch(Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error saving ingredient"));
+            RequestContext.getCurrentInstance().addCallbackParam("errorSaving", true);
+        }
     }
     
     /**
@@ -96,6 +117,12 @@ public class AddIngredientView implements Serializable {
         this.preferedMeasure = preferedMeasure;
     }
     
+    public List<Measure> getEnergyMeasures() {
+        List<Measure> measures = new LinkedList<>();
+        measures.addAll(Arrays.asList(Measure.Energy.values()));
+        return measures;
+    }
+
     public List<SelectItem> getMeasures() {
         List<SelectItem> measures = new LinkedList<>();
         
@@ -118,5 +145,19 @@ public class AddIngredientView implements Serializable {
         measures.add(g2);
         
         return measures;
+    }
+
+    /**
+     * @return the energyMeasure
+     */
+    public Measure getEnergyMeasure() {
+        return energyMeasure;
+    }
+
+    /**
+     * @param energyMeasure the energyMeasure to set
+     */
+    public void setEnergyMeasure(Measure energyMeasure) {
+        this.energyMeasure = energyMeasure;
     }
 }

@@ -34,7 +34,14 @@ public class MeasureConverter implements Converter {
         } catch(Exception e) {
             
         }
-        
+        try {
+            Measure measure = Measure.Energy.valueOf(value);
+            
+            return measure;
+        } catch(Exception e) {
+            
+        }
+
         throw new IllegalStateException("Cannot convert ["+value+"] to neither Weight nor Volume!");
     }
 

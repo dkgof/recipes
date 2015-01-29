@@ -21,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import org.hibernate.Session;
 import org.hibernate.annotations.Type;
 
@@ -201,6 +202,13 @@ public class Ingredient implements Serializable {
         final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.update(this);
+        session.getTransaction().commit();
+    }
+
+    public void delete() {
+        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.delete(this);
         session.getTransaction().commit();
     }
 }
