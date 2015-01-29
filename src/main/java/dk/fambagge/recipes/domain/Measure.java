@@ -104,4 +104,42 @@ public interface Measure extends Serializable {
             }
         }
     }
+
+    public enum Energy implements Measure {
+        KILOJOULE("kj", 1),
+        CALORIES("kcal", 0.239)
+        ;
+        
+        private final String symbol;
+        private final double factor;
+        
+        Energy(String symbol, double factor) {
+            this.symbol = symbol;
+            this.factor = factor;
+        }
+        
+        @Override
+        public String getSymbol() {
+            return symbol;
+        }
+        
+        @Override
+        public double getFactor() {
+            return factor;
+        }
+
+        @Override
+        public String toDBString() {
+            return this.name();
+        }
+
+        @Override
+        public double convertTo(double amount, Measure targetMeasure) {
+            if((targetMeasure instanceof Energy)) {
+                return (amount * this.getFactor()) / targetMeasure.getFactor();
+            } else {
+                throw new UnsupportedOperationException("Cannot convert energy meassure to anything but energy");
+            }
+        }
+    }
 }
