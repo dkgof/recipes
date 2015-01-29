@@ -9,80 +9,125 @@
     <f:view contentType="text/html">
         <h:head>
             <title>Recipes - Ingredients</title>
+            <style>
+                .actionButtons td, .actionButtons tr {
+                    border: 0 !important;
+                    background: transparent !important;
+                    padding: 0 !important;
+                }
+            </style>
         </h:head>
         <h:body>
+            <div class="ui-grid ui-grid-responsive">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-1">&nbsp;</div>
+                    <div class="ui-grid-col-10">
+                        <h:form id="form">
+                            <p:growl id="msgs" showDetail="true" autoUpdate="true" />
+                            <p:dataTable var="ingredient" value="#{ingredientsView.ingredients}" editable="true" id="ingredientsTable">
 
-            <h:form id="form">
-                <p:growl id="msgs" showDetail="true"/>            
-                <p:dataTable var="ingredient" value="#{ingredientsView.ingredients}" editable="true" id="ingredientsTable">
+                                <f:facet name="header">
+                                    Ingredients
+                                </f:facet>
 
-                    <f:facet name="header">
-                        Ingredients
-                    </f:facet>
+                                <p:ajax event="rowEdit" listener="#{ingredientsView.onRowEdit}" update=":form:msgs" />
+                                <p:ajax event="rowEditCancel" listener="#{ingredientsView.onRowCancel}" update=":form:msgs" />
 
-                    <p:ajax event="rowEdit" listener="#{ingredientsView.onRowEdit}" update=":form:msgs" />
-                    <p:ajax event="rowEditCancel" listener="#{ingredientsView.onRowCancel}" update=":form:msgs" />
+                                <p:column headerText="Id" sortBy="#{ingredient.id}">
+                                    <h:outputText value="#{ingredient.id}" />
+                                </p:column>
+                                <p:column headerText="Name" sortBy="#{ingredient.name}">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{ingredient.name}" /></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{ingredient.name}" style="width:100%" /></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Energy / 100g" sortBy="#{ingredient.energyPerHundred}">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{ingredient.energyPerHundred}" /></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{ingredient.energyPerHundred}" style="width:100%" /></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Grams / 1L" sortBy="#{ingredient.weightToVolume}">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{ingredient.weightToVolume}" /></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{ingredient.weightToVolume}" style="width:100%" /></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Preferred Measure" sortBy="#{ingredient.preferredMeasure.symbol}">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{ingredient.preferredMeasure.symbol}" style="width:100%" /></f:facet>
+                                        <f:facet name="input">
+                                            <h:selectOneMenu converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{ingredient.preferredMeasure}" style="width:100%">
+                                                <f:selectItems value="#{ingredientsView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
+                                            </h:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column style="width:32px">
+                                    <p:rowEditor />
+                                </p:column>                
+                                <p:column style="width:32px">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <p:commandLink process="@this" styleClass="ui-icon ui-icon-trash" actionListener="#{ingredientsView.delete(ingredient)}" update=":form">
+                                                <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                            </p:commandLink>
+                                        </f:facet>
+                                        <f:facet name="input"><h:outputText value="" /></f:facet>
+                                    </p:cellEditor>
+                                </p:column>                
+                            </p:dataTable>
 
-                    <p:column headerText="Id" sortBy="#{ingredient.id}">
-                        <h:outputText value="#{ingredient.id}" />
-                    </p:column>
-                    <p:column headerText="Name" sortBy="#{ingredient.name}">
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{ingredient.name}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{ingredient.name}" style="width:100%" /></f:facet>
-                        </p:cellEditor>
-                    </p:column>
-                    <p:column headerText="Energy / 100g" sortBy="#{ingredient.energyPerHundred}">
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{ingredient.energyPerHundred}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{ingredient.energyPerHundred}" style="width:100%" /></f:facet>
-                        </p:cellEditor>
-                    </p:column>
-                    <p:column headerText="Grams / 1L" sortBy="#{ingredient.weightToVolume}">
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{ingredient.weightToVolume}" /></f:facet>
-                            <f:facet name="input"><p:inputText value="#{ingredient.weightToVolume}" style="width:100%" /></f:facet>
-                        </p:cellEditor>
-                    </p:column>
-                    <p:column headerText="Preferred Measure" sortBy="#{ingredient.preferredMeasure.symbol}">
-                        <p:cellEditor>
-                            <f:facet name="output"><h:outputText value="#{ingredient.preferredMeasure.symbol}" style="width:100%" /></f:facet>
-                            <f:facet name="input">
-                                <h:selectOneMenu converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{ingredient.preferredMeasure}" style="width:100%">
-                                    <f:selectItems value="#{ingredientsView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
-                                </h:selectOneMenu>
-                            </f:facet>
-                        </p:cellEditor>
-                    </p:column>
-                    <p:column style="width:32px">
-                        <p:rowEditor />
-                    </p:column>                
-                </p:dataTable>
-                
-                <p:commandButton value="Add ingredient" icon="ui-icon-extlink" onclick="PF('addIngredientDialog').show();" />
-            </h:form>
-            
-            <p:dialog id="addIngredientDialog" header="Add Ingredient" widgetVar="addIngredientDialog" modal="true">
+                            <p:commandButton value="Add ingredient" icon="ui-icon-extlink" onclick="PF('addIngredientDialog').show();" />
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </h:form>
+                    </div>
+                    <div class="ui-grid-col-1">&nbsp;</div>
+                </div>
+            </div>
+            <p:dialog id="addIngredientDialog" header="Add Ingredient" widgetVar="addIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
                 <h:form>
-                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:panelGrid columns="3" cellpadding="5">
                         <h:outputLabel for="name" value="Name:" />
                         <p:inputText id="name" value="#{addIngredientView.name}" required="true" />
+                        <p:spacer />
                         <h:outputLabel for="weightToVolume" value="Grams / 1L:" />
                         <p:inputText id="weightToVolume" value="#{addIngredientView.weightToVolume}" required="true" />
+                        <p:spacer />
                         <h:outputLabel for="energyPerHundred" value="Energy / 100g:" />
                         <p:inputText id="energyPerHundred" value="#{addIngredientView.energyPerHundred}" required="true" />
+                        <p:selectOneMenu value="#{addIngredientView.energyMeasure}" converter="dk.fambagge.recipes.web.converter.MeasureConverter" style="vertical-align: top;">
+                            <f:selectItems value="#{addIngredientView.energyMeasures}" var="measure" itemValue="#{measure}" itemLabel="#{measure.symbol}"/>
+                        </p:selectOneMenu>
                         <h:outputLabel for="measures" value="Prefered Measure" />
-                        <p:selectOneMenu id="measures" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addIngredientView.preferedMeasure}" style="width:100%">
+                        <p:selectOneMenu id="measures" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addIngredientView.preferedMeasure}">
                             <f:selectItem itemLabel="Select One" itemValue="" />
                             <f:selectItems value="#{addIngredientView.measures}" />
                         </p:selectOneMenu>
+                        <p:spacer />
                     </h:panelGrid>
 
-                    <p:commandButton value="Submit" icon="ui-icon-check" actionListener="#{addIngredientView.submitIngredient()}" oncomplete="PF('addIngredientDialog').hide()" />
+                    <p:commandButton value="Submit" icon="ui-icon-check" actionListener="#{addIngredientView.submitIngredient()}" oncomplete="handleAddIngredient(xhr, status, args);" />
                 </h:form>
-                
+
                 <p:ajax event="close" update=":addIngredientDialog :form" listener="#{ingredientsView.reload()}" />
             </p:dialog>
+
+            <script type="text/javascript">
+                function handleAddIngredient(xhr, status, args) {
+                    console.log(args);
+                    if (args.validationFailed || args.errorSaving) {
+                        PF('addIngredientDialog').jq.effect("shake", {times: 5}, 100);
+                    } else {
+                        PF('addIngredientDialog').hide();
+                    }
+                }
+            </script>            
         </h:body>
     </f:view>
 </html>
