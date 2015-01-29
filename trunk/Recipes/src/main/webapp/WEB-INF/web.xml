@@ -9,7 +9,11 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
-   <listener>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>dot-luv</param-value>
+    </context-param>
+    <listener>
 	<listener-class>
             dk.fambagge.recipes.web.servlets.ConnectionContextListener
         </listener-class>
