@@ -5,6 +5,7 @@
  */
 package dk.fambagge.recipes.web.views;
 
+import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
 import java.io.Serializable;
@@ -50,7 +51,7 @@ public class IngredientsView implements Serializable {
     public void onRowEdit(RowEditEvent event) {
         if(event.getObject() instanceof Ingredient) {
             Ingredient ingredient = (Ingredient) event.getObject();
-            ingredient.update();
+            Database.update(ingredient);
             
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Ingredient updated"));
@@ -67,7 +68,7 @@ public class IngredientsView implements Serializable {
     public void delete(Ingredient ingredient) {
         Logger.getLogger("Recipes").log(Level.INFO, "Delete: "+ingredient.getId());
         
-        ingredient.delete();
+        Database.delete(ingredient);
         reload();
         
         FacesContext context = FacesContext.getCurrentInstance();

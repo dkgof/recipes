@@ -5,6 +5,7 @@
  */
 package dk.fambagge.recipes.web.servlets;
 
+import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.MeasureType;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
@@ -53,7 +54,7 @@ public class CreateIngredient extends HttpServlet {
             ingredient.setEnergyPerHundred(data.getEnergyPerHundred());
             ingredient.setWeightToVolume(data.getWeightToVolume());
             ingredient.setPreferredMeasure(preferredMeasure);
-            ingredient.save();
+            Database.save(ingredient);
             
             out.write("true");
         }

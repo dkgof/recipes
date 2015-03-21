@@ -5,7 +5,7 @@
  */
 package dk.fambagge.recipes.web.servlets;
 
-import dk.fambagge.recipes.db.HibernateUtil;
+import dk.fambagge.recipes.db.Database;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -21,6 +21,6 @@ public class ConnectionContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        HibernateUtil.getSessionFactory().close();
+        Database.getSessionFactory().close();
     }
 }

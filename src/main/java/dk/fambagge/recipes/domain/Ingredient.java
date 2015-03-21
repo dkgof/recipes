@@ -5,7 +5,7 @@
  */
 package dk.fambagge.recipes.domain;
 
-import dk.fambagge.recipes.db.HibernateUtil;
+import dk.fambagge.recipes.db.Database;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -180,7 +180,7 @@ public class Ingredient implements Serializable {
     }
 
     public static List<Ingredient> getAll() {
-        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        final Session session = Database.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         final List result = session.createQuery("from Ingredient").list();
         session.getTransaction().commit();
@@ -189,26 +189,5 @@ public class Ingredient implements Serializable {
             namedResult.add((Ingredient) resultObj);
         }
         return namedResult;
-    }
-
-    public void save() {
-        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.save(this);
-        session.getTransaction().commit();
-    }
-
-    public void update() {
-        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.update(this);
-        session.getTransaction().commit();
-    }
-
-    public void delete() {
-        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.delete(this);
-        session.getTransaction().commit();
     }
 }

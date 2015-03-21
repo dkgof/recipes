@@ -5,7 +5,7 @@
  */
 package dk.fambagge.recipes.domain;
 
-import dk.fambagge.recipes.db.HibernateUtil;
+import dk.fambagge.recipes.db.Database;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Column;
@@ -128,7 +128,7 @@ public class CustomMeasure implements Measure {
     }
 
     public static CustomMeasure getFromId(int id) {
-        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        final Session session = Database.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Query query = session.createQuery("from CustomMeasures where id = :id");
         query.setParameter("id", id);
@@ -143,7 +143,7 @@ public class CustomMeasure implements Measure {
     }
 
     public static List<CustomMeasure> getAll() {
-        final Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        final Session session = Database.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         final List result = session.createQuery("from CustomMeasures").list();
         session.getTransaction().commit();
