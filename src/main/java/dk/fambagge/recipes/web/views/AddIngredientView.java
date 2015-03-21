@@ -6,6 +6,7 @@
 package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.db.Database;
+import dk.fambagge.recipes.db.MeasureType;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
 import java.io.Serializable;
@@ -60,6 +61,30 @@ public class AddIngredientView implements Serializable {
             context.addMessage(null, new FacesMessage("Error saving ingredient"));
             RequestContext.getCurrentInstance().addCallbackParam("errorSaving", true);
         }
+    }
+    
+    @DecimalMin(value="0", message="Weight can not be less than 0")
+    private double calculateDensityWeight;
+    
+    @DecimalMin(value="0", message="Volume can not be less than 0")
+    private double calculateDensityVolume;
+    
+    @NotNull(message="You must select a weight unit")
+    private Measure calculateDensityWeightUnit;
+
+    @NotNull(message="You must select a volume unit")
+    private Measure calculateDensityVolumeUnit;
+    
+    public void calculateDensity() {
+            double grams = calculateDensityWeightUnit.convertTo(calculateDensityWeight, Measure.Weight.GRAM);
+            double liters = calculateDensityVolumeUnit.convertTo(calculateDensityVolume, Measure.Volume.LITER);
+
+            weightToVolume = grams / liters;
+            
+            calculateDensityVolume = 0.0;
+            calculateDensityWeight = 0.0;
+            calculateDensityWeightUnit = null;
+            calculateDensityVolumeUnit = null;
     }
     
     /**
@@ -148,6 +173,26 @@ public class AddIngredientView implements Serializable {
         return measures;
     }
 
+    public List<SelectItem> getWeightMeasures() {
+        List<SelectItem> measures = new LinkedList<>();
+        
+        for(Measure m : Measure.Weight.values()) {
+            measures.add(new SelectItem(m, m.getSymbol()));
+        }
+        
+        return measures;
+    }
+
+    public List<SelectItem> getVolumeMeasures() {
+        List<SelectItem> measures = new LinkedList<>();
+        
+        for(Measure m : Measure.Volume.values()) {
+            measures.add(new SelectItem(m, m.getSymbol()));
+        }
+        
+        return measures;
+    }
+
     /**
      * @return the energyMeasure
      */
@@ -160,5 +205,61 @@ public class AddIngredientView implements Serializable {
      */
     public void setEnergyMeasure(Measure energyMeasure) {
         this.energyMeasure = energyMeasure;
+    }
+
+    /**
+     * @return the calculateDensityWeight
+     */
+    public double getCalculateDensityWeight() {
+        return calculateDensityWeight;
+    }
+
+    /**
+     * @param calculateDensityWeight the calculateDensityWeight to set
+     */
+    public void setCalculateDensityWeight(double calculateDensityWeight) {
+        this.calculateDensityWeight = calculateDensityWeight;
+    }
+
+    /**
+     * @return the calculateDensityVolume
+     */
+    public double getCalculateDensityVolume() {
+        return calculateDensityVolume;
+    }
+
+    /**
+     * @param calculateDensityVolume the calculateDensityVolume to set
+     */
+    public void setCalculateDensityVolume(double calculateDensityVolume) {
+        this.calculateDensityVolume = calculateDensityVolume;
+    }
+
+    /**
+     * @return the calculateDensityWeightUnit
+     */
+    public Measure getCalculateDensityWeightUnit() {
+        return calculateDensityWeightUnit;
+    }
+
+    /**
+     * @param calculateDensityWeightUnit the calculateDensityWeightUnit to set
+     */
+    public void setCalculateDensityWeightUnit(Measure calculateDensityWeightUnit) {
+        this.calculateDensityWeightUnit = calculateDensityWeightUnit;
+    }
+
+    /**
+     * @return the calculateDensityVolumeUnit
+     */
+    public Measure getCalculateDensityVolumeUnit() {
+        return calculateDensityVolumeUnit;
+    }
+
+    /**
+     * @param calculateDensityVolumeUnit the calculateDensityVolumeUnit to set
+     */
+    public void setCalculateDensityVolumeUnit(Measure calculateDensityVolumeUnit) {
+        this.calculateDensityVolumeUnit = calculateDensityVolumeUnit;
     }
 }
