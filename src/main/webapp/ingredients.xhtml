@@ -33,7 +33,7 @@
                                 <p:ajax event="rowEdit" listener="#{ingredientsView.onRowEdit}" update=":form:msgs" />
                                 <p:ajax event="rowEditCancel" listener="#{ingredientsView.onRowCancel}" update=":form:msgs" />
 
-                                <p:column headerText="Id" sortBy="#{ingredient.id}">
+                                <p:column headerText="Id" sortBy="#{ingredient.id}" style="width: 40px;">
                                     <h:outputText value="#{ingredient.id}" />
                                 </p:column>
                                 <p:column headerText="Name" sortBy="#{ingredient.name}">

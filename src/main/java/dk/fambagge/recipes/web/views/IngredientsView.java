@@ -32,7 +32,7 @@ public class IngredientsView implements Serializable {
     
     @PostConstruct
     public void init() {
-        this.ingredients = Ingredient.getAll();
+        reload();
     }
     
     public List<Ingredient> getIngredients() {

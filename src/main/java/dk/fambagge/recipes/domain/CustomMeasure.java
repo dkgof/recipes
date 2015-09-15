@@ -40,7 +40,6 @@ public class CustomMeasure implements Measure {
         this.symbol = symbol;
         this.referenceToCustomRatio = customToReferenceRatio;
         this.referenceMeasure = referenceMeasure;
-
     }
 
     /**

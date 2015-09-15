@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Recipes - Recepies</title>
+            <style>
+                .actionButtons td, .actionButtons tr {
+                    border: 0 !important;
+                    background: transparent !important;
+                    padding: 0 !important;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <div class="ui-grid ui-grid-responsive">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-1">&nbsp;</div>
+                    <div class="ui-grid-col-10">
+                        <h:form id="form">
+                            <p:growl id="msgs" showDetail="true" autoUpdate="true" />
+                            <p:dataTable var="recipe" value="#{recipesView.recipes}" editable="true" id="recipesTable">
+
+                                <f:facet name="header">
+                                    Recipes
+                                </f:facet>
+
+                                <p:column headerText="Id" sortBy="#{recipe.id}" style="width: 40px;">
+                                    <h:outputText value="#{recipe.id}" />
+                                </p:column>
+                                <p:column headerText="Name" sortBy="#{recipe.name}">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{recipe.name}" /></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{recipe.name}" style="width:100%" /></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Servings" sortBy="#{recipe.servings}">
+                                    <h:outputText value="#{recipe.servings}" />
+                                </p:column>
+                                <p:column headerText="Calories" sortBy="#{recipe.energyInCalories}">
+                                    <h:outputText value="#{recipe.energyInCalories}" />
+                                </p:column>
+                            </p:dataTable>
+
+                            <!--<p:commandButton value="Add Recipe" icon="ui-icon-extlink" onclick="PF('addRecipeDialog').show();" />-->
+
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </h:form>
+                    </div>
+                    <div class="ui-grid-col-1">&nbsp;</div>
+                </div>
+            </div>
+        </h:body>
+    </f:view>
+</html>
+

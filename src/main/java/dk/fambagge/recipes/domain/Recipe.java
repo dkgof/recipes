@@ -5,10 +5,14 @@
  */
 package dk.fambagge.recipes.domain;
 
+import dk.fambagge.recipes.db.Database;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
+import org.hibernate.Session;
 
 /**
  *
@@ -28,15 +32,12 @@ public class Recipe implements Serializable {
 
     private Set<RecipeStep> steps;
 
-    private Set<Recipe> sidedishRecipes;
-
     public Recipe() {
         id = -1;
         name = "";
         servings = 0;
         ingredients = new HashSet<>();
         steps = new HashSet<>();
-        sidedishRecipes = new HashSet<>();
     }
 
     public Recipe(String name, int servings) {
@@ -50,10 +51,6 @@ public class Recipe implements Serializable {
 
     public void addStep(RecipeStep step) {
         steps.add(step);
-    }
-
-    public void addSidedish(Recipe sidedish) {
-        sidedishRecipes.add(sidedish);
     }
 
     @Transient
@@ -118,20 +115,6 @@ public class Recipe implements Serializable {
     }
 
     /**
-     * @return the sidedishRecipes
-     */
-    @OneToMany( cascade = CascadeType.ALL )
-    @JoinTable(name = "Recipe_Sidedishes",
-            joinColumns = {
-                @JoinColumn(name = "recipeId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "sidedishId")}
-    )
-    public Set<Recipe> getSidedishRecipes() {
-        return sidedishRecipes;
-    }
-
-    /**
      * @param id the id to set
      */
     public void setId(int id) {
@@ -160,13 +143,6 @@ public class Recipe implements Serializable {
     }
 
     /**
-     * @param sidedishRecipes the sidedishRecipes to set
-     */
-    public void setSidedishRecipes(Set<Recipe> sidedishRecipes) {
-        this.sidedishRecipes = sidedishRecipes;
-    }
-
-    /**
      * @return the servings
      */
     @Column( name = "servings", nullable = false )
@@ -179,5 +155,17 @@ public class Recipe implements Serializable {
      */
     public void setServings(int servings) {
         this.servings = servings;
+    }
+
+    public static List<Recipe> getAll() {
+        final Session session = Database.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        final List result = session.createQuery("from Recipe").list();
+        session.getTransaction().commit();
+        final List<Recipe> namedResult = new LinkedList<>();
+        for (final Object resultObj : result) {
+            namedResult.add((Recipe) resultObj);
+        }
+        return namedResult;
     }
 }
