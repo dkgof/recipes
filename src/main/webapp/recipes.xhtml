@@ -47,7 +47,7 @@
                                 </p:column>
                             </p:dataTable>
 
-                            <!--<p:commandButton value="Add Recipe" icon="ui-icon-extlink" onclick="PF('addRecipeDialog').show();" />-->
+                            <p:commandButton value="Add Recipe" icon="ui-icon-extlink" onclick="PF('addRecipeDialog').show();" />
 
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                                 <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -58,6 +58,31 @@
                     <div class="ui-grid-col-1">&nbsp;</div>
                 </div>
             </div>
+
+            <p:dialog id="addRecipeDialog" header="Add Recipe" widgetVar="addRecipeDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
+                <h:form id="addRecipe">
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel for="name" value="Name:" />
+                        <p:inputText id="name" value="#{addRecipeView.name}" required="true" />
+                        <p:spacer />
+                        <h:outputLabel for="servings" value="Servings:" />
+                        <p:inputText id="servings" value="#{addRecipeView.servings}" required="true" />
+                    </h:panelGrid>
+                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeView.submitRecipe()}" oncomplete="handleAddRecipe(xhr, status, args);" />
+                </h:form>
+
+                <p:ajax event="close" update=":addRecipeDialog :form" listener="#{recipesView.reload()}" />
+            </p:dialog>
+            <script type="text/javascript">
+                function handleAddRecipe(xhr, status, args) {
+                    if (args.validationFailed || args.errorSaving) {
+                        PF('addRecipeDialog').jq.effect("shake", {times: 5}, 100);
+                    } else {
+                        PF('addRecipeDialog').hide();
+                    }
+                }
+            </script>
+            
         </h:body>
     </f:view>
 </html>

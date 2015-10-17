@@ -7,6 +7,7 @@ package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Recipe;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class RecipesView {
+public class RecipesView implements Serializable {
     private List<Recipe> recipes;
     
     @PostConstruct

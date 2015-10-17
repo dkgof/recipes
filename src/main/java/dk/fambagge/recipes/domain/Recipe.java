@@ -89,7 +89,7 @@ public class Recipe implements Serializable {
     /**
      * @return the ingredients
      */
-    @OneToMany( cascade = CascadeType.ALL )
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL )
     @JoinTable(name = "Recipe_RecipeIngredients",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},
@@ -103,7 +103,7 @@ public class Recipe implements Serializable {
     /**
      * @return the steps
      */
-    @OneToMany( cascade = CascadeType.ALL )
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL )
     @JoinTable(name = "Recipe_RecipeSteps",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},
