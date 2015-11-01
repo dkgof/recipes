@@ -31,21 +31,21 @@ public class Database {
     }
 
     public static void save(Object obj) {
-        final Session session = Database.getSessionFactory().openSession();
+        final Session session = Database.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.save(obj);
         session.getTransaction().commit();
     }
 
     public static void update(Object obj) {
-        final Session session = Database.getSessionFactory().openSession();
+        final Session session = Database.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.update(obj);
         session.getTransaction().commit();
     }
 
     public static void delete(Object obj) {
-        final Session session = Database.getSessionFactory().openSession();
+        final Session session = Database.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.delete(obj);
         session.getTransaction().commit();

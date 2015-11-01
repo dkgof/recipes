@@ -13,10 +13,15 @@ import dk.fambagge.recipes.domain.RecipeIngredient;
 import dk.fambagge.recipes.domain.RecipeStep;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
 
@@ -51,7 +56,7 @@ public class AddRecipeView implements Serializable {
         Database.save(recipe);
 
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Ingredient added"));
+        context.addMessage(null, new FacesMessage("Recipe added"));
         
         name = "";
         servings = 4;
@@ -60,7 +65,7 @@ public class AddRecipeView implements Serializable {
     }
 
     @DecimalMin(value="0", message="Ingredient amount cannot be less than zero")
-    private double ingredientAmount;
+    private double ingredientAmount = 0;
     
     private Ingredient ingredient;
     
@@ -78,6 +83,12 @@ public class AddRecipeView implements Serializable {
     public void addRecipeStep() {
         RecipeStep recipeStep = new RecipeStep(getRecipeStepDescription());
         getRecipeSteps().add(recipeStep);
+    }
+    
+    public void recipeIngredientChange(ValueChangeEvent event) {
+        Object newObject = event.getNewValue();
+        Logger.getLogger("Recipes").log(Level.INFO, "New object: "+newObject);
+        ingredientMeasure = ingredient.getPreferredMeasure();
     }
     
     /**
@@ -190,5 +201,18 @@ public class AddRecipeView implements Serializable {
      */
     public void setRecipeStepDescription(String recipeStepDescription) {
         this.recipeStepDescription = recipeStepDescription;
+    }
+
+    public List<Ingredient> getAllIngredients() {
+        return Ingredient.getAll();
+    }
+
+    public List<Measure> getMeasures() {
+        List<Measure> measures = new LinkedList<>();
+        
+        measures.addAll(Arrays.asList(Measure.Weight.values()));
+        measures.addAll(Arrays.asList(Measure.Volume.values()));
+        
+        return measures;
     }
 }

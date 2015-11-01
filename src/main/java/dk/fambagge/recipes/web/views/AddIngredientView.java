@@ -6,7 +6,6 @@
 package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.db.Database;
-import dk.fambagge.recipes.db.MeasureType;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
 import java.io.Serializable;

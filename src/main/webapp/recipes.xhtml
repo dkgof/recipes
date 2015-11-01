@@ -45,6 +45,16 @@
                                 <p:column headerText="Calories" sortBy="#{recipe.energyInCalories}">
                                     <h:outputText value="#{recipe.energyInCalories}" />
                                 </p:column>
+                                <p:column style="width:32px">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <p:commandLink process="@this" styleClass="ui-icon ui-icon-trash" actionListener="#{recipesView.delete(recipe)}" update=":form">
+                                                <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                            </p:commandLink>
+                                        </f:facet>
+                                        <f:facet name="input"><h:outputText value="" /></f:facet>
+                                    </p:cellEditor>
+                                </p:column>                
                             </p:dataTable>
 
                             <p:commandButton value="Add Recipe" icon="ui-icon-extlink" onclick="PF('addRecipeDialog').show();" />
@@ -67,11 +77,42 @@
                         <p:spacer />
                         <h:outputLabel for="servings" value="Servings:" />
                         <p:inputText id="servings" value="#{addRecipeView.servings}" required="true" />
+                        <p:spacer />
+                        <p:dataList value="#{addRecipeView.ingredients}" var="ingredient" type="ordered">
+                            <f:facet name="header">
+                                Ingredients
+                            </f:facet>
+                            #{ingredient.ingredient.name}, #{ingredient.measure}, #{ingredient.amount}
+                        </p:dataList>
+                        <p:commandButton value="Add Ingredient" icon="ui-icon-extlink" onclick="PF('addRecipeIngredientDialog').show();" />
                     </h:panelGrid>
                     <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeView.submitRecipe()}" oncomplete="handleAddRecipe(xhr, status, args);" />
                 </h:form>
 
                 <p:ajax event="close" update=":addRecipeDialog :form" listener="#{recipesView.reload()}" />
+            </p:dialog>
+            <p:dialog id="addRecipeIngredientDialog" header="Add Recipe Ingredient" widgetVar="addRecipeIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
+                <h:form id="addRecipeIngredient">
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel for="ingredient" value="Ingredient:" />
+                        <h:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeView.recipeIngredientChange}">
+                            <f:selectItems value="#{addRecipeView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man.id}" />
+                            <f:ajax event="change" execute="@form" render="measure"/>
+                        </h:selectOneMenu>
+                        <p:spacer />
+                        <h:outputLabel for="amount" value="Amount:" />
+                        <p:inputText id="amount" value="#{addRecipeView.ingredientAmount}" required="true" />
+                        <p:spacer />
+                        <h:outputLabel for="measure" value="Measure:" />
+                        <h:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeView.ingredientMeasure}" style="width:100%">
+                            <f:selectItems value="#{addRecipeView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
+                        </h:selectOneMenu>
+                        <p:spacer />
+                    </h:panelGrid>
+                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeView.addRecipeIngredient()}" oncomplete="handleAddRecipeIngredient(xhr, status, args);" />
+                </h:form>
+
+                <!--<p:ajax event="close" update=":addRecipeDialog :form" listener="#{recipesView.reload()}" />-->
             </p:dialog>
             <script type="text/javascript">
                 function handleAddRecipe(xhr, status, args) {
@@ -79,6 +120,13 @@
                         PF('addRecipeDialog').jq.effect("shake", {times: 5}, 100);
                     } else {
                         PF('addRecipeDialog').hide();
+                    }
+                }
+                function handleAddRecipeIngredient(xhr, status, args) {
+                    if (args.validationFailed || args.errorSaving) {
+                        PF('addRecipeIngredientDialog').jq.effect("shake", {times: 5}, 100);
+                    } else {
+                        PF('addRecipeIngredientDialog').hide();
                     }
                 }
             </script>

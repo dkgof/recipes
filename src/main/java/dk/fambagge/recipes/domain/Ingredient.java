@@ -190,4 +190,12 @@ public class Ingredient implements Serializable {
         }
         return namedResult;
     }
+
+    public static Ingredient get(int id) {
+        final Session session = Database.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        final List result = session.createQuery("from Ingredient where id='"+id+"'").list();
+        session.getTransaction().commit();
+        return (Ingredient) result.get(0);
+    }
 }
