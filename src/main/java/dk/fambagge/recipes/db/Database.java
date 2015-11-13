@@ -17,7 +17,7 @@ import org.hibernate.cfg.Configuration;
  */
 public class Database {
 
-    private static final SessionFactory sessionFactory = buildSessionFactory();
+    private static final SessionFactory SESSION_FACTORY = buildSessionFactory();
 
     private static SessionFactory buildSessionFactory() {
         Configuration configuration = new Configuration();
@@ -27,27 +27,52 @@ public class Database {
     }
 
     public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+        return SESSION_FACTORY;
+    }
+
+    public static void doAction(Object obj, Action action) {
+        final Session session = Database.getSessionFactory().getCurrentSession();
+        try {
+            session.beginTransaction();
+            switch (action) {
+                case SAVE:
+                    session.save(obj);
+                    break;
+                case SAVE_OR_UPDATE:
+                    session.saveOrUpdate(obj);
+                    break;
+                case UPDATE:
+                    session.update(obj);
+                    break;
+                case DELETE:
+                    session.delete(obj);
+                    break;
+            }
+        } finally {
+            session.getTransaction().commit();
+        }
+    }
+
+    public static void saveOrUpdate(Object obj) {
+        doAction(obj, Action.SAVE_OR_UPDATE);
     }
 
     public static void save(Object obj) {
-        final Session session = Database.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.save(obj);
-        session.getTransaction().commit();
+        doAction(obj, Action.SAVE);
     }
 
     public static void update(Object obj) {
-        final Session session = Database.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.update(obj);
-        session.getTransaction().commit();
+        doAction(obj, Action.UPDATE);
     }
 
     public static void delete(Object obj) {
-        final Session session = Database.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.delete(obj);
-        session.getTransaction().commit();
+        doAction(obj, Action.DELETE);
+    }
+
+    public enum Action {
+        SAVE,
+        UPDATE,
+        DELETE,
+        SAVE_OR_UPDATE
     }
 }
