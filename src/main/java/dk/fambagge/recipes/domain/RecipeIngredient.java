@@ -6,6 +6,7 @@
 
 package dk.fambagge.recipes.domain;
 
+import dk.fambagge.recipes.db.DomainObject;
 import dk.fambagge.recipes.domain.Measure.Volume;
 import dk.fambagge.recipes.domain.Measure.Weight;
 import java.io.Serializable;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table( name = "RecipeIngredients" )
-public class RecipeIngredient implements Serializable {
+public class RecipeIngredient implements Serializable, DomainObject {
     
     private int id;
     private Ingredient ingredient;

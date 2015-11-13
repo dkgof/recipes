@@ -6,6 +6,7 @@
 
 package dk.fambagge.recipes.domain;
 
+import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -15,7 +16,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table( name = "RecipeSteps" )
-public class RecipeStep implements Serializable {
+public class RecipeStep implements Serializable, DomainObject {
     private int id;
     private String description;
 

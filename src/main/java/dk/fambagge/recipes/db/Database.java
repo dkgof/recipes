@@ -5,6 +5,8 @@
  */
 package dk.fambagge.recipes.db;
 
+import java.util.LinkedList;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -30,7 +32,7 @@ public class Database {
         return SESSION_FACTORY;
     }
 
-    public static void doAction(Object obj, Action action) {
+    public static void doAction(DomainObject obj, Action action) {
         final Session session = Database.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
@@ -53,22 +55,47 @@ public class Database {
         }
     }
 
-    public static void saveOrUpdate(Object obj) {
+    public static void saveOrUpdate(DomainObject obj) {
         doAction(obj, Action.SAVE_OR_UPDATE);
     }
 
-    public static void save(Object obj) {
+    public static void save(DomainObject obj) {
         doAction(obj, Action.SAVE);
     }
 
-    public static void update(Object obj) {
+    public static void update(DomainObject obj) {
         doAction(obj, Action.UPDATE);
     }
 
-    public static void delete(Object obj) {
+    public static void delete(DomainObject obj) {
         doAction(obj, Action.DELETE);
     }
 
+    public static <T extends DomainObject> List<T> getAll(Class<T> type) {
+        final Session session = Database.getSessionFactory().getCurrentSession();
+        try {
+            session.beginTransaction();
+            final List result = session.createQuery("from "+type.getSimpleName()).list();
+            final List<T> namedResult = new LinkedList<>();
+            for (final Object resultObj : result) {
+                namedResult.add((T) resultObj);
+            }
+            return namedResult;
+        } finally {
+            session.getTransaction().commit();
+        }
+    }
+
+    public static <T extends DomainObject> T get(String query, Class<T> aClass) {
+        final Session session = Database.getSessionFactory().getCurrentSession();
+        try {
+            session.beginTransaction();
+            return (T) session.createQuery(query).uniqueResult();
+        } finally {
+            session.getTransaction().commit();
+        }
+    }
+    
     public enum Action {
         SAVE,
         UPDATE,

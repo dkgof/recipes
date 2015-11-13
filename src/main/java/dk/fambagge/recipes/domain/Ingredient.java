@@ -6,6 +6,7 @@
 package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.Database;
+import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,7 +22,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
 import org.hibernate.Session;
 import org.hibernate.annotations.Type;
 
@@ -31,7 +31,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "Ingredients")
-public class Ingredient implements Serializable {
+public class Ingredient implements Serializable, DomainObject {
 
     private int id;
 
@@ -180,22 +180,10 @@ public class Ingredient implements Serializable {
     }
 
     public static List<Ingredient> getAll() {
-        final Session session = Database.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        final List result = session.createQuery("from Ingredient").list();
-        session.getTransaction().commit();
-        final List<Ingredient> namedResult = new LinkedList<>();
-        for (final Object resultObj : result) {
-            namedResult.add((Ingredient) resultObj);
-        }
-        return namedResult;
+        return Database.getAll(Ingredient.class);
     }
 
     public static Ingredient get(int id) {
-        final Session session = Database.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        final List result = session.createQuery("from Ingredient where id='"+id+"'").list();
-        session.getTransaction().commit();
-        return (Ingredient) result.get(0);
+        return Database.get("from Ingredient where id='"+id+"'", Ingredient.class);
     }
 }

@@ -6,13 +6,12 @@
 package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.Database;
+import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
-import org.hibernate.Session;
 
 /**
  *
@@ -20,7 +19,7 @@ import org.hibernate.Session;
  */
 @Entity
 @Table(name = "Recipes")
-public class Recipe implements Serializable {
+public class Recipe implements Serializable, DomainObject {
 
     private int id;
 
@@ -158,14 +157,6 @@ public class Recipe implements Serializable {
     }
 
     public static List<Recipe> getAll() {
-        final Session session = Database.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        final List result = session.createQuery("from Recipe").list();
-        session.getTransaction().commit();
-        final List<Recipe> namedResult = new LinkedList<>();
-        for (final Object resultObj : result) {
-            namedResult.add((Recipe) resultObj);
-        }
-        return namedResult;
+        return Database.getAll(Recipe.class);
     }
 }
