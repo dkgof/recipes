@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Recipes - Recipe</title>
+        </h:head>
+        <h:body>
+            <p:panel>
+                <f:facet name="header"><h:outputText value="#{recipeView.selectedRecipe.name}" /></f:facet>
+                <div class="ui-grid ui-grid-responsive">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">Serves: <h:outputText value="#{recipeView.selectedRecipe.servings}" /></div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <p:panel>
+                                <f:facet name="header">Ingredients</f:facet>
+                                <p:dataList var="ingredient" value="#{recipeView.selectedRecipe.ingredients}">
+                                    #{ingredient.amount} #{ingredient.measure.symbol} #{ingredient.ingredient.name}
+                                </p:dataList>
+                            </p:panel>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <p:panel>
+                                <f:facet name="header">Steps</f:facet>
+                                <p:dataList var="step" value="#{recipeView.selectedRecipe.steps}">
+                                    #{step.description}
+                                </p:dataList>
+                            </p:panel>
+                        </div>
+                    </div>
+                </div>
+            </p:panel>
+        </h:body>
+    </f:view>
+</html>
+
