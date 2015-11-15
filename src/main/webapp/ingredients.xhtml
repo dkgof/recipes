@@ -134,7 +134,7 @@
                             <f:selectItem itemLabel="Select One" itemValue="" />
                             <f:selectItems value="#{addIngredientView.volumeMeasures}" />
                         </p:selectOneMenu>
-                        <p:commandButton value="Calculate" icon="ui-icon-check" actionListener="#{addIngredientView.calculateDensity()}" oncomplete="handleCalculateDensity(xhr, status, args)" update=":addIngredient" />
+                        <p:commandButton value="Calculate" icon="ui-icon-check" actionListener="#{addIngredientView.calculateDensity()}" oncomplete="handleCalculateDensity(xhr, status, args)" update="@(#addIngredient\\:weightToVolume)" />
                     </h:panelGrid>
                 </h:form>
                 

@@ -8,7 +8,6 @@ package dk.fambagge.recipes.domain;
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -22,7 +21,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.Session;
 import org.hibernate.annotations.Type;
 
 /**
@@ -164,8 +162,8 @@ public class Ingredient implements Serializable, DomainObject {
         if (this.getId() != other.getId()) {
             return false;
         }
-
-        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+        
+        return true;
     }
 
     @Override

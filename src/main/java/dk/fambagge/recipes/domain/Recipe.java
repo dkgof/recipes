@@ -32,7 +32,6 @@ public class Recipe implements Serializable, DomainObject {
     private Set<RecipeStep> steps;
 
     public Recipe() {
-        id = -1;
         name = "";
         servings = 0;
         ingredients = new HashSet<>();
@@ -40,6 +39,8 @@ public class Recipe implements Serializable, DomainObject {
     }
 
     public Recipe(String name, int servings) {
+        this();
+        
         this.name = name;
         this.servings = servings;
     }

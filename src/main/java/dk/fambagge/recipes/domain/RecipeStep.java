@@ -21,11 +21,12 @@ public class RecipeStep implements Serializable, DomainObject {
     private String description;
 
     public RecipeStep() {
-        id = -1;
         this.description = "";
     }
     
     public RecipeStep(String description) {
+        this();
+        
         this.description = description;
     }
     

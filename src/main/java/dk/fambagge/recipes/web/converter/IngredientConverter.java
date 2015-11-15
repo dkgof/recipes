@@ -22,7 +22,9 @@ public class IngredientConverter implements Converter {
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         int id = Integer.parseInt(value);
         
-        return Ingredient.get(id);
+        Ingredient ing = Ingredient.get(id);
+        
+        return ing;
     }
 
     @Override

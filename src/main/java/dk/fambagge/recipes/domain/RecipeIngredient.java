@@ -30,7 +30,6 @@ public class RecipeIngredient implements Serializable, DomainObject {
     private CustomMeasure overrideMeasure;
     
     public RecipeIngredient() {
-        id = -1;
         this.amount = 0;
         this.measure = null;
         this.ingredient = null;
@@ -38,6 +37,8 @@ public class RecipeIngredient implements Serializable, DomainObject {
     }
     
     public RecipeIngredient(Ingredient ingredient, double amount, Measure measure) {
+        this();
+        
         this.ingredient = ingredient;
         this.measure = measure;
         this.amount = amount;
@@ -144,7 +145,7 @@ public class RecipeIngredient implements Serializable, DomainObject {
             return false;
         }
         
-        return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override

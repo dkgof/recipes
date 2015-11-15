@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.validation.constraints.DecimalMin;
@@ -30,6 +30,7 @@ import javax.validation.constraints.Size;
  * @author Gof
  */
 @ManagedBean
+@ViewScoped
 public class AddRecipeView implements Serializable {
     @Size(min=2, max=25, message="Recipe name must be between 2-25 characters long")
     private String name;
@@ -74,6 +75,12 @@ public class AddRecipeView implements Serializable {
     public void addRecipeIngredient() {
         RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), getIngredientAmount(), getIngredientMeasure());
         getRecipeIngredients().add(recipeIngredient);
+        
+        System.out.println(""+getRecipeIngredients());
+        
+        ingredient = null;
+        ingredientAmount = 0;
+        ingredientMeasure = null;
     }
     
     
@@ -86,9 +93,8 @@ public class AddRecipeView implements Serializable {
     }
     
     public void recipeIngredientChange(ValueChangeEvent event) {
-        Object newObject = event.getNewValue();
-        Logger.getLogger("Recipes").log(Level.INFO, "New object: "+newObject);
-        ingredientMeasure = ingredient.getPreferredMeasure();
+        Ingredient selectedIngredient = (Ingredient) event.getNewValue();
+        ingredientMeasure = selectedIngredient.getPreferredMeasure();
     }
     
     /**
@@ -129,9 +135,11 @@ public class AddRecipeView implements Serializable {
     /**
      * @param ingredients the ingredients to set
      */
+    /*
     public void setIngredients(List<RecipeIngredient> ingredients) {
         this.recipeIngredients = ingredients;
     }
+    */
 
     /**
      * @return the recipeIngredients
@@ -203,8 +211,15 @@ public class AddRecipeView implements Serializable {
         this.recipeStepDescription = recipeStepDescription;
     }
 
+    private List<Ingredient> allIngredients;
+    
+    @PostConstruct
+    private void init() {
+        allIngredients = Ingredient.getAll();
+    }
+    
     public List<Ingredient> getAllIngredients() {
-        return Ingredient.getAll();
+        return allIngredients;
     }
 
     public List<Measure> getMeasures() {

@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
@@ -27,6 +28,7 @@ import org.primefaces.context.RequestContext;
  * @author Gof
  */
 @ManagedBean
+@ViewScoped
 public class AddIngredientView implements Serializable {
     @Size(min=2, max=25, message="Ingredient name must be between 2-25 characters long")
     private String name;

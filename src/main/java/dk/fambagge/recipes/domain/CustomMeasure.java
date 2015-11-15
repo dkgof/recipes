@@ -30,10 +30,11 @@ public class CustomMeasure implements Measure, DomainObject {
     private Measure referenceMeasure;
 
     public CustomMeasure() {
-        id = -1;
     }
 
     public CustomMeasure(String name, String symbol, double customToReferenceRatio, Measure referenceMeasure) {
+        this();
+        
         this.name = name;
         this.symbol = symbol;
         this.referenceToCustomRatio = customToReferenceRatio;

@@ -21,6 +21,7 @@ public class ConnectionContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        System.out.println("Shutting down!");
         Database.getSessionFactory().close();
     }
 }
