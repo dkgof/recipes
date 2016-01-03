@@ -19,6 +19,7 @@ import javax.persistence.*;
 public class RecipeStep implements Serializable, DomainObject {
     private int id;
     private String description;
+    private int sortOrder;
 
     public RecipeStep() {
         this.description = "";
@@ -59,5 +60,20 @@ public class RecipeStep implements Serializable, DomainObject {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * @return the order
+     */
+    @Column( name = "sortOrder", nullable = false)
+    public int getSortOrder() {
+        return sortOrder;
+    }
+
+    /**
+     * @param order the order to set
+     */
+    public void setSortOrder(int order) {
+        this.sortOrder = order;
     }
 }

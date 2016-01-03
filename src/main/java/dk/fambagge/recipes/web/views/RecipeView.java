@@ -5,7 +5,14 @@
  */
 package dk.fambagge.recipes.web.views;
 
+import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Recipe;
+import dk.fambagge.recipes.domain.RecipeStep;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -31,6 +38,23 @@ public class RecipeView {
         return selectedRecipe;
     }
 
+    public List<RecipeStep> getStepsSorted() {
+        List<RecipeStep> sortedSteps = new LinkedList<>();
+        
+        Set<RecipeStep> steps = selectedRecipe.getSteps();
+        
+        sortedSteps.addAll(steps);
+        
+        Collections.sort(sortedSteps, new Comparator<RecipeStep>() {
+            @Override
+            public int compare(RecipeStep step1, RecipeStep step2) {
+                return Integer.compare(step1.getSortOrder(), step2.getSortOrder());
+            }
+        });
+        
+        return sortedSteps;
+    }
+    
     /**
      * @param selectedRecipe the selectedRecipe to set
      */
@@ -38,5 +62,12 @@ public class RecipeView {
         this.selectedRecipe = selectedRecipe;
     }
     
-    
+    public void addStep() {
+        RecipeStep step = new RecipeStep();
+        selectedRecipe.addStep(step);
+        
+        step.setSortOrder(selectedRecipe.getNextStepSortOrder());
+        
+        Database.saveOrUpdate(selectedRecipe);
+    }
 }

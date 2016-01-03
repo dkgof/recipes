@@ -26,6 +26,7 @@ public class RecipeIngredient implements Serializable, DomainObject {
     private Ingredient ingredient;
     private Measure measure;
     private double amount;
+    private int sortOrder;
     
     private CustomMeasure overrideMeasure;
     
@@ -207,5 +208,20 @@ public class RecipeIngredient implements Serializable, DomainObject {
         double amountInGrams = this.getAmount(Measure.Weight.GRAM);
         
         return (amountInGrams/100.0) * ingredient.getEnergyPerHundred();
+    }
+
+    /**
+     * @return the order
+     */
+    @Column( name = "sortOrder", nullable = false)
+    public int getSortOrder() {
+        return sortOrder;
+    }
+
+    /**
+     * @param order the order to set
+     */
+    public void setSortOrder(int order) {
+        this.sortOrder = order;
     }
 }

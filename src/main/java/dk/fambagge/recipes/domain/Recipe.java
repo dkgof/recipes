@@ -160,4 +160,13 @@ public class Recipe implements Serializable, DomainObject {
     public static List<Recipe> getAll() {
         return Database.getAll(Recipe.class);
     }
+
+    @Transient
+    public int getNextStepSortOrder() {
+        int nextSortOrder = 0;
+        for(RecipeStep step : steps) {
+            nextSortOrder = Math.max(nextSortOrder, step.getSortOrder());
+        }
+        return nextSortOrder + 1;
+    }
 }

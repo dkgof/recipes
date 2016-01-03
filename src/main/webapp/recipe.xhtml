@@ -11,32 +11,43 @@
             <title>Recipes - Recipe</title>
         </h:head>
         <h:body>
-            <p:panel>
-                <f:facet name="header"><h:outputText value="#{recipeView.selectedRecipe.name}" /></f:facet>
-                <div class="ui-grid ui-grid-responsive">
-                    <div class="ui-grid-row">
-                        <div class="ui-grid-col-12">Serves: <h:outputText value="#{recipeView.selectedRecipe.servings}" /></div>
-                    </div>
-                    <div class="ui-grid-row">
-                        <div class="ui-grid-col-4">
-                            <p:panel>
-                                <f:facet name="header">Ingredients</f:facet>
-                                <p:dataList var="ingredient" value="#{recipeView.selectedRecipe.ingredients}">
-                                    #{ingredient.amount} #{ingredient.measure.symbol} #{ingredient.ingredient.name}
-                                </p:dataList>
-                            </p:panel>
+            <h:form id="recipeForm">
+                <p:panel>
+                    <f:facet name="header"><h:outputText value="#{recipeView.selectedRecipe.name}" /></f:facet>
+                    <div class="ui-grid ui-grid-responsive">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12">Serves: <h:outputText value="#{recipeView.selectedRecipe.servings}" /></div>
                         </div>
-                        <div class="ui-grid-col-8">
-                            <p:panel>
-                                <f:facet name="header">Steps</f:facet>
-                                <p:dataList var="step" value="#{recipeView.selectedRecipe.steps}">
-                                    #{step.description}
-                                </p:dataList>
-                            </p:panel>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4">
+                                <p:panel>
+                                    <f:facet name="header">Ingredients</f:facet>
+                                    <p:dataList var="ingredient" value="#{recipeView.selectedRecipe.ingredients}">
+                                        #{ingredient.amount} #{ingredient.measure.symbol} #{ingredient.ingredient.name}
+                                    </p:dataList>
+                                </p:panel>
+                            </div>
+                            <div class="ui-grid-col-8">
+                                <p:panel>
+                                    <f:facet name="header">Steps <p:commandLink type="button"  value="+" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" /></f:facet>
+                                    <p:dataList var="step" value="#{recipeView.stepsSorted}" id="recipeSteps">
+                                        <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}">
+                                            <f:facet name="output">
+                                                <h:outputText value="&nbsp;#{step.description}" />
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputTextarea value="#{step.description}">
+                                                    <p:ajax event="blur" process="@this" onstart="PF('inplaceStep_#{step.id}').save();" />
+                                                </p:inputTextarea>
+                                            </f:facet>
+                                        </p:inplace>
+                                    </p:dataList>
+                                </p:panel>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </p:panel>
+                </p:panel>
+            </h:form>
         </h:body>
     </f:view>
 </html>
