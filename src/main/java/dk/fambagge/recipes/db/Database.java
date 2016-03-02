@@ -22,10 +22,7 @@ public class Database {
     private static final SessionFactory SESSION_FACTORY = buildSessionFactory();
 
     private static SessionFactory buildSessionFactory() {
-        Configuration configuration = new Configuration();
-        configuration.configure();
-        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
-        return configuration.buildSessionFactory(serviceRegistry);
+        return new Configuration().configure().buildSessionFactory();
     }
 
     public static SessionFactory getSessionFactory() {
@@ -75,7 +72,7 @@ public class Database {
         final Session session = Database.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
-            final List result = session.createQuery("from "+type.getSimpleName()).list();
+            final List result = session.createQuery("from "+type.getName()).list();
             final List<T> namedResult = new LinkedList<>();
             for (final Object resultObj : result) {
                 namedResult.add((T) resultObj);

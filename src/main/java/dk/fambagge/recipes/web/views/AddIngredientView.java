@@ -59,8 +59,9 @@ public class AddIngredientView implements Serializable {
             preferedMeasure = null;
         } catch(Exception e) {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Error saving ingredient"));
+            context.addMessage(null, new FacesMessage("Error saving ingredient", e.getMessage()));
             RequestContext.getCurrentInstance().addCallbackParam("errorSaving", true);
+            e.printStackTrace();
         }
     }
     
