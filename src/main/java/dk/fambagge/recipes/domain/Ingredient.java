@@ -121,7 +121,7 @@ public class Ingredient implements Serializable, DomainObject {
     /**
      * @return the customMeasures
      */
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "Ingredient_CustomMeasures",
             joinColumns = {
                 @JoinColumn(name = "ingredientId")},
