@@ -66,7 +66,7 @@ public class RecipeIngredient implements Serializable, DomainObject {
     /**
      * @return the ingredient
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn( name = "ingredientId", nullable = false)
     public Ingredient getIngredient() {
         return ingredient;
