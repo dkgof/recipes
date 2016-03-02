@@ -10,7 +10,6 @@ import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
@@ -38,7 +37,7 @@ public class Ingredient implements Serializable, DomainObject {
     private Measure preferredMeasure;
     private double energyPerHundred; //Kilojoule per 100 gram
 
-    private Set<CustomMeasure> customMeasures;
+    private CustomMeasure customMeasure;
 
     /**
      * @return the id
@@ -121,26 +120,22 @@ public class Ingredient implements Serializable, DomainObject {
     /**
      * @return the customMeasures
      */
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinTable(name = "Ingredient_CustomMeasures",
             joinColumns = {
                 @JoinColumn(name = "ingredientId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "customMeasureId")}
     )
-    public Set<CustomMeasure> getCustomMeasures() {
-        return customMeasures;
+    public CustomMeasure getCustomMeasure() {
+        return customMeasure;
     }
 
     /**
-     * @param customMeasures the customMeasures to set
+     * @param customMeasure the customMeasure to set
      */
-    public void setCustomMeasures(Set<CustomMeasure> customMeasures) {
-        this.customMeasures = customMeasures;
-    }
-
-    public void addCustomMeasure(CustomMeasure customMeasure) {
-        this.customMeasures.add(customMeasure);
+    public void setCustomMeasure(CustomMeasure customMeasure) {
+        this.customMeasure = customMeasure;
     }
 
     @Override
