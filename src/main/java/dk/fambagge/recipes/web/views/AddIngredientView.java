@@ -39,6 +39,10 @@ public class AddIngredientView implements Serializable {
     @NotNull(message="You must select a prefered measure")
     private Measure preferedMeasure;
     private Measure energyMeasure;
+    
+    private String customMeasureName;
+    private double customMeasureAmount;
+    private Measure customMeasureReference;
 
     public void submitIngredient() {
         try {
@@ -263,5 +267,47 @@ public class AddIngredientView implements Serializable {
      */
     public void setCalculateDensityVolumeUnit(Measure calculateDensityVolumeUnit) {
         this.calculateDensityVolumeUnit = calculateDensityVolumeUnit;
+    }
+
+    /**
+     * @return the customMeasureName
+     */
+    public String getCustomMeasureName() {
+        return customMeasureName;
+    }
+
+    /**
+     * @param customMeasureName the customMeasureName to set
+     */
+    public void setCustomMeasureName(String customMeasureName) {
+        this.customMeasureName = customMeasureName;
+    }
+
+    /**
+     * @return the customMeasureAmount
+     */
+    public double getCustomMeasureAmount() {
+        return customMeasureAmount;
+    }
+
+    /**
+     * @param customMeasureAmount the customMeasureAmount to set
+     */
+    public void setCustomMeasureAmount(double customMeasureAmount) {
+        this.customMeasureAmount = customMeasureAmount;
+    }
+
+    /**
+     * @return the customMeasureReference
+     */
+    public Measure getCustomMeasureReference() {
+        return customMeasureReference;
+    }
+
+    /**
+     * @param customMeasureReference the customMeasureReference to set
+     */
+    public void setCustomMeasureReference(Measure customMeasureReference) {
+        this.customMeasureReference = customMeasureReference;
     }
 }

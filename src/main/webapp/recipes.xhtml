@@ -95,18 +95,18 @@
                 <h:form id="addRecipeIngredient">
                     <h:panelGrid columns="3" cellpadding="5">
                         <h:outputLabel for="ingredient" value="Ingredient:" />
-                        <h:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeView.recipeIngredientChange}">
+                        <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeView.recipeIngredientChange}" filter="true" filterMatchMode="startsWith">
                             <f:selectItems value="#{addRecipeView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
                             <p:ajax event="change" update="@(#addRecipeIngredient\\:measure)"/>
-                        </h:selectOneMenu>
+                        </p:selectOneMenu>
                         <p:spacer />
                         <h:outputLabel for="amount" value="Amount:" />
                         <p:inputText id="amount" value="#{addRecipeView.ingredientAmount}" required="true" />
                         <p:spacer />
                         <h:outputLabel for="measure" value="Measure:" />
-                        <h:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeView.ingredientMeasure}" style="width:100%">
+                        <p:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeView.ingredientMeasure}" style="width:100%">
                             <f:selectItems value="#{addRecipeView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
-                        </h:selectOneMenu>
+                        </p:selectOneMenu>
                         <p:spacer />
                     </h:panelGrid>
                     <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeView.addRecipeIngredient()}" oncomplete="handleAddRecipeIngredient(xhr, status, args);" update="@(#addRecipe\\:ingredientList)" />

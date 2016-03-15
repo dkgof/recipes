@@ -110,6 +110,16 @@
                             <f:selectItems value="#{addIngredientView.measures}" />
                         </p:selectOneMenu>
                         <p:spacer />
+                        <h:outputLabel for="customMeasureName" value="Custom Measure Name" />
+                        <p:inputText id="customMeasureName" value="#{addIngredientView.customMeasureName}" required="false" />
+                        <p:spacer />
+                        <h:outputLabel for="customMeasureAmount" value="Reference:" />
+                        <p:inputText id="customMeasureAmount" required="false" value="#{addIngredientView.customMeasureAmount}" />
+                        <p:selectOneMenu id="customReferenceMeasure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addIngredientView.customMeasureReference}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{addIngredientView.measures}" />
+                        </p:selectOneMenu>
+                        <p:spacer />
                     </h:panelGrid>
 
                     <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addIngredientView.submitIngredient()}" oncomplete="handleAddIngredient(xhr, status, args);" />
