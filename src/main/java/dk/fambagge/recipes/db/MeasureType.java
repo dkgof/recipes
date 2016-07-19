@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.type.StringType;
 import org.hibernate.usertype.UserType;
 
@@ -47,28 +48,6 @@ public class MeasureType implements UserType {
     @Override
     public int hashCode(Object obj) throws HibernateException {
         return ((Measure)obj).toDBString().hashCode();
-    }
-
-    @Override
-    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor si, Object owner) throws HibernateException, SQLException {
-        assert names.length == 1;
-        String stringValue = (String) StringType.INSTANCE.get(rs, names[0], si);
-        
-        return getTypeFromString(stringValue);
-    }
-
-    @Override
-    public void nullSafeSet(PreparedStatement stm, Object value, int index, SessionImplementor si) throws HibernateException, SQLException {
-        if(value == null) {
-            StringType.INSTANCE.set(stm, null, index, si);
-        } else {
-            if(!(value instanceof Measure)) {
-                throw new UnsupportedOperationException("Cannot nullSafeSet Measure from: "+value.getClass());
-            }
-            
-            String stringValue = ((Measure)value).toDBString();
-            StringType.INSTANCE.set(stm, stringValue, index, si);
-        }
     }
 
     @Override
@@ -117,6 +96,28 @@ public class MeasureType implements UserType {
             } catch(IllegalArgumentException e) {
                 return Measure.Weight.valueOf(stringValue);
             }
+        }
+    }
+
+    @Override
+    public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor si, Object o) throws HibernateException, SQLException {
+        assert names.length == 1;
+        String stringValue = (String) StringType.INSTANCE.get(rs, names[0], si);
+        
+        return getTypeFromString(stringValue);
+    }
+
+    @Override
+    public void nullSafeSet(PreparedStatement stm, Object value, int index, SharedSessionContractImplementor si) throws HibernateException, SQLException {
+        if(value == null) {
+            StringType.INSTANCE.set(stm, null, index, si);
+        } else {
+            if(!(value instanceof Measure)) {
+                throw new UnsupportedOperationException("Cannot nullSafeSet Measure from: "+value.getClass());
+            }
+            
+            String stringValue = ((Measure)value).toDBString();
+            StringType.INSTANCE.set(stm, stringValue, index, si);
         }
     }
 }
