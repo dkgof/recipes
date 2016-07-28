@@ -26,7 +26,7 @@ public class Recipe implements Serializable, DomainObject {
     private String name;
 
     private int servings;
-    
+
     private Set<RecipeIngredient> ingredients;
 
     private Set<RecipeStep> steps;
@@ -40,11 +40,11 @@ public class Recipe implements Serializable, DomainObject {
 
     public Recipe(String name, int servings) {
         this();
-        
+
         this.name = name;
         this.servings = servings;
     }
-    
+
     public void addIngredient(RecipeIngredient ingredient) {
         getIngredients().add(ingredient);
     }
@@ -89,7 +89,7 @@ public class Recipe implements Serializable, DomainObject {
     /**
      * @return the ingredients
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "Recipe_RecipeIngredients",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},
@@ -103,7 +103,7 @@ public class Recipe implements Serializable, DomainObject {
     /**
      * @return the steps
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "Recipe_RecipeSteps",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},
@@ -145,7 +145,7 @@ public class Recipe implements Serializable, DomainObject {
     /**
      * @return the servings
      */
-    @Column( name = "servings", nullable = false )
+    @Column(name = "servings", nullable = false)
     public int getServings() {
         return servings;
     }
@@ -164,7 +164,7 @@ public class Recipe implements Serializable, DomainObject {
     @Transient
     public int getNextStepSortOrder() {
         int nextSortOrder = 0;
-        for(RecipeStep step : steps) {
+        for (RecipeStep step : steps) {
             nextSortOrder = Math.max(nextSortOrder, step.getSortOrder());
         }
         return nextSortOrder + 1;

@@ -45,12 +45,7 @@ public class RecipeView {
         
         sortedSteps.addAll(steps);
         
-        Collections.sort(sortedSteps, new Comparator<RecipeStep>() {
-            @Override
-            public int compare(RecipeStep step1, RecipeStep step2) {
-                return Integer.compare(step1.getSortOrder(), step2.getSortOrder());
-            }
-        });
+        Collections.sort(sortedSteps, (RecipeStep step1, RecipeStep step2) -> Integer.compare(step1.getSortOrder(), step2.getSortOrder()));
         
         return sortedSteps;
     }

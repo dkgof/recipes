@@ -39,20 +39,20 @@ public class AddRecipeView implements Serializable {
     private int servings = 4;
     
     @Size(min=1, max=255, message="You must have at least 1 ingredient in a recipe")
-    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
+    private final List<RecipeIngredient> recipeIngredients = new ArrayList<>();
     
     @Size(min=1, max=255, message="You must have at least 1 step in a recipe")
-    private List<RecipeStep> recipeSteps = new ArrayList<>();
+    private final List<RecipeStep> recipeSteps = new ArrayList<>();
 
     public void submitRecipe() {
         Recipe recipe = new Recipe(name, servings);
-        for(RecipeIngredient ingredient : recipeIngredients) {
-            recipe.addIngredient(ingredient);
-        }
+        recipeIngredients.stream().forEach((i) -> {
+            recipe.addIngredient(i);
+        });
         
-        for(RecipeStep step : recipeSteps) {
+        recipeSteps.stream().forEach((step) -> {
             recipe.addStep(step);
-        }
+        });
         
         Database.save(recipe);
 
@@ -75,8 +75,6 @@ public class AddRecipeView implements Serializable {
     public void addRecipeIngredient() {
         RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), getIngredientAmount(), getIngredientMeasure());
         getRecipeIngredients().add(recipeIngredient);
-        
-        System.out.println(""+getRecipeIngredients());
         
         ingredient = null;
         ingredientAmount = 0;

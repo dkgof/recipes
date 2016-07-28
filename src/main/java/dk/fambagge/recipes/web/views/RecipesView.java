@@ -45,7 +45,7 @@ public class RecipesView implements Serializable {
     }
     
     public void delete(Recipe recipe) {
-        Logger.getLogger("Recipes").log(Level.INFO, "Delete: "+recipe.getId());
+        Logger.getLogger("Recipes").log(Level.INFO, "Delete: {0}", recipe.getId());
         
         Database.delete(recipe);
         reload();
