@@ -30,9 +30,12 @@ public class Recipe implements Serializable, DomainObject {
     private Set<RecipeIngredient> ingredients;
 
     private Set<RecipeStep> steps;
+    
+    private String imgUrl;
 
     public Recipe() {
         name = "";
+        imgUrl = null;
         servings = 0;
         ingredients = new HashSet<>();
         steps = new HashSet<>();
@@ -168,5 +171,20 @@ public class Recipe implements Serializable, DomainObject {
             nextSortOrder = Math.max(nextSortOrder, step.getSortOrder());
         }
         return nextSortOrder + 1;
+    }
+
+    /**
+     * @return the imgUrl
+     */
+    @Column(name = "imgUrl", nullable = true)
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    /**
+     * @param imgUrl the imgUrl to set
+     */
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }
