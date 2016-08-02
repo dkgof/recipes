@@ -8,6 +8,7 @@ package dk.fambagge.recipes.domain;
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -129,7 +130,7 @@ public class CustomMeasure implements Measure, DomainObject {
         return Database.get("from CustomMeasures where id = '"+id+"'", CustomMeasure.class);
     }
 
-    public static List<CustomMeasure> getAll() {
+    public static Set<CustomMeasure> getAll() {
         return Database.getAll(CustomMeasure.class);
     }
 

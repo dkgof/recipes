@@ -10,6 +10,7 @@ import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -172,7 +173,7 @@ public class Ingredient implements Serializable, DomainObject {
         return hash;
     }
 
-    public static List<Ingredient> getAll() {
+    public static Set<Ingredient> getAll() {
         return Database.getAll(Ingredient.class);
     }
 

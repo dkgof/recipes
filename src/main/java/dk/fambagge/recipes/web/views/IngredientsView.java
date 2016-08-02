@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -28,14 +29,14 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @ViewScoped
 public class IngredientsView implements Serializable {
-    private List<Ingredient> ingredients;
+    private Set<Ingredient> ingredients;
     
     @PostConstruct
     public void init() {
         reload();
     }
     
-    public List<Ingredient> getIngredients() {
+    public Set<Ingredient> getIngredients() {
         return ingredients;
     }
     

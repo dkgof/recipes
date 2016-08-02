@@ -10,6 +10,7 @@ import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Recipe;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -25,14 +26,14 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class RecipesView implements Serializable {
-    private List<Recipe> recipes;
+    private Set<Recipe> recipes;
     
     @PostConstruct
     public void init() {
         reload();
     }
     
-    public List<Recipe> getRecipes() {
+    public Set<Recipe> getRecipes() {
         return recipes;
     }
 
@@ -40,7 +41,7 @@ public class RecipesView implements Serializable {
         this.recipes = Recipe.getAll();
     }
     
-    public List<Ingredient> getAvailableIngredients() {
+    public Set<Ingredient> getAvailableIngredients() {
         return Ingredient.getAll();
     }
     

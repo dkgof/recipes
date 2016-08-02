@@ -160,7 +160,7 @@ public class Recipe implements Serializable, DomainObject {
         this.servings = servings;
     }
 
-    public static List<Recipe> getAll() {
+    public static Set<Recipe> getAll() {
         return Database.getAll(Recipe.class);
     }
 

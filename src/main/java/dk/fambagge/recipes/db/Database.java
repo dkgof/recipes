@@ -5,8 +5,10 @@
  */
 package dk.fambagge.recipes.db;
 
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -66,12 +68,12 @@ public class Database {
         doAction(obj, Action.DELETE);
     }
 
-    public static <T extends DomainObject> List<T> getAll(Class<T> type) {
+    public static <T extends DomainObject> Set<T> getAll(Class<T> type) {
         final Session session = Database.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             final List result = session.createQuery("from "+type.getName()).list();
-            final List<T> namedResult = new LinkedList<>();
+            final Set<T> namedResult = new LinkedHashSet<>();
             for (final Object resultObj : result) {
                 namedResult.add((T) resultObj);
             }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -209,14 +210,14 @@ public class AddRecipeView implements Serializable {
         this.recipeStepDescription = recipeStepDescription;
     }
 
-    private List<Ingredient> allIngredients;
+    private Set<Ingredient> allIngredients;
     
     @PostConstruct
     private void init() {
         allIngredients = Ingredient.getAll();
     }
     
-    public List<Ingredient> getAllIngredients() {
+    public Set<Ingredient> getAllIngredients() {
         return allIngredients;
     }
 

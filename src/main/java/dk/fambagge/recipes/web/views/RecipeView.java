@@ -28,7 +28,7 @@ public class RecipeView {
 
     @PostConstruct
     private void init() {
-        selectedRecipe = Recipe.getAll().get(0);
+        selectedRecipe = Recipe.getAll().iterator().next();
     }
     
     /**
