@@ -66,7 +66,6 @@ public class Recipe implements Serializable, DomainObject {
         double totalEnergy = 0;
 
         for (RecipeIngredient ingredient : getIngredients()) {
-            System.out.println(""+ingredient.getIngredient().getName()+" - "+((ingredient.getEnergyInKiloJoules()* Constants.KCAL_PER_KILOJOULE) / this.servings)+" kcal");
             totalEnergy += ingredient.getEnergyInKiloJoules();
         }
 

@@ -207,8 +207,6 @@ public class RecipeIngredient implements Serializable, DomainObject {
     public double getEnergyInKiloJoules() {
         double amountInGrams = this.getAmount(Measure.Weight.GRAM);
         
-        System.out.println("\t"+amountInGrams+" g - "+ingredient.getEnergyPerHundred());
-        
         return (amountInGrams/100.0) * ingredient.getEnergyPerHundred();
     }
 
