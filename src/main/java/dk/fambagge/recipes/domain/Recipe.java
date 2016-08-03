@@ -58,7 +58,7 @@ public class Recipe implements Serializable, DomainObject {
 
     @Transient
     public double getEnergyInCalories() {
-        return getEnergyInKiloJoule() * Constants.KCAL_PER_KILOJOULE;
+        return  Math.round(getEnergyInKiloJoule() * Constants.KCAL_PER_KILOJOULE * 10.0) / 10.0;
     }
 
     @Transient
@@ -66,10 +66,11 @@ public class Recipe implements Serializable, DomainObject {
         double totalEnergy = 0;
 
         for (RecipeIngredient ingredient : getIngredients()) {
+            System.out.println(""+ingredient.getIngredient().getName()+" - "+((ingredient.getEnergyInKiloJoules()* Constants.KCAL_PER_KILOJOULE) / this.servings)+" kcal");
             totalEnergy += ingredient.getEnergyInKiloJoules();
         }
 
-        return totalEnergy;
+        return Math.round(totalEnergy * 10.0) / 10.0;
     }
 
     /**

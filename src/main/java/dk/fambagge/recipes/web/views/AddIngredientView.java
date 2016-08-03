@@ -6,6 +6,7 @@
 package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.db.Database;
+import dk.fambagge.recipes.domain.Constants;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
 import java.io.Serializable;
@@ -46,9 +47,16 @@ public class AddIngredientView implements Serializable {
 
     public void submitIngredient() {
         try {
+            
+            double correctedEnergy = energyPerHundred;
+            
+            if(energyMeasure == Measure.Energy.CALORIES) {
+                correctedEnergy = Math.round(energyPerHundred / Constants.KCAL_PER_KILOJOULE * 10.0) / 10.0;
+            }
+            
             Ingredient ingredient = new Ingredient();
             ingredient.setName(name);
-            ingredient.setEnergyPerHundred(energyPerHundred);
+            ingredient.setEnergyPerHundred(correctedEnergy);
             ingredient.setPreferredMeasure(preferedMeasure);
             ingredient.setWeightToVolume(weightToVolume);
             Database.save(ingredient);
