@@ -29,6 +29,8 @@ import org.apache.commons.lang3.StringEscapeUtils;
 public class RecipeView  implements Serializable {
     private Recipe selectedRecipe = null;
     
+    private int customServings;
+    
     /**
      * @return the selectedRecipe
      */
@@ -44,11 +46,13 @@ public class RecipeView  implements Serializable {
             if(recipeId != -1) {
                 //We didnt have any recipe
                 selectedRecipe = Recipe.get(recipeId);
+                setCustomServings(selectedRecipe.getServings());
             }
         } else {
             if(recipeId != -1 && selectedRecipe.getId() != recipeId) {
                 //We had a different recipe, update to new
                 selectedRecipe = Recipe.get(recipeId);
+                setCustomServings(selectedRecipe.getServings());
             }
         }
         
@@ -99,6 +103,10 @@ public class RecipeView  implements Serializable {
         return (int) Math.round(calories);
     }
     
+    public double getScaledIngredientAmount(RecipeIngredient ingredient) {
+        return Math.round(ingredient.getAmount() * (getCustomServings() / (double)selectedRecipe.getServings()) * 10.0) / 10.0;
+    }
+    
     public String escapeTextWithLineBreaks(String s) {
         String escaped = StringEscapeUtils.escapeHtml4(s);
         
@@ -120,5 +128,19 @@ public class RecipeView  implements Serializable {
     
     public void saveRecipe() {
         Database.saveOrUpdate(selectedRecipe);
+    }
+
+    /**
+     * @return the customServings
+     */
+    public int getCustomServings() {
+        return customServings;
+    }
+
+    /**
+     * @param customServings the customServings to set
+     */
+    public void setCustomServings(int customServings) {
+        this.customServings = customServings;
     }
 }
