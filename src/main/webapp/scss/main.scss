@@ -18,7 +18,11 @@ body {
 }
 
 a:visited {
-    color: blue;
+    color: black;
+}
+
+a {
+    color: black;
 }
 
 .ingredientInfo {
@@ -30,7 +34,7 @@ a:visited {
 }
 
 .ingredientItem {
-    margin-bottom: 1em;
+    margin-bottom: 0.5m;
 }
 
 .recipeStep {

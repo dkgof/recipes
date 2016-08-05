@@ -1,17 +1,38 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Recipes</title>
-        <link href="css/main.css" rel="stylesheet" type="text/css"/>
-    </h:head>
-    <h:body>
-        <h:link outcome="ingredients" value="Ingredients page" />
-        <br />
-        <h:link outcome="recipes" value="Recepies page" />
-        <br />
-        <h:link outcome="recipes_list" value="Recepies list" />
-    </h:body>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Recipes - Recipes</title>
+            <link href="css/main.css" rel="stylesheet" type="text/css"/>
+        </h:head>
+        <h:body>
+            <p:dataGrid var="recipe" value="#{recipesView.recipes}" columns="3" layout="grid"
+                        rows="12" paginator="true" id="recepies"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,18">
+
+                <f:facet name="header">
+                    Recipes
+                </f:facet>
+
+                <p:panel header="#{recipe.name}" style="text-align:center">
+                    <h:panelGrid columns="1" style="width:100%">
+                        <h:outputText value="Serves #{recipe.servings}" />
+                        <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
+                        <br />
+                        <h:link value="Goto" outcome="recipe.xhtml?recipe=#{recipe.id}" />
+                    </h:panelGrid>
+                </p:panel>
+            </p:dataGrid>        
+            
+            <h:link value="Admin page" outcome="admin" />
+        </h:body>
+    </f:view>
 </html>
 

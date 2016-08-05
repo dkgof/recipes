@@ -39,7 +39,7 @@
                                     <f:facet name="header">Ingredients <p:commandLink type="button" styleClass="hideFromPrint" value="+" onclick="PF('addRecipeIngredientDialog').show();" /></f:facet>
                                     <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem">
                                         <span class="ingredientInfo">#{ingredient.ingredient.name}</span>
-                                        <p:commandLink type="button" styleClass="ui-icon ui-icon-trash" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm">
+                                        <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm">
                                             <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
                                         </p:commandLink>
                                         <div class="ingredientStats">
@@ -82,7 +82,7 @@
                 </p:confirmDialog>
             </h:form>
 
-            <h:link value="Back" outcome="recipes_list" styleClass="hideFromPrint" />
+            <h:link value="Back" outcome="index" styleClass="hideFromPrint" />
 
             <p:dialog id="addRecipeIngredientDialog" header="Add Recipe Ingredient" widgetVar="addRecipeIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
                 <h:form id="addRecipeIngredient">
