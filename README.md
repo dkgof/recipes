@@ -1,6 +1,9 @@
-# recipes
-Recipes is a web based recipe database system.
+# Recipes
+Recipes is a web based recipe database system with advanced meassure and energy features.
 
-Every ingredient can be added with energy and density information which makes Recipes able to convert between alot of meassurements, for example you can convert from deciliter to grams if you want.
+Planned Features:
+Ingredients can have density which makes it possible to convert between weight and volume meassures.
+Ingredients can have energy/100g which makes all recipes able to calculate energy per serving.
+Every ingredient can have custom meassures added, for example "rye bread" could have a "slice" meassure which is unique to "rye bread".
 
-All recipies are presented with total energy / serving.
+Recipes can be combined into a menu, which will give you the total energy / serving for the combined recipes.
