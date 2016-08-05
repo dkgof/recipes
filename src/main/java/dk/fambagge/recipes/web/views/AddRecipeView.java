@@ -14,10 +14,9 @@ import dk.fambagge.recipes.domain.RecipeStep;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -210,14 +209,13 @@ public class AddRecipeView implements Serializable {
         this.recipeStepDescription = recipeStepDescription;
     }
 
-    private Set<Ingredient> allIngredients;
-    
-    @PostConstruct
-    private void init() {
-        allIngredients = Ingredient.getAll();
-    }
-    
-    public Set<Ingredient> getAllIngredients() {
+    public List<Ingredient> getAllIngredients() {
+        List<Ingredient> allIngredients = new LinkedList<>(Ingredient.getAll());
+        
+        Collections.sort(allIngredients, (Ingredient o1, Ingredient o2) -> {
+            return o1.getName().compareTo(o2.getName());
+        });
+        
         return allIngredients;
     }
 

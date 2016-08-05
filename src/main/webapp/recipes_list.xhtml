@@ -23,7 +23,9 @@
                 <p:panel header="#{recipe.name}" style="text-align:center">
                     <h:panelGrid columns="1" style="width:100%">
                         <h:outputText value="Serves #{recipe.servings}" />
-                        <h:outputText value="Energy #{recipe.energyInCalories/recipe.servings} kcal per portion" />
+                        <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
+                        <br />
+                        <h:link value="Goto" outcome="recipe.xhtml?recipe=#{recipe.id}" />
                     </h:panelGrid>
                 </p:panel>
             </p:dataGrid>        

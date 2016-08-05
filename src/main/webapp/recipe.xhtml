@@ -9,6 +9,7 @@
     <f:view contentType="text/html">
         <h:head>
             <title>Recipes - Recipe</title>
+            <link href="css/main.css" rel="stylesheet" type="text/css"/>
         </h:head>
         <h:body>
             <h:form id="recipeForm">
@@ -16,14 +17,23 @@
                     <f:facet name="header"><h:outputText value="#{recipeView.selectedRecipe.name}" /></f:facet>
                     <div class="ui-grid ui-grid-responsive">
                         <div class="ui-grid-row">
-                            <div class="ui-grid-col-12">Serves: <h:outputText value="#{recipeView.selectedRecipe.servings}" /></div>
+                            <div class="ui-grid-col-12">Serves: <h:outputText value="#{recipeView.selectedRecipe.servings}" /> - Energy/serving: <h:outputText value="#{recipeView.selectedRecipe.caloriesPerServing}" /> kcal</div>
                         </div>
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-4">
                                 <p:panel>
                                     <f:facet name="header">Ingredients</f:facet>
-                                    <p:dataList var="ingredient" value="#{recipeView.selectedRecipe.ingredients}">
-                                        #{ingredient.amount} #{ingredient.measure.symbol} #{ingredient.ingredient.name}
+                                    <p:dataList var="ingredient" value="#{recipeView.ingredientsSorted}" type="definition">
+                                        <p:inplace editor="true">
+                                            <f:facet name="output">
+                                                <span class="ingredientInfo">#{ingredient.amount} #{ingredient.measure.symbol}</span><span class="ingredientInfo">#{ingredient.ingredient.name}</span><span class="ingredientInfo">(#{recipeView.getCaloriesPerServing(ingredient)} kcal)</span>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol} #{ingredient.ingredient.name}
+                                                
+                                                <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
+                                            </f:facet>
+                                        </p:inplace>
                                     </p:dataList>
                                 </p:panel>
                             </div>

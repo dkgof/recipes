@@ -8,7 +8,6 @@ package dk.fambagge.recipes.domain;
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;

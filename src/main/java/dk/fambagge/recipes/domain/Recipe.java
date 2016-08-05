@@ -9,7 +9,6 @@ import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -164,6 +163,10 @@ public class Recipe implements Serializable, DomainObject {
         return Database.getAll(Recipe.class);
     }
 
+    public static Recipe get(int id) {
+        return Database.get("from "+Recipe.class.getName()+" where id='"+id+"'", Recipe.class);
+    }
+    
     @Transient
     public int getNextStepSortOrder() {
         int nextSortOrder = 0;
@@ -186,5 +189,10 @@ public class Recipe implements Serializable, DomainObject {
      */
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    @Transient
+    public int getCaloriesPerServing() {
+        return (int) Math.round(getEnergyInCalories() / getServings());
     }
 }
