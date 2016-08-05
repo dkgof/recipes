@@ -9,13 +9,7 @@
     <f:view contentType="text/html">
         <h:head>
             <title>Recipes - Recipes</title>
-            <style>
-                .actionButtons td, .actionButtons tr {
-                    border: 0 !important;
-                    background: transparent !important;
-                    padding: 0 !important;
-                }
-            </style>
+            <link href="css/main.css" rel="stylesheet" type="text/css"/>
         </h:head>
         <h:body>
             <div class="ui-grid ui-grid-responsive">
@@ -69,6 +63,8 @@
                 </div>
             </div>
 
+            <h:link value="Back" outcome="index" />
+
             <p:dialog id="addRecipeDialog" header="Add Recipe" widgetVar="addRecipeDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
                 <h:form id="addRecipe">
                     <h:panelGrid columns="3" cellpadding="5">
@@ -91,29 +87,31 @@
 
                 <p:ajax event="close" update=":addRecipeDialog :form" listener="#{recipesView.reload()}" />
             </p:dialog>
+
             <p:dialog id="addRecipeIngredientDialog" header="Add Recipe Ingredient" widgetVar="addRecipeIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
                 <h:form id="addRecipeIngredient">
                     <h:panelGrid columns="3" cellpadding="5">
                         <h:outputLabel for="ingredient" value="Ingredient:" />
-                        <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeView.recipeIngredientChange}" filter="true" filterMatchMode="startsWith">
+                        <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="startsWith">
                             <f:selectItems value="#{addRecipeView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
                             <p:ajax event="change" update="@(#addRecipeIngredient\\:measure)"/>
                         </p:selectOneMenu>
                         <p:spacer />
                         <h:outputLabel for="amount" value="Amount:" />
-                        <p:inputText id="amount" value="#{addRecipeView.ingredientAmount}" required="true" />
+                        <p:inputText id="amount" value="#{addRecipeIngredientView.ingredientAmount}" required="true" />
                         <p:spacer />
                         <h:outputLabel for="measure" value="Measure:" />
-                        <p:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeView.ingredientMeasure}" style="width:100%">
+                        <p:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeIngredientView.ingredientMeasure}" style="width:100%">
                             <f:selectItems value="#{addRecipeView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
                         </p:selectOneMenu>
                         <p:spacer />
                     </h:panelGrid>
-                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeView.addRecipeIngredient()}" oncomplete="handleAddRecipeIngredient(xhr, status, args);" update="@(#addRecipe\\:ingredientList)" />
+                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeIngredientView.addRecipeIngredient(addRecipeView.ingredients)}" oncomplete="handleAddRecipeIngredient(xhr, status, args);" update="@(#addRecipe\\:ingredientList)" />
                 </h:form>
 
-                <p:ajax event="close" update="addRecipeIngredient" />
-            </p:dialog>
+                <p:ajax event="close" update="addRecipeIngredient" listener="#{addRecipeIngredientView.reset()}" />
+            </p:dialog>          
+
             <script type="text/javascript">
                 function handleAddRecipe(xhr, status, args) {
                     if (args.validationFailed || args.errorSaving) {
@@ -130,7 +128,7 @@
                     }
                 }
             </script>
-            
+
         </h:body>
     </f:view>
 </html>

@@ -18,6 +18,7 @@ import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  *
@@ -98,7 +99,26 @@ public class RecipeView  implements Serializable {
         return (int) Math.round(calories);
     }
     
+    public String escapeTextWithLineBreaks(String s) {
+        String escaped = StringEscapeUtils.escapeHtml4(s);
+        
+        return escaped.replace("\n", "<br />");
+    }
+    
+    public void deleteIngredient(RecipeIngredient ingredient) {
+        selectedRecipe.removeIngredient(ingredient);
+        saveRecipe();
+    }
+    
     public void inlineIngredientSave(RecipeIngredient ingredient) {
         Database.saveOrUpdate(ingredient);
+    }
+    
+    public void inlineSaveRecipeStep(RecipeStep step) {
+        Database.saveOrUpdate(step);
+    }
+    
+    public void saveRecipe() {
+        Database.saveOrUpdate(selectedRecipe);
     }
 }

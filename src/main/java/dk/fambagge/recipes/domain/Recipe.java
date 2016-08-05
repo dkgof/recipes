@@ -9,6 +9,7 @@ import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -194,5 +195,17 @@ public class Recipe implements Serializable, DomainObject {
     @Transient
     public int getCaloriesPerServing() {
         return (int) Math.round(getEnergyInCalories() / getServings());
+    }
+
+    public void removeIngredient(RecipeIngredient ingredientToDelete) {
+        Iterator<RecipeIngredient> it = ingredients.iterator();
+        while(it.hasNext()) {
+            RecipeIngredient currentIngredient = it.next();
+            
+            if(currentIngredient.getId() == ingredientToDelete.getId()) {
+                it.remove();
+                break;
+            }
+        }
     }
 }

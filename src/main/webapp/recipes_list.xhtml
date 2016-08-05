@@ -9,6 +9,7 @@
     <f:view contentType="text/html">
         <h:head>
             <title>Recipes - Recipes</title>
+            <link href="css/main.css" rel="stylesheet" type="text/css"/>
         </h:head>
         <h:body>
             <p:dataGrid var="recipe" value="#{recipesView.recipes}" columns="3" layout="grid"
@@ -29,6 +30,8 @@
                     </h:panelGrid>
                 </p:panel>
             </p:dataGrid>        
+            
+            <h:link value="Back" outcome="index" />
         </h:body>
     </f:view>
 </html>

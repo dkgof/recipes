@@ -21,7 +21,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
 
@@ -65,34 +64,12 @@ public class AddRecipeView implements Serializable {
         recipeSteps.clear();
     }
 
-    @DecimalMin(value="0", message="Ingredient amount cannot be less than zero")
-    private double ingredientAmount = 0;
-    
-    private Ingredient ingredient;
-    
-    private Measure ingredientMeasure;
-    
-    public void addRecipeIngredient() {
-        RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), getIngredientAmount(), getIngredientMeasure());
-        getRecipeIngredients().add(recipeIngredient);
-        
-        ingredient = null;
-        ingredientAmount = 0;
-        ingredientMeasure = null;
-    }
-    
-    
     @Size(min=2, max=512, message="Step description must be between 2-512 characters")
     private String recipeStepDescription;
     
     public void addRecipeStep() {
         RecipeStep recipeStep = new RecipeStep(getRecipeStepDescription());
         getRecipeSteps().add(recipeStep);
-    }
-    
-    public void recipeIngredientChange(ValueChangeEvent event) {
-        Ingredient selectedIngredient = (Ingredient) event.getNewValue();
-        ingredientMeasure = selectedIngredient.getPreferredMeasure();
     }
     
     /**
@@ -151,48 +128,6 @@ public class AddRecipeView implements Serializable {
      */
     public List<RecipeStep> getRecipeSteps() {
         return recipeSteps;
-    }
-
-    /**
-     * @return the ingredientAmount
-     */
-    public double getIngredientAmount() {
-        return ingredientAmount;
-    }
-
-    /**
-     * @param ingredientAmount the ingredientAmount to set
-     */
-    public void setIngredientAmount(double ingredientAmount) {
-        this.ingredientAmount = ingredientAmount;
-    }
-
-    /**
-     * @return the ingredient
-     */
-    public Ingredient getIngredient() {
-        return ingredient;
-    }
-
-    /**
-     * @param ingredient the ingredient to set
-     */
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
-    }
-
-    /**
-     * @return the ingredientMeasure
-     */
-    public Measure getIngredientMeasure() {
-        return ingredientMeasure;
-    }
-
-    /**
-     * @param ingredientMeasure the ingredientMeasure to set
-     */
-    public void setIngredientMeasure(Measure ingredientMeasure) {
-        this.ingredientMeasure = ingredientMeasure;
     }
 
     /**
