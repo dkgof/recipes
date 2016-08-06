@@ -143,23 +143,4 @@ public class AddRecipeView implements Serializable {
     public void setRecipeStepDescription(String recipeStepDescription) {
         this.recipeStepDescription = recipeStepDescription;
     }
-
-    public List<Ingredient> getAllIngredients() {
-        List<Ingredient> allIngredients = new LinkedList<>(Ingredient.getAll());
-        
-        Collections.sort(allIngredients, (Ingredient o1, Ingredient o2) -> {
-            return o1.getName().compareTo(o2.getName());
-        });
-        
-        return allIngredients;
-    }
-
-    public List<Measure> getMeasures() {
-        List<Measure> measures = new LinkedList<>();
-        
-        measures.addAll(Arrays.asList(Measure.Weight.values()));
-        measures.addAll(Arrays.asList(Measure.Volume.values()));
-        
-        return measures;
-    }
 }

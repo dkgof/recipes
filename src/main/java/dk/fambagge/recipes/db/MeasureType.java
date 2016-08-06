@@ -86,16 +86,29 @@ public class MeasureType implements UserType {
     }
 
     public static Measure getTypeFromString(String stringValue) {
+        Measure measure = null;
+        
         if(stringValue.startsWith("custom")) {
-            int id = Integer.parseInt(stringValue.replace("custom", ""));
-            return CustomMeasure.getFromId(id);
+            int id = Integer.parseInt(stringValue.substring(6));
+            try {
+                measure = CustomMeasure.getFromId(id);
+            } catch(Exception e) {
+                System.out.println("Error looking up custom measure: "+e);
+                e.printStackTrace();
+            }
         } else {
             try {
-                return Measure.Volume.valueOf(stringValue);
-            } catch(IllegalArgumentException e) {
-                return Measure.Weight.valueOf(stringValue);
+                measure = Measure.Volume.valueOf(stringValue);
+            } catch(Exception e) {
+                try {
+                    measure = Measure.Weight.valueOf(stringValue);
+                } catch(Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
+        
+        return measure;
     }
 
     @Override

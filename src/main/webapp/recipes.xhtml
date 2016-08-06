@@ -74,11 +74,14 @@
                         <h:outputLabel for="servings" value="Servings:" />
                         <p:inputText id="servings" value="#{addRecipeView.servings}" required="true" />
                         <p:spacer />
-                        <p:dataList value="#{addRecipeView.ingredients}" var="ingredient" type="ordered" id="ingredientList">
+                        <p:dataList value="#{addRecipeView.ingredients}" var="ingredient" type="definition" id="ingredientList">
                             <f:facet name="header">
                                 Ingredients
                             </f:facet>
-                            #{ingredient.ingredient.name}, #{ingredient.measure}, #{ingredient.amount}
+                            <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
+                            <div class="ingredientStats">
+                                <span class="ingredientInfo"><h:outputText value="#{ingredient.amount}" /> <h:outputText value="#{ingredient.measure.symbol}" /></span>
+                            </div>
                         </p:dataList>
                         <p:commandButton type="button" value="Add Ingredient" icon="ui-icon-extlink" onclick="PF('addRecipeIngredientDialog').show();" />
                     </h:panelGrid>
@@ -93,7 +96,7 @@
                     <h:panelGrid columns="3" cellpadding="5">
                         <h:outputLabel for="ingredient" value="Ingredient:" />
                         <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="startsWith">
-                            <f:selectItems value="#{addRecipeView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
+                            <f:selectItems value="#{addRecipeIngredientView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
                             <p:ajax event="change" update="@(#addRecipeIngredient\\:measure)"/>
                         </p:selectOneMenu>
                         <p:spacer />
@@ -102,7 +105,7 @@
                         <p:spacer />
                         <h:outputLabel for="measure" value="Measure:" />
                         <p:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeIngredientView.ingredientMeasure}" style="width:100%">
-                            <f:selectItems value="#{addRecipeView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
+                            <f:selectItems value="#{addRecipeIngredientView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
                         </p:selectOneMenu>
                         <p:spacer />
                     </h:panelGrid>

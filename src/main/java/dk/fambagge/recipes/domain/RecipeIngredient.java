@@ -26,15 +26,11 @@ public class RecipeIngredient implements Serializable, DomainObject {
     private Ingredient ingredient;
     private Measure measure;
     private double amount;
-    private int sortOrder;
-    
-    private CustomMeasure overrideMeasure;
     
     public RecipeIngredient() {
         this.amount = 0;
         this.measure = null;
         this.ingredient = null;
-        this.overrideMeasure = null;
     }
     
     public RecipeIngredient(Ingredient ingredient, double amount, Measure measure) {
@@ -43,7 +39,6 @@ public class RecipeIngredient implements Serializable, DomainObject {
         this.ingredient = ingredient;
         this.measure = measure;
         this.amount = amount;
-        this.overrideMeasure = null;
     }
 
     /**
@@ -110,22 +105,6 @@ public class RecipeIngredient implements Serializable, DomainObject {
         this.amount = amount;
     }
 
-    /**
-     * @return the overrideMeasure
-     */
-    @ManyToOne
-    @JoinColumn( name = "overrideMeasureId" )
-    public CustomMeasure getOverrideMeasure() {
-        return overrideMeasure;
-    }
-
-    /**
-     * @param overrideMeasure the overrideMeasure to set
-     */
-    public void setOverrideMeasure(CustomMeasure overrideMeasure) {
-        this.overrideMeasure = overrideMeasure;
-    }
-    
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof RecipeIngredient)) {
@@ -138,7 +117,7 @@ public class RecipeIngredient implements Serializable, DomainObject {
             return false;
         }
         
-        if(this.getIngredient() != other.getIngredient()) {
+        if(this.getIngredient().getId() != other.getIngredient().getId()) {
             return false;
         }
         
@@ -153,7 +132,7 @@ public class RecipeIngredient implements Serializable, DomainObject {
     public int hashCode() {
         int hash = 7;
         hash = 29 * hash + this.id;
-        hash = 29 * hash + Objects.hashCode(this.ingredient);
+        hash = 29 * hash + this.ingredient.getId();
         hash = 29 * hash + Objects.hashCode(this.measure);
         hash = 29 * hash + (int) (Double.doubleToLongBits(this.amount) ^ (Double.doubleToLongBits(this.amount) >>> 32));
         return hash;
@@ -172,14 +151,21 @@ public class RecipeIngredient implements Serializable, DomainObject {
     }
 
     public double getAmount(Measure outputMeasure) {
+        double convertAmount = this.amount;
         Measure inputMeasure = this.measure;
+        
+        if(inputMeasure instanceof CustomMeasure) {
+            CustomMeasure custom = (CustomMeasure) inputMeasure;
+            inputMeasure = custom.getReferenceMeasure();
+            convertAmount = this.amount * custom.getReferenceToCustomRatio();
+        }
         
         if(inputMeasure instanceof Weight && outputMeasure instanceof Weight) {
             //Both are Weight
-            return convertWeight(amount, (Weight)inputMeasure, (Weight)outputMeasure);
+            return convertWeight(convertAmount, (Weight)inputMeasure, (Weight)outputMeasure);
         } else if(inputMeasure instanceof Volume && outputMeasure instanceof Volume) {
             //Both are Volume
-            return convertVolume(amount, (Volume)inputMeasure, (Volume)outputMeasure);
+            return convertVolume(convertAmount, (Volume)inputMeasure, (Volume)outputMeasure);
         }
         
         if(ingredient.getWeightToVolume() == -1) {
@@ -188,14 +174,14 @@ public class RecipeIngredient implements Serializable, DomainObject {
         
         if(inputMeasure instanceof Weight) {
             //Input is Weight, Output is Volume
-            double inputAsGrams = convertWeight(amount, (Weight) this.getMeasure(), Weight.GRAM);
+            double inputAsGrams = convertWeight(convertAmount, (Weight) inputMeasure, Weight.GRAM);
             
             double inputInLiter = inputAsGrams / ingredient.getWeightToVolume();
             
             return convertVolume(inputInLiter, Volume.LITER, (Volume)outputMeasure);
         } else {
             //Input is Volume, Output is Weight
-            double inputAsLiter = convertVolume(amount, (Volume) this.getMeasure(), Volume.LITER);
+            double inputAsLiter = convertVolume(convertAmount, (Volume) inputMeasure, Volume.LITER);
             
             double inputAsGrams = inputAsLiter * ingredient.getWeightToVolume();
             
@@ -208,20 +194,5 @@ public class RecipeIngredient implements Serializable, DomainObject {
         double amountInGrams = this.getAmount(Measure.Weight.GRAM);
         
         return (amountInGrams/100.0) * ingredient.getEnergyPerHundred();
-    }
-
-    /**
-     * @return the order
-     */
-    @Column( name = "sortOrder", nullable = false)
-    public int getSortOrder() {
-        return sortOrder;
-    }
-
-    /**
-     * @param order the order to set
-     */
-    public void setSortOrder(int order) {
-        this.sortOrder = order;
     }
 }

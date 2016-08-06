@@ -50,6 +50,9 @@
                                         <p:ajax event="save" update=":recipeForm" />
                                     </f:facet>
                                 </p:inplace><br />
+                                
+                                <br />
+                                <p:commandButton value="Copy" type="button" action="#{recipeView.cloneRecipe()}" process="@this" />
                             </div>
                         </div>
                         <div class="ui-grid-row">
@@ -57,7 +60,7 @@
                                 <p:panel>
                                     <f:facet name="header">Ingredients <p:commandLink type="button" styleClass="hideFromPrint" value="+" onclick="PF('addRecipeIngredientDialog').show();" /></f:facet>
                                     <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem">
-                                        <span class="ingredientInfo">#{ingredient.ingredient.name}</span>
+                                        <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
                                         <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm">
                                             <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
                                         </p:commandLink>
@@ -108,7 +111,7 @@
                     <h:panelGrid columns="3" cellpadding="5">
                         <h:outputLabel for="ingredient" value="Ingredient:" />
                         <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="startsWith">
-                            <f:selectItems value="#{addRecipeView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
+                            <f:selectItems value="#{addRecipeIngredientView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
                             <p:ajax event="change" update="@(#addRecipeIngredient\\:measure)"/>
                         </p:selectOneMenu>
                         <p:spacer />
@@ -117,19 +120,15 @@
                         <p:spacer />
                         <h:outputLabel for="measure" value="Measure:" />
                         <p:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeIngredientView.ingredientMeasure}" style="width:100%">
-                            <f:selectItems value="#{addRecipeView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
+                            <f:selectItems value="#{addRecipeIngredientView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
                         </p:selectOneMenu>
                         <p:spacer />
                     </h:panelGrid>
-                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeIngredientView.addRecipeIngredient(recipeView.selectedRecipe.ingredients)}" oncomplete="handleAddRecipeIngredient(xhr, status, args);" update=":recipeForm" />
+                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeIngredientView.addRecipeIngredient(recipeView.selectedRecipe)}" oncomplete="handleAddRecipeIngredient(xhr, status, args);" update=":recipeForm" />
                 </h:form>
 
                 <p:ajax event="close" update="addRecipeIngredient" listener="#{addRecipeIngredientView.reset()}" />
             </p:dialog>
-
-            <h:form>
-                <p:remoteCommand name="saveRecipe" actionListener="#{recipeView.saveRecipe}" />
-            </h:form>
 
             <script type="text/javascript">
                 function handleAddRecipeIngredient(xhr, status, args) {
@@ -137,7 +136,6 @@
                         PF('addRecipeIngredientDialog').jq.effect("shake", {times: 5}, 100);
                     } else {
                         PF('addRecipeIngredientDialog').hide();
-                        saveRecipe();
                     }
                 }
             </script>

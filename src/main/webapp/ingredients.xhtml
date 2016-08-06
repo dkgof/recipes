@@ -58,6 +58,10 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
+                                <p:column headerText="Custom Measure">
+                                    <h:outputText value="#{ingredient.customMeasure!=null?(ingredient.customMeasure.toDescriptionString()):'n/a'}" style="width:100%" />
+                                    <p:commandLink process="@this" styleClass="ui-icon ui-icon-wrench" style="display: inline-block" actionListener="#{editCustomMeasureView.setupCustomEditor(ingredient)}" update=":editCustomMeasure" oncomplete="PF('editCustomMeasureDialog').show();" />
+                                </p:column>
                                 <p:column style="width:32px">
                                     <p:rowEditor />
                                 </p:column>                
@@ -86,6 +90,27 @@
             </div>
             
             <h:link value="Back" outcome="admin" />
+            
+            <p:dialog id="editCustomMeasureDialog" header="Edit Custom Measure" widgetVar="editCustomMeasureDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
+                <h:form id="editCustomMeasure">
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <h:outputLabel for="customMeasureName" value="Custom Measure Name" />
+                        <p:inputText id="customMeasureName" value="#{editCustomMeasureView.customMeasureName}" required="false" />
+                        <p:spacer />
+                        <h:outputLabel for="customMeasureAmount" value="Reference:" />
+                        <p:inputText id="customMeasureAmount" required="false" value="#{editCustomMeasureView.customMeasureAmount}" />
+                        <p:selectOneMenu id="customReferenceMeasure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{editCustomMeasureView.customMeasureReference}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItems value="#{addIngredientView.measures}" />
+                        </p:selectOneMenu>
+                        <p:spacer />
+                    </h:panelGrid>
+
+                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{editCustomMeasureView.saveCustomMeasure()}" oncomplete="handleEditCustomMeasure(xhr, status, args);" />
+                </h:form>
+
+                <p:ajax event="close" update=":addIngredientDialog :form" listener="#{ingredientsView.reload()}" />
+            </p:dialog>
             
             <p:dialog id="addIngredientDialog" header="Add Ingredient" widgetVar="addIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
                 <h:form id="addIngredient">
@@ -154,6 +179,14 @@
                         PF('addIngredientDialog').jq.effect("shake", {times: 5}, 100);
                     } else {
                         PF('addIngredientDialog').hide();
+                    }
+                }
+                
+                function handleEditCustomMeasure(xhr, status, args) {
+                    if (args.validationFailed || args.errorSaving) {
+                        PF('editCustomMeasureDialog').jq.effect("shake", {times: 5}, 100);
+                    } else {
+                        PF('editCustomMeasureDialog').hide();
                     }
                 }
                 

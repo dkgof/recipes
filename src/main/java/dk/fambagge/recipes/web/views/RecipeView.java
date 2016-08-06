@@ -10,11 +10,14 @@ import dk.fambagge.recipes.domain.Constants;
 import dk.fambagge.recipes.domain.Recipe;
 import dk.fambagge.recipes.domain.RecipeIngredient;
 import dk.fambagge.recipes.domain.RecipeStep;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -142,5 +145,33 @@ public class RecipeView  implements Serializable {
      */
     public void setCustomServings(int customServings) {
         this.customServings = customServings;
+    }
+    
+    public void cloneRecipe() {
+        Recipe clonedRecipe = new Recipe(selectedRecipe.getName()+" copy", selectedRecipe.getServings());
+        clonedRecipe.setImgUrl(selectedRecipe.getImgUrl());
+        
+        for(RecipeStep step : selectedRecipe.getSteps()) {
+            RecipeStep clonedStep = new RecipeStep(step.getDescription());
+            clonedStep.setSortOrder(step.getSortOrder());
+            
+            clonedRecipe.addStep(clonedStep);
+            Database.saveOrUpdate(clonedStep);
+        }
+        
+        for(RecipeIngredient ingredient : selectedRecipe.getIngredients()) {
+            RecipeIngredient clonedIngredient = new RecipeIngredient(ingredient.getIngredient(), ingredient.getAmount(), ingredient.getMeasure());
+            
+            clonedRecipe.addIngredient(clonedIngredient);
+            Database.saveOrUpdate(clonedIngredient);
+        }
+        
+        Database.saveOrUpdate(clonedRecipe);
+        
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("recipe.xhtml?recipe="+clonedRecipe.getId());
+        } catch (IOException ex) {
+            Logger.getLogger(RecipeView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

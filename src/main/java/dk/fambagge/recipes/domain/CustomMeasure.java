@@ -7,10 +7,11 @@ package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -46,6 +47,7 @@ public class CustomMeasure implements Measure, DomainObject {
      * @return the id
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column( name = "id" )
     public int getId() {
         return id;
@@ -61,7 +63,7 @@ public class CustomMeasure implements Measure, DomainObject {
     /**
      * @return the name
      */
-    @Column( name = "name", nullable = false, length = 32, unique = true )
+    @Column( name = "name", nullable = false, length = 32 )
     public String getName() {
         return name;
     }
@@ -77,7 +79,7 @@ public class CustomMeasure implements Measure, DomainObject {
      * @return the symbol
      */
     @Override
-    @Column( name = "symbol", nullable = false, length = 16, unique = true )
+    @Column( name = "symbol", nullable = false, length = 16)
     public String getSymbol() {
         return symbol;
     }
@@ -127,7 +129,7 @@ public class CustomMeasure implements Measure, DomainObject {
     }
 
     public static CustomMeasure getFromId(int id) {
-        return Database.get("from CustomMeasures where id = '"+id+"'", CustomMeasure.class);
+        return Database.get("from "+CustomMeasure.class.getName()+" where id='"+id+"'", CustomMeasure.class);
     }
 
     public static Set<CustomMeasure> getAll() {
@@ -140,7 +142,41 @@ public class CustomMeasure implements Measure, DomainObject {
     }
 
     @Override
+    public String toString() {
+        return "custom"+this.getId();
+    }
+
+    @Override
     public double convertTo(double amount, Measure targetMeasure) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CustomMeasure other = (CustomMeasure) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
+    public String toDescriptionString() {
+        return symbol+" ("+referenceToCustomRatio+" "+referenceMeasure.getSymbol()+")";
     }
 }

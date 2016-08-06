@@ -7,6 +7,7 @@ package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Constants;
+import dk.fambagge.recipes.domain.CustomMeasure;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
 import java.io.Serializable;
@@ -31,7 +32,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class AddIngredientView implements Serializable {
-    @Size(min=2, max=25, message="Ingredient name must be between 2-25 characters long")
+    @Size(min=2, max=64, message="Ingredient name must be between 2-64 characters long")
     private String name;
     @DecimalMin(value="0", message="Density can not be less than 0")
     private double weightToVolume;
@@ -59,6 +60,14 @@ public class AddIngredientView implements Serializable {
             ingredient.setEnergyPerHundred(correctedEnergy);
             ingredient.setPreferredMeasure(preferedMeasure);
             ingredient.setWeightToVolume(weightToVolume);
+            
+            //Custom measure
+            if(!customMeasureName.trim().isEmpty() && customMeasureReference != null) {
+                CustomMeasure custom = new CustomMeasure(customMeasureName, customMeasureName, customMeasureAmount, customMeasureReference);
+                ingredient.setCustomMeasure(custom);
+                Database.save(custom);
+            }
+            
             Database.save(ingredient);
 
             FacesContext context = FacesContext.getCurrentInstance();
@@ -69,6 +78,9 @@ public class AddIngredientView implements Serializable {
             weightToVolume = 0.0;
             energyPerHundred = 0.0;
             preferedMeasure = null;
+            customMeasureAmount = 0.0;
+            customMeasureName = "";
+            customMeasureReference = null;
         } catch(Exception e) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Error saving ingredient", e.getMessage()));

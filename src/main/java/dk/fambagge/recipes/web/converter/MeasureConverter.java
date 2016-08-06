@@ -5,6 +5,7 @@
  */
 package dk.fambagge.recipes.web.converter;
 
+import dk.fambagge.recipes.domain.CustomMeasure;
 import dk.fambagge.recipes.domain.Measure;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -42,7 +43,17 @@ public class MeasureConverter implements Converter {
             
         }
 
-        throw new IllegalStateException("Cannot convert ["+value+"] to neither Weight nor Volume!");
+        try {
+            if(value.startsWith("custom")) {
+                Measure measure = CustomMeasure.getFromId(Integer.parseInt(value.substring(6)));
+                
+                return measure;
+            }
+        } catch(Exception e) {
+            
+        }
+
+        return null;
     }
 
     @Override

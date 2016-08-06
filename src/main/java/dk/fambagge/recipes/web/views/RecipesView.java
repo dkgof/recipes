@@ -9,6 +9,8 @@ import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Recipe;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -26,19 +28,23 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class RecipesView implements Serializable {
-    private Set<Recipe> recipes;
+    private List<Recipe> recipes;
     
     @PostConstruct
     public void init() {
         reload();
     }
     
-    public Set<Recipe> getRecipes() {
+    public List<Recipe> getRecipes() {
         return recipes;
     }
 
     public void reload() {
-        this.recipes = Recipe.getAll();
+        recipes = new LinkedList<>(Recipe.getAll());
+        
+        Collections.sort(recipes, (Recipe recipe1, Recipe recipe2) -> {
+            return recipe1.getName().compareTo(recipe2.getName());
+        });
     }
     
     public Set<Ingredient> getAvailableIngredients() {

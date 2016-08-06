@@ -5,8 +5,8 @@
  */
 package dk.fambagge.recipes.db;
 
+import dk.fambagge.recipes.domain.Recipe;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.hibernate.Session;
@@ -31,8 +31,12 @@ public class Database {
 
     public static void doAction(DomainObject obj, Action action) {
         final Session session = Database.getSessionFactory().getCurrentSession();
+        boolean newTransaction = false;
         try {
-            session.beginTransaction();
+            if(session.getTransaction() != null && !session.getTransaction().isActive()) {
+                session.beginTransaction();
+                newTransaction = true;
+            }
             switch (action) {
                 case SAVE:
                     session.save(obj);
@@ -46,9 +50,14 @@ public class Database {
                 case DELETE:
                     session.delete(obj);
                     break;
+                case REFRESH:
+                    session.refresh(obj);
+                    break;
             }
         } finally {
-            session.getTransaction().commit();
+            if(newTransaction) {
+                session.getTransaction().commit();
+            }
         }
     }
 
@@ -68,10 +77,18 @@ public class Database {
         doAction(obj, Action.DELETE);
     }
 
+    public static void refresh(DomainObject obj) {
+        doAction(obj, Action.REFRESH);
+    }
+    
     public static <T extends DomainObject> Set<T> getAll(Class<T> type) {
         final Session session = Database.getSessionFactory().getCurrentSession();
+        boolean newTransaction = false;
         try {
-            session.beginTransaction();
+            if(session.getTransaction() != null && !session.getTransaction().isActive()) {
+                session.beginTransaction();
+                newTransaction = true;
+            }
             final List result = session.createQuery("from "+type.getName()).list();
             final Set<T> namedResult = new LinkedHashSet<>();
             for (final Object resultObj : result) {
@@ -79,24 +96,33 @@ public class Database {
             }
             return namedResult;
         } finally {
-            session.getTransaction().commit();
+            if(newTransaction) {
+                session.getTransaction().commit();
+            }
         }
     }
 
     public static <T extends DomainObject> T get(String query, Class<T> aClass) {
         final Session session = Database.getSessionFactory().getCurrentSession();
+        boolean newTransaction = false;
         try {
-            session.beginTransaction();
+            if(session.getTransaction() != null && !session.getTransaction().isActive()) {
+                session.beginTransaction();
+                newTransaction = true;
+            }
             return (T) session.createQuery(query).uniqueResult();
         } finally {
-            session.getTransaction().commit();
+            if(newTransaction) {
+                session.getTransaction().commit();
+            }
         }
     }
-    
+
     public enum Action {
         SAVE,
         UPDATE,
         DELETE,
-        SAVE_OR_UPDATE
+        SAVE_OR_UPDATE,
+        REFRESH
     }
 }
