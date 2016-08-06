@@ -7,6 +7,7 @@ package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Constants;
+import dk.fambagge.recipes.domain.Measure;
 import dk.fambagge.recipes.domain.Recipe;
 import dk.fambagge.recipes.domain.RecipeIngredient;
 import dk.fambagge.recipes.domain.RecipeStep;
@@ -33,6 +34,7 @@ public class RecipeView  implements Serializable {
     private Recipe selectedRecipe = null;
     
     private int customServings;
+    private boolean showInGram;
     
     /**
      * @return the selectedRecipe
@@ -50,12 +52,14 @@ public class RecipeView  implements Serializable {
                 //We didnt have any recipe
                 selectedRecipe = Recipe.get(recipeId);
                 setCustomServings(selectedRecipe.getServings());
+                setShowInGram(false);
             }
         } else {
             if(recipeId != -1 && selectedRecipe.getId() != recipeId) {
                 //We had a different recipe, update to new
                 selectedRecipe = Recipe.get(recipeId);
                 setCustomServings(selectedRecipe.getServings());
+                setShowInGram(false);
             }
         }
         
@@ -107,7 +111,21 @@ public class RecipeView  implements Serializable {
     }
     
     public double getScaledIngredientAmount(RecipeIngredient ingredient) {
-        return Math.round(ingredient.getAmount() * (getCustomServings() / (double)selectedRecipe.getServings()) * 10.0) / 10.0;
+        double amount = ingredient.getAmount();
+        
+        if(showInGram) {
+            amount = ingredient.getAmount(Measure.Weight.GRAM);
+        }
+        
+        return Math.round(amount * (getCustomServings() / (double)selectedRecipe.getServings()) * 10.0) / 10.0;
+    }
+    
+    public String getMeasureSymbol(RecipeIngredient ingredient) {
+        if(showInGram) {
+            return Measure.Weight.GRAM.getSymbol();
+        } else {
+            return ingredient.getMeasure().getSymbol();
+        }
     }
     
     public String escapeTextWithLineBreaks(String s) {
@@ -173,5 +191,35 @@ public class RecipeView  implements Serializable {
         } catch (IOException ex) {
             Logger.getLogger(RecipeView.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public String formatNumber(double value) {
+        String formattedValue = String.format("%.1f", value);
+        
+        if(Math.floor(value) == value) {
+            formattedValue = Integer.toString((int) value);
+        } else if(value == 0.5) {
+            formattedValue = "1/2";
+        } else if(value == 0.25) {
+            formattedValue = "1/4";
+        } else if(value == 0.75) {
+            formattedValue = "3/4";
+        }
+        
+        return formattedValue;
+    }
+
+    /**
+     * @return the showInGram
+     */
+    public boolean isShowInGram() {
+        return showInGram;
+    }
+
+    /**
+     * @param showInGram the showInGram to set
+     */
+    public void setShowInGram(boolean showInGram) {
+        this.showInGram = showInGram;
     }
 }

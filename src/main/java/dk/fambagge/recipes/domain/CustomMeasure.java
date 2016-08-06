@@ -27,18 +27,16 @@ public class CustomMeasure implements Measure, DomainObject {
 
     private int id;
     private String name;
-    private String symbol;
     private double referenceToCustomRatio;
     private Measure referenceMeasure;
 
     public CustomMeasure() {
     }
 
-    public CustomMeasure(String name, String symbol, double customToReferenceRatio, Measure referenceMeasure) {
+    public CustomMeasure(String name, double customToReferenceRatio, Measure referenceMeasure) {
         this();
         
         this.name = name;
-        this.symbol = symbol;
         this.referenceToCustomRatio = customToReferenceRatio;
         this.referenceMeasure = referenceMeasure;
     }
@@ -78,17 +76,9 @@ public class CustomMeasure implements Measure, DomainObject {
     /**
      * @return the symbol
      */
-    @Override
-    @Column( name = "symbol", nullable = false, length = 16)
+    @Transient
     public String getSymbol() {
-        return symbol;
-    }
-
-    /**
-     * @param symbol the symbol to set
-     */
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+        return name;
     }
 
     /**
@@ -177,6 +167,6 @@ public class CustomMeasure implements Measure, DomainObject {
     }
 
     public String toDescriptionString() {
-        return symbol+" ("+referenceToCustomRatio+" "+referenceMeasure.getSymbol()+")";
+        return name+" ("+referenceToCustomRatio+" "+referenceMeasure.getSymbol()+")";
     }
 }

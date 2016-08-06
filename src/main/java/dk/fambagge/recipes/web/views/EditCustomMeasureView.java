@@ -43,15 +43,18 @@ public class EditCustomMeasureView implements Serializable {
     }
 
     public void saveCustomMeasure() {
-        CustomMeasure custom = new CustomMeasure(customMeasureName, customMeasureName, customMeasureAmount, customMeasureReference);
-        
-        CustomMeasure oldCustom = selectedIngredient.getCustomMeasure();
-        
-        selectedIngredient.setCustomMeasure(custom);
-        Database.saveOrUpdate(selectedIngredient);
-        
-        if(oldCustom != null) {
-            Database.delete(oldCustom);
+        if(selectedIngredient.getCustomMeasure() == null) {
+            //No old custom measure
+            CustomMeasure custom = new CustomMeasure(customMeasureName, customMeasureAmount, customMeasureReference);
+            selectedIngredient.setCustomMeasure(custom);
+            Database.saveOrUpdate(selectedIngredient);
+        } else {
+            //Update old
+            CustomMeasure custom = selectedIngredient.getCustomMeasure();
+            custom.setReferenceMeasure(customMeasureReference);
+            custom.setReferenceToCustomRatio(customMeasureAmount);
+            custom.setName(customMeasureName);
+            Database.saveOrUpdate(custom);
         }
     }
     

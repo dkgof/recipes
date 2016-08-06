@@ -95,7 +95,7 @@
                 <h:form id="addRecipeIngredient">
                     <h:panelGrid columns="3" cellpadding="5">
                         <h:outputLabel for="ingredient" value="Ingredient:" />
-                        <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="startsWith">
+                        <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="contains">
                             <f:selectItems value="#{addRecipeIngredientView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
                             <p:ajax event="change" update="@(#addRecipeIngredient\\:measure)"/>
                         </p:selectOneMenu>

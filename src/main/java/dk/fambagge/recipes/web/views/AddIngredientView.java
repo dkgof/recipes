@@ -63,7 +63,7 @@ public class AddIngredientView implements Serializable {
             
             //Custom measure
             if(!customMeasureName.trim().isEmpty() && customMeasureReference != null) {
-                CustomMeasure custom = new CustomMeasure(customMeasureName, customMeasureName, customMeasureAmount, customMeasureReference);
+                CustomMeasure custom = new CustomMeasure(customMeasureName, customMeasureAmount, customMeasureReference);
                 ingredient.setCustomMeasure(custom);
                 Database.save(custom);
             }

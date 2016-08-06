@@ -50,7 +50,7 @@
                                         <p:ajax event="save" update=":recipeForm" />
                                     </f:facet>
                                 </p:inplace><br />
-                                
+
                                 <br />
                                 <p:commandButton value="Copy" type="button" action="#{recipeView.cloneRecipe()}" process="@this" />
                             </div>
@@ -67,7 +67,7 @@
                                         <div class="ingredientStats">
                                             <p:inplace editor="true">
                                                 <f:facet name="output">
-                                                    <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmount(ingredient)}" /> <h:outputText value="#{ingredient.measure.symbol}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
+                                                    <span class="ingredientInfo"><h:outputText value="#{recipeView.formatNumber(recipeView.getScaledIngredientAmount(ingredient))}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                 </f:facet>
                                                 <f:facet name="input">
                                                     <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
@@ -76,6 +76,11 @@
                                             </p:inplace>
                                         </div>
                                     </p:dataList>
+                                    <br />
+                                    <h:outputText value="Show all meassures in gram: " />
+                                    <p:selectBooleanCheckbox value="#{recipeView.showInGram}">
+                                        <p:ajax update=":recipeForm:ingredientList" />
+                                    </p:selectBooleanCheckbox>
                                 </p:panel>
                             </div>
                             <div class="ui-grid-col-8">
@@ -110,7 +115,7 @@
                 <h:form id="addRecipeIngredient">
                     <h:panelGrid columns="3" cellpadding="5">
                         <h:outputLabel for="ingredient" value="Ingredient:" />
-                        <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="startsWith">
+                        <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="contains">
                             <f:selectItems value="#{addRecipeIngredientView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
                             <p:ajax event="change" update="@(#addRecipeIngredient\\:measure)"/>
                         </p:selectOneMenu>
