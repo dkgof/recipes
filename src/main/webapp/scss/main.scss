@@ -41,7 +41,6 @@ a {
     margin-bottom: 1em;
     
     .ui-state-highlight {
-        /*display: inline-block !important;*/
         width: 100%;
     }
 }
@@ -56,6 +55,28 @@ a {
 
 .fullWidth {
     vertical-align: top;
+}
+
+.ui-state-highlight {
+    border: 0 !important;
+    background: initial !important;
+    color: initial !important;
+}
+
+.dragHoverTest {
+    background: darkslategrey !important;
+}
+
+.dragActiveTest {
+    background: lightgray;
+}
+
+.ui-draggable-helper {
+    background: grey;
+    width: 300px;
+    height: 2em;
+    overflow: hidden;
+    opacity: 0.3;
 }
 
 @media print {

@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -221,5 +222,53 @@ public class RecipeView  implements Serializable {
      */
     public void setShowInGram(boolean showInGram) {
         this.showInGram = showInGram;
+    }
+    
+    public void doDrop() {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        
+        int fromId = Integer.parseInt(params.get("from"));
+        int toId = Integer.parseInt(params.get("to"));
+        
+        RecipeStep fromStep = null;
+        RecipeStep toStep = null;
+        
+        for(RecipeStep step : selectedRecipe.getSteps()) {
+            if(step.getId() == fromId) {
+                fromStep = step;
+            } else  if(step.getId() == toId) {
+                toStep = step;
+            }
+        }
+        
+        if(fromStep != null && toStep != null) {
+            int toOrder = toStep.getSortOrder();
+            int fromOrder = fromStep.getSortOrder();
+            
+            if(toOrder < fromOrder) {
+                //Move from up to to, and move all other down 1
+                
+                for(RecipeStep step : selectedRecipe.getSteps()) {
+                    if(step.getSortOrder() >= toOrder && step.getId() != fromStep.getId()) {
+                        step.setSortOrder(step.getSortOrder()+1);
+                        Database.saveOrUpdate(step);
+                    }
+                }
+                fromStep.setSortOrder(toOrder);
+                Database.saveOrUpdate(fromStep);
+            } else {
+                //Move from down to to-1, and move all between from and to up 1
+                for(RecipeStep step : selectedRecipe.getSteps()) {
+                    if(step.getSortOrder() <= toOrder && step.getSortOrder() > fromOrder) {
+                        step.setSortOrder(step.getSortOrder()-1);
+                        Database.saveOrUpdate(step);
+                    }
+                }
+                fromStep.setSortOrder(toOrder);
+                Database.saveOrUpdate(fromStep);
+            }
+        } else {
+            System.out.println("Error dragging, from or to was null!");
+        }
     }
 }
