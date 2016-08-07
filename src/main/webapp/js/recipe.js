@@ -1,6 +1,4 @@
-function initDND(index) {
-    console.log("Setting up dnd!");
-    
+function initDND() {
     jQuery("#recipeForm\\:recipeSteps").find(".draggable").draggable({
         helper: "clone",
         revert: "true",
