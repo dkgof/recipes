@@ -94,7 +94,7 @@
                                             </f:facet>
                                             <f:facet name="input">
                                                 <p:inputTextarea value="#{step.description}" styleClass="recipeStepEditor" autoResize="true">
-                                                    <p:ajax event="blur" process="@this" onstart="PF('inplaceStep_#{step.id}').save();" listener="#{recipeView.inlineSaveRecipeStep(step)}" update="@this" />
+                                                    <p:ajax event="blur" process="@this" onstart="PF('inplaceStep_#{step.id}').save();" listener="#{recipeView.inlineSaveRecipeStep(step)}" update="@this" oncomplete="initDND();" />
                                                 </p:inputTextarea>
                                             </f:facet>
                                         </p:inplace>

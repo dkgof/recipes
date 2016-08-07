@@ -109,7 +109,7 @@
                     <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{editCustomMeasureView.saveCustomMeasure()}" oncomplete="handleEditCustomMeasure(xhr, status, args);" />
                 </h:form>
 
-                <p:ajax event="close" update=":addIngredientDialog :form" listener="#{ingredientsView.reload()}" />
+                <p:ajax event="close" update=":editCustomMeasureDialog :form" listener="#{ingredientsView.reload()}" />
             </p:dialog>
             
             <p:dialog id="addIngredientDialog" header="Add Ingredient" widgetVar="addIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
@@ -201,4 +201,3 @@
         </h:body>
     </f:view>
 </html>
-
