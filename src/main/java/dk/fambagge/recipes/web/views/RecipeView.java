@@ -199,12 +199,20 @@ public class RecipeView  implements Serializable {
         
         if(Math.floor(value) == value) {
             formattedValue = Integer.toString((int) value);
-        } else if(value == 0.5) {
-            formattedValue = "1/2";
+        } else if(value == 0.2) {
+            formattedValue = "1/5";
         } else if(value == 0.25) {
             formattedValue = "1/4";
+        } else if(value == 0.4) {
+            formattedValue = "2/5";
+        } else if(value == 0.5) {
+            formattedValue = "1/2";
+        } else if(value == 0.6) {
+            formattedValue = "3/5";
         } else if(value == 0.75) {
             formattedValue = "3/4";
+        } else if(value == 0.8) {
+            formattedValue = "4/5";
         }
         
         return formattedValue;

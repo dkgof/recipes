@@ -39,9 +39,12 @@ a {
 
 .recipeStep {
     margin-bottom: 1em;
-    
+
     .ui-state-highlight {
         width: 100%;
+        border: 0 !important;
+        background: initial !important;
+        color: initial !important;
     }
 }
 
@@ -55,12 +58,6 @@ a {
 
 .fullWidth {
     vertical-align: top;
-}
-
-.ui-state-highlight {
-    border: 0 !important;
-    background: initial !important;
-    color: initial !important;
 }
 
 .dragHoverTest {
