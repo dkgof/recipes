@@ -28,25 +28,14 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class RecipesView implements Serializable {
-    private List<Recipe> recipes;
-    
-    @PostConstruct
-    public void init() {
-        reload();
-    }
-    
     public List<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public void reload() {
-        recipes = new LinkedList<>(Recipe.getAll());
-        
+        List<Recipe> recipes = new LinkedList<>(Recipe.getAll());;
         Collections.sort(recipes, (Recipe recipe1, Recipe recipe2) -> {
             return recipe1.getName().compareTo(recipe2.getName());
         });
+        return recipes;
     }
-    
+
     public Set<Ingredient> getAvailableIngredients() {
         return Ingredient.getAll();
     }
@@ -55,7 +44,6 @@ public class RecipesView implements Serializable {
         Logger.getLogger("Recipes").log(Level.INFO, "Delete: {0}", recipe.getId());
         
         Database.delete(recipe);
-        reload();
         
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Recipe deleted"));

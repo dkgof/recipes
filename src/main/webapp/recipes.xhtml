@@ -88,32 +88,13 @@
                     <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeView.submitRecipe()}" oncomplete="handleAddRecipe(xhr, status, args);" />
                 </h:form>
 
-                <p:ajax event="close" update=":addRecipeDialog :form" listener="#{recipesView.reload()}" />
+                <p:ajax event="close" update=":addRecipe :form" listener="#{addRecipeView.reset()}" />
             </p:dialog>
 
-            <p:dialog id="addRecipeIngredientDialog" header="Add Recipe Ingredient" widgetVar="addRecipeIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
-                <h:form id="addRecipeIngredient">
-                    <h:panelGrid columns="3" cellpadding="5">
-                        <h:outputLabel for="ingredient" value="Ingredient:" />
-                        <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="contains">
-                            <f:selectItems value="#{addRecipeIngredientView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
-                            <p:ajax event="change" update="@(#addRecipeIngredient\\:measure)"/>
-                        </p:selectOneMenu>
-                        <p:spacer />
-                        <h:outputLabel for="amount" value="Amount:" />
-                        <p:inputText id="amount" value="#{addRecipeIngredientView.ingredientAmount}" required="true" />
-                        <p:spacer />
-                        <h:outputLabel for="measure" value="Measure:" />
-                        <p:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeIngredientView.ingredientMeasure}" style="width:100%">
-                            <f:selectItems value="#{addRecipeIngredientView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
-                        </p:selectOneMenu>
-                        <p:spacer />
-                    </h:panelGrid>
-                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeIngredientView.addRecipeIngredient(addRecipeView.ingredients)}" oncomplete="handleAddRecipeIngredient(xhr, status, args);" update="@(#addRecipe\\:ingredientList)" />
-                </h:form>
-
-                <p:ajax event="close" update="addRecipeIngredient" listener="#{addRecipeIngredientView.reset()}" />
-            </p:dialog>          
+            <ui:include src="includes/addRecipeIngredientDialog.xhtml">
+                <ui:param name="addMethodArgument" value="#{addRecipeView.ingredients}" />
+                <ui:param name="update" value=":addRecipe:ingredientList" />
+            </ui:include>
 
             <script type="text/javascript">
                 function handleAddRecipe(xhr, status, args) {
@@ -121,13 +102,6 @@
                         PF('addRecipeDialog').jq.effect("shake", {times: 5}, 100);
                     } else {
                         PF('addRecipeDialog').hide();
-                    }
-                }
-                function handleAddRecipeIngredient(xhr, status, args) {
-                    if (args.validationFailed || args.errorSaving) {
-                        PF('addRecipeIngredientDialog').jq.effect("shake", {times: 5}, 100);
-                    } else {
-                        PF('addRecipeIngredientDialog').hide();
                     }
                 }
             </script>

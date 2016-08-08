@@ -58,12 +58,16 @@ public class AddRecipeView implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Recipe added"));
         
+        reset();
+    }
+
+    public void reset() {
         name = "";
         servings = 4;
         recipeIngredients.clear();
         recipeSteps.clear();
     }
-
+    
     @Size(min=2, max=512, message="Step description must be between 2-512 characters")
     private String recipeStepDescription;
     
