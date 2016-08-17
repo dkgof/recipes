@@ -6,16 +6,11 @@
 package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.db.Database;
-import dk.fambagge.recipes.domain.Ingredient;
-import dk.fambagge.recipes.domain.Measure;
 import dk.fambagge.recipes.domain.Recipe;
 import dk.fambagge.recipes.domain.RecipeIngredient;
 import dk.fambagge.recipes.domain.RecipeStep;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -31,7 +26,7 @@ import javax.validation.constraints.Size;
 @ManagedBean
 @ViewScoped
 public class AddRecipeView implements Serializable {
-    @Size(min=2, max=25, message="Recipe name must be between 2-25 characters long")
+    @Size(min=2, max=64, message="Recipe name must be between 2-64 characters long")
     private String name;
 
     @DecimalMin(value="1", message="Servings must be at least 1")
