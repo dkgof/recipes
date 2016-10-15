@@ -88,9 +88,9 @@
                                 <p:panel>
                                     <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" /></f:facet>
                                     <p:dataList var="step" value="#{recipeView.stepsSorted}" id="recipeSteps" itemStyleClass="recipeStep">
-                                        <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}" effect="none">
+                                        <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}" effect="none" styleClass="inlineEditor">
                                             <f:facet name="output">
-                                                <span class="fullWidth draggable" data-id="#{step.id}"><h:outputText value="#{recipeView.escapeTextWithLineBreaks(step.description)}" escape="false" /></span>
+                                                <span class="fullWidth draggable recipeStepInner" data-id="#{step.id}"><h:outputText value="#{recipeView.escapeTextWithLineBreaks(step.description)}" escape="false" /></span>
                                             </f:facet>
                                             <f:facet name="input">
                                                 <p:inputTextarea value="#{step.description}" styleClass="recipeStepEditor" autoResize="true">

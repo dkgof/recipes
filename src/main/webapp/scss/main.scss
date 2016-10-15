@@ -40,12 +40,22 @@ a {
 .recipeStep {
     margin-bottom: 1em;
 
+    .inlineEditor .ui-inplace-display {
+        display: inline-block !important;
+    }
+    
     .ui-state-highlight {
         width: 100%;
         border: 0 !important;
-        background: initial !important;
+        /*background: initial !important;*/
         color: initial !important;
     }
+}
+
+.recipeStepInner {
+    display: inline-block;
+    width: 100%;
+    min-height: 1em;
 }
 
 .recipeStepEditor {
