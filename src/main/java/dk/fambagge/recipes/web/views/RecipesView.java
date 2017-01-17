@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -47,13 +46,5 @@ public class RecipesView implements Serializable {
         
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Recipe deleted"));
-    }
-    
-    public void updateAllEnergy() {
-        for(Recipe r : Recipe.getAll()) {
-            r.recalculateEnergyInKiloJoule();
-            System.out.println("Recalculating energy in "+r.getName()+" - "+r.getEnergyInCalories());
-            Database.saveOrUpdate(r);
-        }
     }
 }
