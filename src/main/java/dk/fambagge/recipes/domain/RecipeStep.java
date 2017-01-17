@@ -15,7 +15,7 @@ import javax.persistence.*;
  * @author Gof
  */
 @Entity
-@Table( name = "RecipeSteps" )
+@Table( name = "recipesteps" )
 public class RecipeStep implements Serializable, DomainObject {
     private int id;
     private String description;
@@ -75,5 +75,9 @@ public class RecipeStep implements Serializable, DomainObject {
      */
     public void setSortOrder(int order) {
         this.sortOrder = order;
+    }
+
+    @Override
+    public void initializeLazy() {
     }
 }

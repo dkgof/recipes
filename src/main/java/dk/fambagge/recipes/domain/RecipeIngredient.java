@@ -19,7 +19,7 @@ import org.hibernate.annotations.Type;
  * @author Gof
  */
 @Entity
-@Table( name = "RecipeIngredients" )
+@Table( name = "recipeingredients" )
 public class RecipeIngredient implements Serializable, DomainObject {
     
     private int id;
@@ -194,5 +194,9 @@ public class RecipeIngredient implements Serializable, DomainObject {
         double amountInGrams = this.getAmount(Measure.Weight.GRAM);
         
         return (amountInGrams/100.0) * ingredient.getEnergyPerHundred();
+    }
+
+    @Override
+    public void initializeLazy() {
     }
 }

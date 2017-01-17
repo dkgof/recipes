@@ -27,7 +27,7 @@ import org.hibernate.annotations.Type;
  * @author Gof
  */
 @Entity
-@Table(name = "Ingredients")
+@Table(name = "ingredients")
 public class Ingredient implements Serializable, DomainObject {
 
     private int id;
@@ -121,7 +121,7 @@ public class Ingredient implements Serializable, DomainObject {
      * @return the customMeasures
      */
     @OneToOne(cascade = {CascadeType.ALL})
-    @JoinTable(name = "Ingredient_CustomMeasures",
+    @JoinTable(name = "ingredient_custommeasures",
             joinColumns = {
                 @JoinColumn(name = "ingredientId")},
             inverseJoinColumns = {
@@ -178,5 +178,9 @@ public class Ingredient implements Serializable, DomainObject {
 
     public static Ingredient get(int id) {
         return Database.get("from "+Ingredient.class.getName()+" where id='"+id+"'", Ingredient.class);
+    }
+
+    @Override
+    public void initializeLazy() {
     }
 }

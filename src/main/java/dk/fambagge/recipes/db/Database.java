@@ -92,7 +92,9 @@ public class Database {
             final List result = session.createQuery("from "+type.getName()).list();
             final Set<T> namedResult = new LinkedHashSet<>();
             for (final Object resultObj : result) {
-                namedResult.add((T) resultObj);
+                T dbObject = (T) resultObj;
+                dbObject.initializeLazy();
+                namedResult.add(dbObject);
             }
             return namedResult;
         } finally {
@@ -110,7 +112,11 @@ public class Database {
                 session.beginTransaction();
                 newTransaction = true;
             }
-            return (T) session.createQuery(query).uniqueResult();
+            
+            T dbObject = (T) session.createQuery(query).uniqueResult();
+            dbObject.initializeLazy();
+            
+            return dbObject;
         } finally {
             if(newTransaction) {
                 session.getTransaction().commit();

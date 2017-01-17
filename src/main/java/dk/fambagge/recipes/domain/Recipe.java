@@ -12,13 +12,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import javax.persistence.*;
+import org.hibernate.Hibernate;
 
 /**
  *
  * @author Gof
  */
 @Entity
-@Table(name = "Recipes")
+@Table(name = "recipes")
 public class Recipe implements Serializable, DomainObject {
 
     private int id;
@@ -27,6 +28,8 @@ public class Recipe implements Serializable, DomainObject {
 
     private int servings;
 
+    private double energyInKiloJoule;
+    
     private Set<RecipeIngredient> ingredients;
 
     private Set<RecipeStep> steps;
@@ -37,6 +40,7 @@ public class Recipe implements Serializable, DomainObject {
         name = "";
         imgUrl = null;
         servings = 0;
+        energyInKiloJoule = 0;
         ingredients = new HashSet<>();
         steps = new HashSet<>();
     }
@@ -50,6 +54,7 @@ public class Recipe implements Serializable, DomainObject {
 
     public void addIngredient(RecipeIngredient ingredient) {
         getIngredients().add(ingredient);
+        recalculateEnergyInKiloJoule();
     }
 
     public void addStep(RecipeStep step) {
@@ -61,15 +66,19 @@ public class Recipe implements Serializable, DomainObject {
         return  Math.round(getEnergyInKiloJoule() * Constants.KCAL_PER_KILOJOULE * 10.0) / 10.0;
     }
 
-    @Transient
-    public double getEnergyInKiloJoule() {
+    public void recalculateEnergyInKiloJoule() {
         double totalEnergy = 0;
 
         for (RecipeIngredient ingredient : getIngredients()) {
             totalEnergy += ingredient.getEnergyInKiloJoules();
         }
 
-        return Math.round(totalEnergy * 10.0) / 10.0;
+        setEnergyInKiloJoule(Math.round(totalEnergy * 10.0) / 10.0);
+    }
+    
+    @Column(name = "energyInKiloJoule", nullable = false)
+    public double getEnergyInKiloJoule() {
+        return energyInKiloJoule;
     }
 
     /**
@@ -92,8 +101,8 @@ public class Recipe implements Serializable, DomainObject {
     /**
      * @return the ingredients
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "Recipe_RecipeIngredients",
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "recipe_recipeingredients",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},
             inverseJoinColumns = {
@@ -106,8 +115,8 @@ public class Recipe implements Serializable, DomainObject {
     /**
      * @return the steps
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "Recipe_RecipeSteps",
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "recipe_recipesteps",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},
             inverseJoinColumns = {
@@ -207,5 +216,20 @@ public class Recipe implements Serializable, DomainObject {
                 break;
             }
         }
+        
+        recalculateEnergyInKiloJoule();
+    }
+
+    @Override
+    public void initializeLazy() {
+        Hibernate.initialize(steps);
+        Hibernate.initialize(ingredients);
+    }
+
+    /**
+     * @param energyInKiloJoule the energyInKiloJoule to set
+     */
+    public void setEnergyInKiloJoule(double energyInKiloJoule) {
+        this.energyInKiloJoule = energyInKiloJoule;
     }
 }

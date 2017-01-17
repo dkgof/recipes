@@ -10,5 +10,5 @@ package dk.fambagge.recipes.db;
  * @author Gof
  */
 public interface DomainObject {
-    
+    void initializeLazy();
 }

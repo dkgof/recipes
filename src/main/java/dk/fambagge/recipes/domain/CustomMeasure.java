@@ -22,7 +22,7 @@ import org.hibernate.annotations.Type;
  * @author Gof
  */
 @Entity
-@Table( name = "CustomMeasures" )
+@Table( name = "custommeasures" )
 public class CustomMeasure implements Measure, DomainObject {
 
     private int id;
@@ -168,5 +168,9 @@ public class CustomMeasure implements Measure, DomainObject {
 
     public String toDescriptionString() {
         return name+" ("+referenceToCustomRatio+" "+referenceMeasure.getSymbol()+")";
+    }
+
+    @Override
+    public void initializeLazy() {
     }
 }
