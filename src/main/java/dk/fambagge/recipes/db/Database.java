@@ -93,7 +93,6 @@ public class Database {
             final Set<T> namedResult = new LinkedHashSet<>();
             for (final Object resultObj : result) {
                 T dbObject = (T) resultObj;
-                dbObject.initializeLazy();
                 namedResult.add(dbObject);
             }
             return namedResult;
@@ -114,8 +113,6 @@ public class Database {
             }
             
             T dbObject = (T) session.createQuery(query).uniqueResult();
-            dbObject.initializeLazy();
-            
             return dbObject;
         } finally {
             if(newTransaction) {

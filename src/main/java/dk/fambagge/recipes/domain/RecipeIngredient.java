@@ -195,8 +195,4 @@ public class RecipeIngredient implements Serializable, DomainObject {
         
         return (amountInGrams/100.0) * ingredient.getEnergyPerHundred();
     }
-
-    @Override
-    public void initializeLazy() {
-    }
 }

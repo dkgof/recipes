@@ -101,7 +101,7 @@ public class Recipe implements Serializable, DomainObject {
     /**
      * @return the ingredients
      */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "recipe_recipeingredients",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},
@@ -115,7 +115,7 @@ public class Recipe implements Serializable, DomainObject {
     /**
      * @return the steps
      */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "recipe_recipesteps",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},
@@ -218,12 +218,6 @@ public class Recipe implements Serializable, DomainObject {
         }
         
         recalculateEnergyInKiloJoule();
-    }
-
-    @Override
-    public void initializeLazy() {
-        Hibernate.initialize(steps);
-        Hibernate.initialize(ingredients);
     }
 
     /**

@@ -169,8 +169,4 @@ public class CustomMeasure implements Measure, DomainObject {
     public String toDescriptionString() {
         return name+" ("+referenceToCustomRatio+" "+referenceMeasure.getSymbol()+")";
     }
-
-    @Override
-    public void initializeLazy() {
-    }
 }

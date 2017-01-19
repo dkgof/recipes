@@ -76,8 +76,4 @@ public class RecipeStep implements Serializable, DomainObject {
     public void setSortOrder(int order) {
         this.sortOrder = order;
     }
-
-    @Override
-    public void initializeLazy() {
-    }
 }
