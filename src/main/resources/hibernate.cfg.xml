@@ -4,11 +4,18 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost/recipe</property>
+    <property name="hibernate.connection.url">jdbc:mysql://10.0.1.151/recipe</property>
     <property name="hibernate.connection.username">recipe</property>
     <property name="hibernate.connection.password">recipe</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
+    
+    <!--
+    <property name="org.hibernate.stat">DEBUG</property>
+    <property name="hibernate.generate_statistics">true</property>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.format_sql">true</property>
+    -->
     
     <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
     <property name="hibernate.c3p0.acquire_increment">1</property>

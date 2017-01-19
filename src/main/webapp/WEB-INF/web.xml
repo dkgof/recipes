@@ -5,6 +5,11 @@
         Recipes holds all your recipes, and can calculate portion size and energy on the fly.
         Also supports converting any ingredient to any meassure scale.
     </description>
+    
+    <listener>
+        <listener-class>dk.fambagge.recipes.web.servlets.ConnectionContextListener</listener-class>
+    </listener>
+            
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Production</param-value>
@@ -15,16 +20,25 @@
         <param-value>omega</param-value>
     </context-param>
     
-    <listener>
-        <listener-class>
-            dk.fambagge.recipes.web.servlets.ConnectionContextListener
-        </listener-class>
-    </listener>
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>default</servlet-name>
+        <init-param>
+            <param-name>useFileMappedBuffer</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </servlet>
+    
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>

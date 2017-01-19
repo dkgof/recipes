@@ -7,7 +7,9 @@
 package dk.fambagge.recipes.db;
 
 import dk.fambagge.recipes.domain.CustomMeasure;
+import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
+import dk.fambagge.recipes.domain.RecipeIngredient;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,13 +73,15 @@ public class MeasureType implements UserType {
     @Override
     public Object assemble(Serializable cached, Object owner) throws HibernateException {
         
+        System.out.println("OSTEMAD: "+owner.getClass().getName());
+        
         if(!(cached instanceof String)) {
             throw new UnsupportedOperationException("Cannot assemble Measure from: "+cached.getClass());
         }
         
         String stringValue = cached.toString();
         
-        return getTypeFromString(stringValue);
+        return getTypeFromString(stringValue, owner);
     }
 
     @Override
@@ -85,16 +89,25 @@ public class MeasureType implements UserType {
         return original;
     }
 
-    public static Measure getTypeFromString(String stringValue) {
+    public static Measure getTypeFromString(String stringValue, Object owner) {
         Measure measure = null;
         
         if(stringValue.startsWith("custom")) {
-            int id = Integer.parseInt(stringValue.substring(6));
-            try {
-                measure = CustomMeasure.getFromId(id);
-            } catch(Exception e) {
-                System.out.println("Error looking up custom measure: "+e);
-                e.printStackTrace();
+            if(owner instanceof Ingredient) {
+                Ingredient ingredient = (Ingredient) owner;
+                measure = ingredient.getCustomMeasure();
+            } else if(owner instanceof RecipeIngredient) {
+                RecipeIngredient recipeIngredient = (RecipeIngredient) owner;
+                measure = new LazyCustomMeasure(recipeIngredient);
+            } else {
+                int id = Integer.parseInt(stringValue.substring(6));
+                try {
+                    System.out.println("Slow");
+                    measure = CustomMeasure.getFromId(id);
+                } catch(Exception e) {
+                    System.out.println("Error looking up custom measure: "+e);
+                    e.printStackTrace();
+                }
             }
         } else {
             try {
@@ -116,7 +129,7 @@ public class MeasureType implements UserType {
         assert names.length == 1;
         String stringValue = (String) StringType.INSTANCE.get(rs, names[0], si);
         
-        return getTypeFromString(stringValue);
+        return getTypeFromString(stringValue, o);
     }
 
     @Override
@@ -130,6 +143,59 @@ public class MeasureType implements UserType {
             
             String stringValue = ((Measure)value).toDBString();
             StringType.INSTANCE.set(stm, stringValue, index, si);
+        }
+    }
+    
+    public static class LazyCustomMeasure extends CustomMeasure {
+        private final RecipeIngredient owner;
+        
+        private CustomMeasure wrappedMeasure;
+        
+        public LazyCustomMeasure(RecipeIngredient owner) {
+            this.owner = owner;
+            wrappedMeasure = null;
+        }
+
+        private void loadMeasure() {
+            if(wrappedMeasure == null) {
+                wrappedMeasure = owner.getIngredient().getCustomMeasure();
+            }
+        }
+
+        @Override
+        public double getReferenceToCustomRatio() {
+            loadMeasure();
+            return wrappedMeasure.getReferenceToCustomRatio(); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Measure getReferenceMeasure() {
+            loadMeasure();
+            return wrappedMeasure.getReferenceMeasure(); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getSymbol() {
+            loadMeasure();
+            return wrappedMeasure.getSymbol();
+        }
+
+        @Override
+        public double getFactor() {
+            loadMeasure();
+            return wrappedMeasure.getFactor();
+        }
+
+        @Override
+        public String toDBString() {
+            loadMeasure();
+            return wrappedMeasure.toDBString();
+        }
+
+        @Override
+        public double convertTo(double amount, Measure targetMeasure) {
+            loadMeasure();
+            return wrappedMeasure.convertTo(amount, targetMeasure);
         }
     }
 }

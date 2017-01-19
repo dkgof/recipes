@@ -14,7 +14,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-    
     <dependencies>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -72,22 +71,7 @@
     </dependencies>
     <build>
         <plugins>
-            <plugin>            
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <webXml>src\main\webapp\WEB-INF\web.xml</webXml>        
-                </configuration>
-            </plugin>
-            <plugin>            
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.0</version>
-                <configuration>
-                    <debug>false</debug>
-                </configuration>
-            </plugin>
+            
         </plugins>
     </build>
     <repositories>

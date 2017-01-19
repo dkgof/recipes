@@ -12,7 +12,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import javax.persistence.*;
-import org.hibernate.Hibernate;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -102,6 +104,7 @@ public class Recipe implements Serializable, DomainObject {
      * @return the ingredients
      */
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "recipe_recipeingredients",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},
@@ -116,6 +119,7 @@ public class Recipe implements Serializable, DomainObject {
      * @return the steps
      */
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "recipe_recipesteps",
             joinColumns = {
                 @JoinColumn(name = "recipeId")},

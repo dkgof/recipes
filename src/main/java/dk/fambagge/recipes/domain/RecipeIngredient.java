@@ -12,6 +12,8 @@ import dk.fambagge.recipes.domain.Measure.Weight;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 /**
@@ -42,6 +44,16 @@ public class RecipeIngredient implements Serializable, DomainObject {
     }
 
     /**
+     * @return the ingredient
+     */
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn( name = "ingredientId", nullable = false)
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+    
+    /**
      * @return the measure
      */
     @Type( type = "dk.fambagge.recipes.db.MeasureType" )
@@ -58,16 +70,6 @@ public class RecipeIngredient implements Serializable, DomainObject {
         return amount;
     }
     
-    /**
-     * @return the ingredient
-     */
-    @ManyToOne(cascade = {CascadeType.PERSIST})
-    @JoinColumn( name = "ingredientId", nullable = false)
-    public Ingredient getIngredient() {
-        return ingredient;
-    }
-
-
     /**
      * @return the id
      */

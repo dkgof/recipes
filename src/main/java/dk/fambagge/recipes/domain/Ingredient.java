@@ -20,6 +20,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 /**
@@ -121,6 +123,7 @@ public class Ingredient implements Serializable, DomainObject {
      * @return the customMeasures
      */
     @OneToOne(cascade = {CascadeType.ALL})
+    @Fetch(FetchMode.JOIN)
     @JoinTable(name = "ingredient_custommeasures",
             joinColumns = {
                 @JoinColumn(name = "ingredientId")},
