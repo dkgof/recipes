@@ -38,6 +38,11 @@ public class RecipeStep implements Serializable, DomainObject {
      */
     @Column( name = "description", nullable = false)
     public String getDescription() {
+        /*
+        if(description.trim().isEmpty()) {
+            return "Dbl click to edit";
+        }
+        */
         return description;
     }
 

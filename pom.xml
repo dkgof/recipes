@@ -200,6 +200,26 @@
                     </execution>
                 </executions>
             </plugin>   
+            <plugin>
+                <groupId>com.github.warmuuh</groupId>
+                <artifactId>libsass-maven-plugin</artifactId>
+                <version>0.2.6-libsass_3.4.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <imgPath>../img</imgPath>
+                    <inputPath>${basedir}/src/main/webapp/scss</inputPath>
+                    <outputPath>${basedir}/src/main/webapp/css</outputPath>
+                    <includePath>${basedir}/src/main/sass-plugins/</includePath>
+                    <outputStyle>compressed</outputStyle>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <repositories>
