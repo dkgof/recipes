@@ -34,8 +34,8 @@ import org.hibernate.annotations.FetchMode;
  * @author Gof
  */
 @Entity
-@Cacheable
 @Table(name = "recipes")
+@Cacheable
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Recipe implements Serializable, DomainObject {
 

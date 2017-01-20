@@ -12,6 +12,7 @@ import dk.fambagge.recipes.domain.Measure.Weight;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
@@ -22,6 +23,8 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table( name = "recipeingredients" )
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class RecipeIngredient implements Serializable, DomainObject {
     
     private int id;

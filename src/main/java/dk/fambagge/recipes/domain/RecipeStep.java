@@ -9,6 +9,7 @@ package dk.fambagge.recipes.domain;
 import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
 import javax.persistence.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  *
@@ -16,6 +17,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table( name = "recipesteps" )
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class RecipeStep implements Serializable, DomainObject {
     private int id;
     private String description;
