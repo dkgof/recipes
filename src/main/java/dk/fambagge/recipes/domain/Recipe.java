@@ -185,7 +185,7 @@ public class Recipe implements Serializable, DomainObject {
     }
 
     public static Recipe get(int id) {
-        return Database.get("from "+Recipe.class.getName()+" where id='"+id+"'", Recipe.class);
+        return Database.get("id='"+id+"'", Recipe.class);
     }
     
     @Transient

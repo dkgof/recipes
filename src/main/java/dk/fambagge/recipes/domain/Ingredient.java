@@ -185,6 +185,6 @@ public class Ingredient implements Serializable, DomainObject {
     }
 
     public static Ingredient get(int id) {
-        return Database.get("from "+Ingredient.class.getName()+" where id='"+id+"'", Ingredient.class);
+        return Database.get("id='"+id+"'", Ingredient.class);
     }
 }
