@@ -8,7 +8,6 @@ package dk.fambagge.recipes.domain;
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import java.util.Set;
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
@@ -26,8 +24,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table( name = "custommeasures" )
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class CustomMeasure implements Measure, DomainObject {
 
     private int id;
@@ -124,7 +121,7 @@ public class CustomMeasure implements Measure, DomainObject {
     }
 
     public static CustomMeasure getFromId(int id) {
-        return Database.get("from "+CustomMeasure.class.getName()+" where id='"+id+"'", CustomMeasure.class);
+        return Database.get("id='"+id+"'", CustomMeasure.class);
     }
 
     public static Set<CustomMeasure> getAll() {

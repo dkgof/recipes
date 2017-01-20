@@ -101,7 +101,10 @@ public class Database {
                 newTransaction = true;
             }
             
-            return (T) session.createQuery(hql).uniqueResult();
+            Query query = session.createQuery(hql);
+            query.setCacheable(true);
+            
+            return (T) query.uniqueResult();
         } finally {
             if(newTransaction) {
                 session.getTransaction().commit();
@@ -131,6 +134,8 @@ public class Database {
             if(maxResults != -1) {
                 query.setMaxResults(maxResults);
             }
+            
+            query.setCacheable(true);
             
             for (Object resultObj : query.list()) {
                 namedResult.add((T) resultObj);

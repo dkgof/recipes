@@ -23,8 +23,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table( name = "recipeingredients" )
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RecipeIngredient implements Serializable, DomainObject {
     
     private int id;
@@ -52,6 +51,7 @@ public class RecipeIngredient implements Serializable, DomainObject {
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @Fetch(FetchMode.JOIN)
     @JoinColumn( name = "ingredientId", nullable = false)
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     public Ingredient getIngredient() {
         return ingredient;
     }

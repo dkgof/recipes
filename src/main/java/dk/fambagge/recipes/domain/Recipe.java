@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,8 +34,7 @@ import org.hibernate.annotations.FetchMode;
  */
 @Entity
 @Table(name = "recipes")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Recipe implements Serializable, DomainObject {
 
     private int id;
@@ -45,8 +43,6 @@ public class Recipe implements Serializable, DomainObject {
 
     private int servings;
 
-    private double energyInKiloJoule;
-    
     private Set<RecipeIngredient> ingredients;
 
     private Set<RecipeStep> steps;
@@ -57,7 +53,6 @@ public class Recipe implements Serializable, DomainObject {
         name = "";
         imgUrl = null;
         servings = 0;
-        energyInKiloJoule = 0;
         ingredients = new HashSet<>();
         steps = new HashSet<>();
     }
@@ -121,6 +116,7 @@ public class Recipe implements Serializable, DomainObject {
             inverseJoinColumns = {
                 @JoinColumn(name = "recipeIngredientId")}
     )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     public Set<RecipeIngredient> getIngredients() {
         return ingredients;
     }
@@ -136,6 +132,7 @@ public class Recipe implements Serializable, DomainObject {
             inverseJoinColumns = {
                 @JoinColumn(name = "recipeStepId")}
     )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     public Set<RecipeStep> getSteps() {
         return steps;
     }

@@ -33,8 +33,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "ingredients")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Ingredient implements Serializable, DomainObject {
 
     private int id;
@@ -135,6 +134,7 @@ public class Ingredient implements Serializable, DomainObject {
             inverseJoinColumns = {
                 @JoinColumn(name = "customMeasureId")}
     )
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     public CustomMeasure getCustomMeasure() {
         return customMeasure;
     }
