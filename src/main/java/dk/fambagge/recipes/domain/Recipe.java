@@ -11,8 +11,21 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.persistence.*;
-import org.hibernate.annotations.BatchSize;
+import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -21,7 +34,9 @@ import org.hibernate.annotations.FetchMode;
  * @author Gof
  */
 @Entity
+@Cacheable
 @Table(name = "recipes")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Recipe implements Serializable, DomainObject {
 
     private int id;
@@ -56,7 +71,6 @@ public class Recipe implements Serializable, DomainObject {
 
     public void addIngredient(RecipeIngredient ingredient) {
         getIngredients().add(ingredient);
-        recalculateEnergyInKiloJoule();
     }
 
     public void addStep(RecipeStep step) {
@@ -68,19 +82,15 @@ public class Recipe implements Serializable, DomainObject {
         return  Math.round(getEnergyInKiloJoule() * Constants.KCAL_PER_KILOJOULE * 10.0) / 10.0;
     }
 
-    public void recalculateEnergyInKiloJoule() {
+    @Transient
+    public double getEnergyInKiloJoule() {
         double totalEnergy = 0;
 
         for (RecipeIngredient ingredient : getIngredients()) {
             totalEnergy += ingredient.getEnergyInKiloJoules();
         }
 
-        setEnergyInKiloJoule(Math.round(totalEnergy * 10.0) / 10.0);
-    }
-    
-    @Column(name = "energyInKiloJoule", nullable = false)
-    public double getEnergyInKiloJoule() {
-        return energyInKiloJoule;
+        return Math.round(totalEnergy * 10.0) / 10.0;
     }
 
     /**
@@ -220,14 +230,5 @@ public class Recipe implements Serializable, DomainObject {
                 break;
             }
         }
-        
-        recalculateEnergyInKiloJoule();
-    }
-
-    /**
-     * @param energyInKiloJoule the energyInKiloJoule to set
-     */
-    public void setEnergyInKiloJoule(double energyInKiloJoule) {
-        this.energyInKiloJoule = energyInKiloJoule;
     }
 }

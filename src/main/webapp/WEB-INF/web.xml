@@ -9,7 +9,7 @@
     <listener>
         <listener-class>dk.fambagge.recipes.web.servlets.ConnectionContextListener</listener-class>
     </listener>
-            
+
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Production</param-value>

@@ -5,13 +5,12 @@
  */
 package dk.fambagge.recipes.db;
 
-import dk.fambagge.recipes.domain.Recipe;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -81,29 +80,19 @@ public class Database {
         doAction(obj, Action.REFRESH);
     }
     
-    public static <T extends DomainObject> Set<T> getAll(Class<T> type) {
-        final Session session = Database.getSessionFactory().getCurrentSession();
-        boolean newTransaction = false;
-        try {
-            if(session.getTransaction() != null && !session.getTransaction().isActive()) {
-                session.beginTransaction();
-                newTransaction = true;
-            }
-            final List result = session.createQuery("from "+type.getName()).list();
-            final Set<T> namedResult = new LinkedHashSet<>();
-            for (final Object resultObj : result) {
-                T dbObject = (T) resultObj;
-                namedResult.add(dbObject);
-            }
-            return namedResult;
-        } finally {
-            if(newTransaction) {
-                session.getTransaction().commit();
-            }
-        }
-    }
+    public static <T extends DomainObject> T get(String whereClause, Class<T> type) {
+        return query("from " + type.getName() + " where " + whereClause, type);
+    }    
 
-    public static <T extends DomainObject> T get(String query, Class<T> aClass) {
+    public static <T extends DomainObject> Set<T> getAll(Class<T> type) {
+        return getAll("1=1", type);
+    }
+    
+    public static <T extends DomainObject> Set<T> getAll(String whereClause, Class<T> type) {
+        return queryAll("from " + type.getName() + " where " + whereClause, type);
+    }
+    
+    public static <T extends DomainObject> T query(String hql, Class<T> aClass) {
         final Session session = Database.getSessionFactory().getCurrentSession();
         boolean newTransaction = false;
         try {
@@ -112,8 +101,7 @@ public class Database {
                 newTransaction = true;
             }
             
-            T dbObject = (T) session.createQuery(query).uniqueResult();
-            return dbObject;
+            return (T) session.createQuery(hql).uniqueResult();
         } finally {
             if(newTransaction) {
                 session.getTransaction().commit();
@@ -121,6 +109,40 @@ public class Database {
         }
     }
 
+    public static <T extends DomainObject> Set<T> queryAll(String hql, Class<T> type) {
+        return queryAll(hql, type, -1, -1);
+    }
+
+    public static <T extends DomainObject> Set<T> queryAll(String hql, Class<T> type, int firstResult, int maxResults) {
+        final Session session = Database.getSessionFactory().getCurrentSession();
+        boolean newTransaction = false;
+        try {
+            if(session.getTransaction() != null && !session.getTransaction().isActive()) {
+                session.beginTransaction();
+                newTransaction = true;
+            }
+            final Set<T> namedResult = new LinkedHashSet<>();
+            
+            Query query = session.createQuery(hql);
+            if(firstResult != -1) {
+                query.setFirstResult(firstResult);
+            }
+            
+            if(maxResults != -1) {
+                query.setMaxResults(maxResults);
+            }
+            
+            for (Object resultObj : query.list()) {
+                namedResult.add((T) resultObj);
+            }
+            return namedResult;
+        } finally {
+            if(newTransaction) {
+                session.getTransaction().commit();
+            }
+        }
+    }
+    
     public enum Action {
         SAVE,
         UPDATE,
