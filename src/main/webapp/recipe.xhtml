@@ -30,11 +30,6 @@
                     <div class="ui-grid ui-grid-responsive">
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
-                                !Image here!
-                            </div>
-                        </div>
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-12">
                                 Serves: <p:inplace editor="true">
                                     <f:facet name="output">
                                         <h:outputText value="#{recipeView.selectedRecipe.servings}" />
@@ -66,20 +61,26 @@
                                 <p:panel>
                                     <f:facet name="header">Ingredients <p:commandLink type="button" styleClass="hideFromPrint" value="+" onclick="PF('addRecipeIngredientDialog').show();" /></f:facet>
                                     <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem">
-                                        <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
-                                        <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm">
-                                            <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
-                                        </p:commandLink>
-                                        <div class="ingredientStats">
-                                            <p:inplace editor="true">
-                                                <f:facet name="output">
-                                                    <span class="ingredientInfo"><h:outputText value="#{recipeView.formatNumber(recipeView.getScaledIngredientAmount(ingredient))}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
-                                                </f:facet>
-                                                <f:facet name="input">
-                                                    <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
-                                                    <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
-                                                </f:facet>
-                                            </p:inplace>
+                                        <div class="ui-grid-row">
+                                            <div class="ui-grid-col-4">
+                                                <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
+                                            </div>
+                                            <div class="ui-grid-col-7">
+                                                <p:inplace editor="true">
+                                                    <f:facet name="output">
+                                                        <span class="ingredientInfo"><h:outputText value="#{recipeView.formatNumber(recipeView.getScaledIngredientAmount(ingredient))}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
+                                                        <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
+                                                    </f:facet>
+                                                </p:inplace>
+                                            </div>
+                                            <div class="ui-grid-col-1">
+                                                <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm">
+                                                    <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                                </p:commandLink>
+                                            </div>
                                         </div>
                                     </p:dataList>
                                     <br />
@@ -107,13 +108,27 @@
                                 </p:panel>
                             </div>
                         </div>
+                        <!--
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12">
+                                <h:panelGroup rendered="#{!recipeView.selectedRecipe.hasImage()}">
+                                    <h:form id="imageUploadForm">
+                                        <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                                      sizeLimit="5000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" />
+                                    </h:form>                                </h:panelGroup>
+                                <h:panelGroup rendered="#{!recipeView.selectedRecipe.hasImage()}">
+                                    <img src="#{recipeView.selectedRecipe.imgUrl}" />
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                        -->
                     </div>
                 </p:panel>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                     <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
-                
+
                 <p:remoteCommand name="doDrop" action="#{recipeView.doDrop()}" update=":recipeForm:recipeSteps" oncomplete="initDND();" />
             </h:form>
 
@@ -123,9 +138,9 @@
                 <ui:param name="addMethodArgument" value="#{recipeView.selectedRecipe}" />
                 <ui:param name="update" value=":recipeForm" />
             </ui:include>
-            
+
             <script type="text/javascript">
-                jQuery(function() {
+                jQuery(function () {
                     initDND();
                 });
             </script>

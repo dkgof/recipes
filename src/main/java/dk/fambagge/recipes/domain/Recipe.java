@@ -105,6 +105,10 @@ public class Recipe implements Serializable, DomainObject {
         return name;
     }
 
+    public boolean hasImage() {
+        return (imgUrl==null?false:!imgUrl.isEmpty());
+    }
+    
     /**
      * @return the ingredients
      */

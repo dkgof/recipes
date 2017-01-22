@@ -35,10 +35,12 @@ public class AddRecipeIngredientView implements Serializable {
     
     private Measure ingredientMeasure;
 
+    /*
     public void addRecipeIngredient(Collection<RecipeIngredient> ingredients) {
         RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), getIngredientAmount(), getIngredientMeasure());
         ingredients.add(recipeIngredient);
     }
+    */
     
     public void addRecipeIngredient(Recipe recipe) {
         RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), getIngredientAmount(), getIngredientMeasure());

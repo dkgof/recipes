@@ -5,13 +5,12 @@
          monitoring="autodetect"
          dynamicConfig="true">
 
-    <cache
-        name="org.hibernate.cache.internal.StandardQueryCache"
-        maxEntriesLocalHeap="5"
-        eternal="false"
-        timeToLiveSeconds="120">
-        <persistence strategy="localTempSwap"/>
-    </cache>
+    <cache name="org.hibernate.cache.internal.StandardQueryCache"
+           maxElementsInMemory="10000"
+           eternal="false"
+           timeToLiveSeconds="86400"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU" />
 
     <cache
         name="org.hibernate.cache.spi.UpdateTimestampsCache"
@@ -20,13 +19,9 @@
     </cache>
   
     <defaultCache
-        maxElementsInMemory="1000"
+        maxElementsInMemory="10000"
         eternal="false"
-        timeToIdleSeconds="240"
-        timeToLiveSeconds="240"
+        timeToLiveSeconds="86400"
         overflowToDisk="false"
-        diskPersistent="false"
-        diskExpiryThreadIntervalSeconds="120"
-        memoryStoreEvictionPolicy="LRU"
-    />
+        memoryStoreEvictionPolicy="LRU" />
 </ehcache>
