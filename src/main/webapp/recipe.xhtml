@@ -53,7 +53,7 @@
                                 </p:inplace><br />
 
                                 <br />
-                                <p:commandButton value="Clone Recipe" type="button" action="#{recipeView.cloneRecipe()}" process="@this" styleClass="hideFromPrint" />
+                                <p:commandButton value="Clone Recipe" type="submit" action="#{recipeView.cloneRecipe()}" process="@this" styleClass="hideFromPrint" />
                             </div>
                         </div>
                         <div class="ui-grid-row">
@@ -108,20 +108,17 @@
                                 </p:panel>
                             </div>
                         </div>
-                        <!--
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
                                 <h:panelGroup rendered="#{!recipeView.selectedRecipe.hasImage()}">
-                                    <h:form id="imageUploadForm">
-                                        <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true"
-                                                      sizeLimit="5000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" />
-                                    </h:form>                                </h:panelGroup>
+                                    <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                                  sizeLimit="5000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" />
+                                </h:panelGroup>
                                 <h:panelGroup rendered="#{!recipeView.selectedRecipe.hasImage()}">
                                     <img src="#{recipeView.selectedRecipe.imgUrl}" />
                                 </h:panelGroup>
                             </div>
                         </div>
-                        -->
                     </div>
                 </p:panel>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

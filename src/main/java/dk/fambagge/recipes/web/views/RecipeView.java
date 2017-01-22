@@ -167,8 +167,11 @@ public class RecipeView  implements Serializable {
     }
     
     public void cloneRecipe() {
+        System.out.println("Cloning: "+selectedRecipe.getName());
         Recipe clonedRecipe = new Recipe(selectedRecipe.getName()+" copy", selectedRecipe.getServings());
         clonedRecipe.setImgUrl(selectedRecipe.getImgUrl());
+        
+        System.out.println("1");
         
         for(RecipeStep step : selectedRecipe.getSteps()) {
             RecipeStep clonedStep = new RecipeStep(step.getDescription());
@@ -178,6 +181,8 @@ public class RecipeView  implements Serializable {
             Database.saveOrUpdate(clonedStep);
         }
         
+        System.out.println("2");
+
         for(RecipeIngredient ingredient : selectedRecipe.getIngredients()) {
             RecipeIngredient clonedIngredient = new RecipeIngredient(ingredient.getIngredient(), ingredient.getAmount(), ingredient.getMeasure());
             
@@ -185,13 +190,18 @@ public class RecipeView  implements Serializable {
             Database.saveOrUpdate(clonedIngredient);
         }
         
+        System.out.println("3");
+        
         Database.saveOrUpdate(clonedRecipe);
+        
+        System.out.println("4");
         
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("recipe.xhtml?recipe="+clonedRecipe.getId());
         } catch (IOException ex) {
             Logger.getLogger(RecipeView.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("5");
     }
     
     public String formatNumber(double value) {
