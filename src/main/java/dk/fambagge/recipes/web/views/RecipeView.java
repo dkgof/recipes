@@ -209,19 +209,19 @@ public class RecipeView  implements Serializable {
         
         if(Math.floor(value) == value) {
             formattedValue = Integer.toString((int) value);
-        } else if(value == 0.2) {
+        } else if(isCloseTo(value,0.2)) {
             formattedValue = "1/5";
-        } else if(value == 0.25) {
+        } else if(isCloseTo(value,0.25)) {
             formattedValue = "1/4";
-        } else if(value == 0.4) {
+        } else if(isCloseTo(value,0.4)) {
             formattedValue = "2/5";
-        } else if(value == 0.5) {
+        } else if(isCloseTo(value,0.5)) {
             formattedValue = "1/2";
-        } else if(value == 0.6) {
+        } else if(isCloseTo(value,0.6)) {
             formattedValue = "3/5";
-        } else if(value == 0.75) {
+        } else if(isCloseTo(value,0.75)) {
             formattedValue = "3/4";
-        } else if(value == 0.8) {
+        } else if(isCloseTo(value,0.8)) {
             formattedValue = "4/5";
         }
         
@@ -288,5 +288,11 @@ public class RecipeView  implements Serializable {
         } else {
             System.out.println("Error dragging, from or to was null!");
         }
+    }
+
+    private boolean isCloseTo(double value, double target) {
+        double someSmallAmount = 0.0001;
+        
+        return value > (target-someSmallAmount) && value < (target+someSmallAmount);
     }
 }
