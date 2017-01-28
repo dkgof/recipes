@@ -118,7 +118,7 @@ public class RecipeView  implements Serializable {
             amount = ingredient.getAmount(Measure.Weight.GRAM);
         }
         
-        return Math.round(amount * (getCustomServings() / (double)selectedRecipe.getServings()) * 10.0) / 10.0;
+        return amount * (getCustomServings() / (double)selectedRecipe.getServings());
     }
     
     public String getMeasureSymbol(RecipeIngredient ingredient) {
@@ -293,6 +293,10 @@ public class RecipeView  implements Serializable {
     private boolean isCloseTo(double value, double target) {
         double someSmallAmount = 0.0001;
         
-        return value > (target-someSmallAmount) && value < (target+someSmallAmount);
+        boolean result = value > (target-someSmallAmount) && value < (target+someSmallAmount);
+
+        System.out.println(value+" <--> "+target+" ["+result+"]");
+        
+        return result;
     }
 }
