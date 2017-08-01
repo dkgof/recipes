@@ -114,7 +114,7 @@
                                     <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true"
                                                   sizeLimit="5000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" />
                                 </h:panelGroup>
-                                <h:panelGroup rendered="#{!recipeView.selectedRecipe.hasImage()}">
+                                <h:panelGroup rendered="#{recipeView.selectedRecipe.hasImage()}">
                                     <img src="#{recipeView.selectedRecipe.imgUrl}" />
                                 </h:panelGroup>
                             </div>
