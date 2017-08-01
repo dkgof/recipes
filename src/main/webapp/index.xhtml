@@ -12,8 +12,14 @@
             <link href="css/main.css" rel="stylesheet" type="text/css"/>
         </h:head>
         <h:body>
-            <p:dataGrid var="recipe" value="#{recipesView.recipes}" columns="3" layout="grid"
-                        rows="12" paginator="true" id="recipes"
+            
+            <h:form>
+            <p:inputText id="recipeFilter" value="#{recipesView.recipesLazy.filter}"/>
+            <p:commandButton value="Search" update=":recipes"/>
+            </h:form>
+
+            <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="3" layout="grid"
+                        rows="12" paginator="true" id="recipes" lazy="true"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,18">
 

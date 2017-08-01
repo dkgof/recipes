@@ -30,7 +30,7 @@ public class Database {
         return SESSION_FACTORY;
     }
 
-    private static void execute(SessionRunnable runnable) {
+    public static void execute(SessionRunnable runnable) {
         final Session session = Database.getSessionFactory().getCurrentSession();
         boolean newTransaction = false;
         try {
@@ -147,7 +147,7 @@ public class Database {
         return namedResult;
     }
 
-    private interface SessionRunnable {
+    public interface SessionRunnable {
 
         public void run(Session session);
     }

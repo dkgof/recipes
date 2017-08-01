@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -29,6 +30,13 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class RecipesView implements Serializable {
 
+    private LazyRecipeList lazyModel;
+    
+    @PostConstruct
+    public void init() {
+        lazyModel = new LazyRecipeList();
+    }
+    
     public List<Recipe> getRecipes() {
         List<Recipe> recipes = new LinkedList<>(Recipe.getAll());;
         Collections.sort(recipes, (Recipe recipe1, Recipe recipe2) -> {
@@ -38,7 +46,7 @@ public class RecipesView implements Serializable {
     }
     
     public LazyRecipeList getRecipesLazy() {
-        return new LazyRecipeList();
+        return lazyModel;
     }
 
     public Set<Ingredient> getAvailableIngredients() {

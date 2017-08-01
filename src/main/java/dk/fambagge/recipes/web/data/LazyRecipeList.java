@@ -8,10 +8,9 @@ package dk.fambagge.recipes.web.data;
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Recipe;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import org.hibernate.query.Query;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -21,42 +20,41 @@ import org.primefaces.model.SortOrder;
  */
 public class LazyRecipeList extends LazyDataModel<Recipe> {
 
-    private List<Recipe> datasource;
-
-    @Override
-    public Recipe getRowData(String rowKey) {
-        System.out.println("Getting row: "+rowKey);
-        
-        int rowId = Integer.parseInt(rowKey);
-        
-        for(Recipe recipe : datasource) {
-            if(recipe.getId() == rowId) {
-                return recipe;
-            }
-        }
- 
-        return null;
-    }
- 
-    @Override
-    public Object getRowKey(Recipe recipe) {
-        return recipe.getId();
-    }
+    private String filter = "";
     
     @Override
     public List<Recipe> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        if(datasource == null) {
-            System.out.println("Lazy loading from "+first+" - "+pageSize);
-            System.out.println("Filters: "+filters);
-            System.out.println("SortField: "+sortField);
-            System.out.println("SortOrder: "+sortOrder);
-
-            datasource = new ArrayList<>(Database.queryAll("from " + Recipe.class.getName(), Recipe.class));
-            this.setRowCount(datasource.size());
-        }
         
-        List<Recipe> results = new ArrayList<>(datasource.subList(first, first+pageSize));
+        List<Recipe> results = new ArrayList<>();
+        
+        System.out.println("Filter: "+filter);
+        
+        Database.execute((session) -> {
+            long count = (Long) session.createQuery("select count(*) from Recipe where name like '%"+filter+"%'").uniqueResult();
+            this.setRowCount((int)count);
+            
+            Query query = session.createQuery("from Recipe where name like '%"+filter+"%' order by name");
+            query.setFirstResult(first);
+            query.setMaxResults(pageSize);
+            query.setCacheable(true);
 
+            results.addAll((List<Recipe>) query.getResultList());
+        });
+        
         return results;
+    }
+
+    /**
+     * @return the filter
+     */
+    public String getFilter() {
+        return filter;
+    }
+
+    /**
+     * @param filter the filter to set
+     */
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 }

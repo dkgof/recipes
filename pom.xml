@@ -18,22 +18,22 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.2.6.Final</version>
+            <version>5.2.10.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>5.2.6.Final</version>
+            <version>5.2.10.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.2.6.Final</version>
+            <version>5.2.10.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
-            <version>5.2.6.Final</version>
+            <version>5.2.10.Final</version>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>6.0</version>
+            <version>6.1</version>
         </dependency>
         <dependency>
             <groupId>org.primefaces.themes</groupId>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.5</version>
+            <version>6.0.6</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -71,36 +71,36 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
+            <version>3.6</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
-            <version>9.4.0.v20161208</version>
+            <version>9.4.6.v20170531</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty.websocket</groupId>
             <artifactId>websocket-server</artifactId>
-            <version>9.4.0.v20161208</version>
+            <version>9.4.6.v20170531</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-continuation</artifactId>
-            <version>9.4.0.v20161208</version>
+            <version>9.4.6.v20170531</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-annotations</artifactId>
-            <version>9.4.0.v20161208</version>
+            <version>9.4.6.v20170531</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-plus</artifactId>
-            <version>9.4.0.v20161208</version>
+            <version>9.4.6.v20170531</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -139,7 +139,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -159,7 +159,7 @@
             <plugin>            
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <configuration>
                     <debug>false</debug>
                 </configuration>
@@ -203,7 +203,7 @@
             <plugin>
                 <groupId>com.github.warmuuh</groupId>
                 <artifactId>libsass-maven-plugin</artifactId>
-                <version>0.2.6-libsass_3.4.0</version>
+                <version>0.2.8-libsass_3.4.4</version>
                 <executions>
                     <execution>
                         <phase>generate-resources</phase>
