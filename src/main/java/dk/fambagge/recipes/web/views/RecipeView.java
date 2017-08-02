@@ -169,7 +169,7 @@ public class RecipeView  implements Serializable {
     public void cloneRecipe() {
         System.out.println("Cloning: "+selectedRecipe.getName());
         Recipe clonedRecipe = new Recipe(selectedRecipe.getName()+" copy", selectedRecipe.getServings());
-        clonedRecipe.setImgUrl(selectedRecipe.getImgUrl());
+        clonedRecipe.setImgFilename(selectedRecipe.getImgFilename());
         
         System.out.println("1");
         

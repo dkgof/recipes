@@ -47,11 +47,11 @@ public class Recipe implements Serializable, DomainObject {
 
     private Set<RecipeStep> steps;
     
-    private String imgUrl;
+    private String imgFilename;
 
     public Recipe() {
         name = "";
-        imgUrl = null;
+        imgFilename = null;
         servings = 0;
         ingredients = new HashSet<>();
         steps = new HashSet<>();
@@ -106,7 +106,7 @@ public class Recipe implements Serializable, DomainObject {
     }
 
     public boolean hasImage() {
-        return (imgUrl==null?false:!imgUrl.isEmpty());
+        return (imgFilename==null?false:!imgFilename.isEmpty());
     }
     
     /**
@@ -202,18 +202,30 @@ public class Recipe implements Serializable, DomainObject {
     }
 
     /**
-     * @return the imgUrl
+     * @return the imgFilename
      */
-    @Column(name = "imgUrl", nullable = true)
-    public String getImgUrl() {
-        return imgUrl;
+    @Column(name = "imgFilename", nullable = true)
+    public String getImgFilename() {
+        return imgFilename;
     }
 
     /**
-     * @param imgUrl the imgUrl to set
+     * @param imgFileName the imgFilename to set
      */
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImgFilename(String imgFileName) {
+        this.imgFilename = imgFileName;
+    }
+
+    @Transient
+    public String getThumbnailUrl() {
+        String thumbnailUrl = "/images/"+imgFilename.substring(0, imgFilename.lastIndexOf("."))+"-thumbnail.png";
+        return thumbnailUrl;
+    }
+
+    @Transient
+    public String getImageUrl() {
+        String imgUrl = "/images/"+imgFilename;
+        return imgUrl;
     }
 
     @Transient
