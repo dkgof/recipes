@@ -7,10 +7,17 @@ package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -218,8 +225,24 @@ public class Recipe implements Serializable, DomainObject {
 
     @Transient
     public String getThumbnailUrl() {
-        String thumbnailUrl = "/images/"+imgFilename.substring(0, imgFilename.lastIndexOf("."))+"-thumbnail.png";
-        return thumbnailUrl;
+        File thumbnailFile = new File("./uploads/"+imgFilename.substring(0, imgFilename.lastIndexOf("."))+"-thumbnail.png");
+        
+        if(!thumbnailFile.exists()) {
+            try {
+                BufferedImage origImage = ImageIO.read(new File("./uploads/"+imgFilename));
+                
+                Image scaledInstance = origImage.getScaledInstance(256, -1, Image.SCALE_SMOOTH);
+                
+                BufferedImage scaledImage = new BufferedImage(256, scaledInstance.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
+                scaledImage.getGraphics().drawImage(scaledInstance, 0, 0, null);
+                
+                ImageIO.write(scaledImage, "jpg", thumbnailFile);
+            } catch (IOException ex) {
+                Logger.getLogger(Recipe.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return "/images/"+thumbnailFile.getName();
     }
 
     @Transient

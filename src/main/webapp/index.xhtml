@@ -19,7 +19,7 @@
             </h:form>
 
             <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="3" layout="grid"
-                        rows="12" paginator="true" id="recipes" lazy="true"
+                        rows="12" paginator="true" id="recipes" lazy="true" 
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                         rowsPerPageTemplate="6,12,18">
 
@@ -27,11 +27,19 @@
                     Recipes
                 </f:facet>
 
-                <p:panel header="#{recipe.name}" style="text-align:center">
-                    <h:panelGrid columns="1" style="width:100%">
+                <p:panel header="#{recipe.name}" style="text-align:center; height: 100%;">
+                    <h:panelGrid columns="1" style="width:100%; height:100%;" rowClasses="hest">
                         <h:outputText value="Serves #{recipe.servings}" />
                         <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
-                        <br />
+                        <h:panelGroup rendered="#{recipe.hasImage()}">
+                            <h:link outcome="recipe.xhtml?recipe=#{recipe.id}">
+                            <div style="background-image: url(#{recipe.thumbnailUrl});" class="foodIcon"></div>
+                            </h:link>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{!recipe.hasImage()}">
+                            
+                            <div class="foodIcon"></div>
+                        </h:panelGroup>
                         <h:link value="Goto" outcome="recipe.xhtml?recipe=#{recipe.id}" />
                     </h:panelGrid>
                 </p:panel>
