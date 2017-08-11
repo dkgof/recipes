@@ -27,8 +27,6 @@ public class LazyRecipeList extends LazyDataModel<Recipe> {
         
         List<Recipe> results = new ArrayList<>();
         
-        System.out.println("Filter: "+filter);
-        
         Database.execute((session) -> {
             long count = (Long) session.createQuery("select count(*) from Recipe where name like '%"+filter+"%'").uniqueResult();
             this.setRowCount((int)count);

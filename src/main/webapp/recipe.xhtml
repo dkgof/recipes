@@ -110,14 +110,19 @@
                         </div>
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
+                                <br />
                                 <h:panelGroup id="imageArea">
-                                    <h:panelGroup rendered="#{!recipeView.selectedRecipe.hasImage()}">
+                                    <h:panelGroup rendered="#{recipeView.selectedRecipe.hasImage()}">
+                                        <p:lightBox styleClass="imagebox" id="lighbox1" >  
+                                            <h:outputLink value="#{recipeView.selectedRecipe.imageUrl}">
+                                                <img src="#{recipeView.selectedRecipe.thumbnailUrl}" />  
+                                            </h:outputLink>
+                                        </p:lightBox>
+                                    </h:panelGroup>
+                                    <div class="ui-grid-col-4">
                                         <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true"
                                                       sizeLimit="5000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" update=":recipeForm:imageArea"/>
-                                    </h:panelGroup>
-                                    <h:panelGroup rendered="#{recipeView.selectedRecipe.hasImage()}">
-                                        <img src="#{recipeView.selectedRecipe.imageUrl}" />
-                                    </h:panelGroup>
+                                    </div>
                                 </h:panelGroup>
                             </div>
                         </div>

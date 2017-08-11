@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Recipes - Login</title>
+            <link href="css/main.css" rel="stylesheet" type="text/css"/>
+        </h:head>
+        <h:body>
+            <h:form>
+                <div class="ui-grid-col-2">
+                    <h:outputLabel for="username" value="Username:" />
+                    <p:inputText id="username" value="#{authBean.username}" />
+                    <h:outputLabel for="password" value="Password:" />
+                    <p:password id="password" value="#{authBean.password}" />
+                    <p:commandButton value="Login" action="#{authBean.login()}" />
+                </div>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>

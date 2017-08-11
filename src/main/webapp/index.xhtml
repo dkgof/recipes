@@ -18,10 +18,10 @@
             <p:commandButton value="Search" update=":recipes"/>
             </h:form>
 
-            <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="3" layout="grid"
-                        rows="12" paginator="true" id="recipes" lazy="true" 
+            <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="4" layout="grid"
+                        rows="12" paginator="true" id="recipes" lazy="true"
                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                        rowsPerPageTemplate="6,12,18">
+                        rowsPerPageTemplate="4,8,12">
 
                 <f:facet name="header">
                     Recipes
@@ -44,7 +44,7 @@
                     </h:panelGrid>
                 </p:panel>
             </p:dataGrid>     
-            <h:link value="Admin page" outcome="admin" />
+            <h:link value="Admin page" outcome="restricted/admin" />
         </h:body>
     </f:view>
 </html>

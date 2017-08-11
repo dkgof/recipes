@@ -91,7 +91,7 @@
                 <p:ajax event="close" update=":addRecipe :form" listener="#{addRecipeView.reset()}" />
             </p:dialog>
 
-            <ui:include src="includes/addRecipeIngredientDialog.xhtml">
+            <ui:include src="../includes/addRecipeIngredientDialog.xhtml">
                 <ui:param name="addMethodArgument" value="#{addRecipeView.ingredients}" />
                 <ui:param name="update" value=":addRecipe:ingredientList" />
             </ui:include>
