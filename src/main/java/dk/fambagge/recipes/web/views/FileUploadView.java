@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.imageio.ImageIO;
+import net.coobird.thumbnailator.Thumbnails;
 import org.primefaces.event.FileUploadEvent;
 
 /**
@@ -42,16 +43,9 @@ public class FileUploadView implements Serializable {
         try {
             BufferedImage image = ImageIO.read(event.getFile().getInputstream());
             
-            BufferedImage scaledImage = Media.scaleImage(image, 1920);
-        
-            File outputFile = File.createTempFile("recepies", ".png", saveDir);
+            File outputFile = File.createTempFile("recepies", ".jpg", saveDir);
+            Media.scaleImage(image, 1920, outputFile);
 
-            try {
-                ImageIO.write(scaledImage, "png", outputFile);
-            } catch (IOException ex) {
-                Logger.getLogger(Media.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
             //Find order of next media
             int order = -1;
             for(Media m : getRecipeView().getSelectedRecipe().getMedias()) {

@@ -46,16 +46,14 @@ public class Media implements DomainObject, Serializable, Comparable<Media> {
     }
 
     public String getThumbnailUrl(int width) {
-        File thumbnailFile = new File("./uploads/"+filename.substring(0, filename.lastIndexOf("."))+"-"+width+".png");
+        File thumbnailFile = new File("./uploads/"+filename.substring(0, filename.lastIndexOf("."))+"-"+width+".jpg");
         
         if(!thumbnailFile.exists()) {
             try {
                 //Create scaled version
                 BufferedImage origImage = ImageIO.read(new File("./uploads/"+filename));
                 
-                BufferedImage scaledImage = scaleImage(origImage, width);
-                
-                ImageIO.write(scaledImage, "png", thumbnailFile);                
+                scaleImage(origImage, width, thumbnailFile);
             } catch (IOException ex) {
                 Logger.getLogger(Media.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -129,12 +127,12 @@ public class Media implements DomainObject, Serializable, Comparable<Media> {
         return Integer.compare(this.sortOrder, m.sortOrder);
     }
 
-    public static BufferedImage scaleImage(BufferedImage image, int wantedWidth) throws IOException {
+    public static void scaleImage(BufferedImage image, int wantedWidth, File thumbnailFile) throws IOException {
         int imageWidth = Math.min(image.getWidth(), wantedWidth);
 
         double aspect = image.getWidth() / image.getHeight();
 
-        return Thumbnails.of(image).size(imageWidth, (int)(imageWidth/aspect)).asBufferedImage();
+        Thumbnails.of(image).size(imageWidth, (int)(imageWidth/aspect)).outputFormat("jpg").outputQuality(0.9).toFile(thumbnailFile);
     }
     
     public String toString() {
