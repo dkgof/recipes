@@ -122,4 +122,8 @@ public class User implements Serializable, DomainObject {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public boolean hasPermission(String permission) {
+        return true;
+    }
 }

@@ -8,6 +8,7 @@ package dk.fambagge.recipes.web.views;
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Constants;
 import dk.fambagge.recipes.domain.Measure;
+import dk.fambagge.recipes.domain.Media;
 import dk.fambagge.recipes.domain.Recipe;
 import dk.fambagge.recipes.domain.RecipeIngredient;
 import dk.fambagge.recipes.domain.RecipeStep;
@@ -167,11 +168,7 @@ public class RecipeView  implements Serializable {
     }
     
     public void cloneRecipe() {
-        System.out.println("Cloning: "+selectedRecipe.getName());
         Recipe clonedRecipe = new Recipe(selectedRecipe.getName()+" copy", selectedRecipe.getServings());
-        clonedRecipe.setImgFilename(selectedRecipe.getImgFilename());
-        
-        System.out.println("1");
         
         for(RecipeStep step : selectedRecipe.getSteps()) {
             RecipeStep clonedStep = new RecipeStep(step.getDescription());
@@ -181,8 +178,6 @@ public class RecipeView  implements Serializable {
             Database.saveOrUpdate(clonedStep);
         }
         
-        System.out.println("2");
-
         for(RecipeIngredient ingredient : selectedRecipe.getIngredients()) {
             RecipeIngredient clonedIngredient = new RecipeIngredient(ingredient.getIngredient(), ingredient.getAmount(), ingredient.getMeasure());
             
@@ -190,18 +185,13 @@ public class RecipeView  implements Serializable {
             Database.saveOrUpdate(clonedIngredient);
         }
         
-        System.out.println("3");
-        
         Database.saveOrUpdate(clonedRecipe);
-        
-        System.out.println("4");
         
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("recipe.xhtml?recipe="+clonedRecipe.getId());
         } catch (IOException ex) {
             Logger.getLogger(RecipeView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("5");
     }
     
     public String formatNumber(double value) {
@@ -290,6 +280,10 @@ public class RecipeView  implements Serializable {
         }
     }
 
+    public List<Media> getMedias() {
+        return new LinkedList<>(selectedRecipe.getMedias());
+    }
+    
     private boolean isCloseTo(double value, double target) {
         double someSmallAmount = 0.0001;
         

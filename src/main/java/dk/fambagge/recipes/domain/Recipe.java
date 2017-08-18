@@ -7,17 +7,12 @@ package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,12 +23,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.SortNatural;
 
 /**
  *
@@ -53,15 +50,15 @@ public class Recipe implements Serializable, DomainObject {
     private Set<RecipeIngredient> ingredients;
 
     private Set<RecipeStep> steps;
-    
-    private String imgFilename;
 
+    private SortedSet<Media> medias;
+    
     public Recipe() {
         name = "";
-        imgFilename = null;
         servings = 0;
         ingredients = new HashSet<>();
         steps = new HashSet<>();
+        medias = new TreeSet<>();
     }
 
     public Recipe(String name, int servings) {
@@ -113,7 +110,7 @@ public class Recipe implements Serializable, DomainObject {
     }
 
     public boolean hasImage() {
-        return (imgFilename==null?false:!imgFilename.isEmpty());
+        return !medias.isEmpty();
     }
     
     /**
@@ -208,49 +205,14 @@ public class Recipe implements Serializable, DomainObject {
         return nextSortOrder + 1;
     }
 
-    /**
-     * @return the imgFilename
-     */
-    @Column(name = "imgFilename", nullable = true)
-    public String getImgFilename() {
-        return imgFilename;
+    public void addMedia(Media m) {
+        medias.add(m);
     }
-
-    /**
-     * @param imgFileName the imgFilename to set
-     */
-    public void setImgFilename(String imgFileName) {
-        this.imgFilename = imgFileName;
+    
+    public void removeMedia(Media m) {
+        medias.remove(m);
     }
-
-    @Transient
-    public String getThumbnailUrl() {
-        File thumbnailFile = new File("./uploads/"+imgFilename.substring(0, imgFilename.lastIndexOf("."))+"-thumbnail.png");
-        
-        if(!thumbnailFile.exists()) {
-            try {
-                BufferedImage origImage = ImageIO.read(new File("./uploads/"+imgFilename));
-                
-                Image scaledInstance = origImage.getScaledInstance(256, -1, Image.SCALE_SMOOTH);
-                
-                BufferedImage scaledImage = new BufferedImage(256, scaledInstance.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
-                scaledImage.getGraphics().drawImage(scaledInstance, 0, 0, null);
-                
-                ImageIO.write(scaledImage, "jpg", thumbnailFile);
-            } catch (IOException ex) {
-                Logger.getLogger(Recipe.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
-        return "/images/"+thumbnailFile.getName();
-    }
-
-    @Transient
-    public String getImageUrl() {
-        String imgUrl = "/images/"+imgFilename;
-        return imgUrl;
-    }
-
+    
     @Transient
     public int getCaloriesPerServing() {
         return (int) Math.round(getEnergyInCalories() / getServings());
@@ -266,5 +228,35 @@ public class Recipe implements Serializable, DomainObject {
                 break;
             }
         }
+    }
+
+    /**
+     * @return the medias
+     */
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(name = "recipe_medias",
+            joinColumns = {
+                @JoinColumn(name = "recipeId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "mediaId")}
+    )
+    @OrderBy("sortOrder ASC")
+    @SortNatural
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    public SortedSet<Media> getMedias() {
+        return medias;
+    }
+
+    /**
+     * @param medias the medias to set
+     */
+    public void setMedias(SortedSet<Media> medias) {
+        this.medias = medias;
+    }
+    
+    @Transient
+    public Media getPrimaryMedia() {
+        return medias.first();
     }
 }

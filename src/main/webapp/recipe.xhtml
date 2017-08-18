@@ -9,14 +9,22 @@
     <f:view contentType="text/html">
         <h:head>
             <title>Recipes - Recipe</title>
+
+            <link href="css/featherlight.min.css" rel="stylesheet" type="text/css"/>
+            <link href="css/featherlight.gallery.min.css" rel="stylesheet" type="text/css"/>
+
             <link href="css/main.css" rel="stylesheet" type="text/css"/>
+
+            <script src="js/featherlight.min.js" type="text/javascript"></script>
+            <script src="js/featherlight.gallery.min.js" type="text/javascript"></script>
+
             <script src="js/recipe.js" type="text/javascript"></script>
         </h:head>
         <h:body>
             <h:form id="recipeForm">
                 <p:panel>
                     <f:facet name="header">
-                        <p:inplace editor="true">
+                        <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
                             <f:facet name="output">
                                 <h:outputText value="#{recipeView.selectedRecipe.name}" />
                             </f:facet>
@@ -30,7 +38,7 @@
                     <div class="ui-grid ui-grid-responsive">
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
-                                Serves: <p:inplace editor="true">
+                                Serves: <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
                                     <f:facet name="output">
                                         <h:outputText value="#{recipeView.selectedRecipe.servings}" />
                                     </f:facet>
@@ -42,7 +50,7 @@
                                 Energy/serving: <h:outputText value="#{recipeView.selectedRecipe.caloriesPerServing}" /> kcal
                                 <br />
                                 <br />
-                                Adjust servings for current view: <p:inplace editor="true">
+                                Adjust servings for current view: <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
                                     <f:facet name="output">
                                         <h:outputText value="#{recipeView.customServings}" />
                                     </f:facet>
@@ -53,20 +61,22 @@
                                 </p:inplace><br />
 
                                 <br />
-                                <p:commandButton value="Clone Recipe" type="submit" action="#{recipeView.cloneRecipe()}" process="@this" styleClass="hideFromPrint" />
+                                <h:panelGroup rendered="#{authBean.hasPermission('edit')}">
+                                    <p:commandButton value="Clone Recipe" type="submit" action="#{recipeView.cloneRecipe()}" process="@this" styleClass="hideFromPrint" />
+                                </h:panelGroup>
                             </div>
                         </div>
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-4">
                                 <p:panel>
-                                    <f:facet name="header">Ingredients <p:commandLink type="button" styleClass="hideFromPrint" value="+" onclick="PF('addRecipeIngredientDialog').show();" /></f:facet>
+                                    <f:facet name="header">Ingredients <p:commandLink type="button" styleClass="hideFromPrint" value="+" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!authBean.hasPermission('edit')}" /></f:facet>
                                     <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem">
                                         <div class="ui-grid-row">
                                             <div class="ui-grid-col-4">
                                                 <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
                                             </div>
                                             <div class="ui-grid-col-7">
-                                                <p:inplace editor="true">
+                                                <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
                                                     <f:facet name="output">
                                                         <span class="ingredientInfo"><h:outputText value="#{recipeView.formatNumber(recipeView.getScaledIngredientAmount(ingredient))}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                     </f:facet>
@@ -77,7 +87,7 @@
                                                 </p:inplace>
                                             </div>
                                             <div class="ui-grid-col-1">
-                                                <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm">
+                                                <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
                                                     <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
                                                 </p:commandLink>
                                             </div>
@@ -92,11 +102,11 @@
                             </div>
                             <div class="ui-grid-col-8">
                                 <p:panel>
-                                    <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" /></f:facet>
+                                    <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" disabled="#{!authBean.hasPermission('edit')}" /></f:facet>
                                     <p:dataList var="step" value="#{recipeView.stepsSorted}" id="recipeSteps" itemStyleClass="recipeStep">
-                                        <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}" effect="none" styleClass="inlineEditor">
+                                        <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}" effect="none" styleClass="inlineEditor" disabled="#{!authBean.hasPermission('edit')}">
                                             <f:facet name="output">
-                                                <span class="fullWidth draggable recipeStepInner" data-id="#{step.id}"><h:outputText value="#{recipeView.escapeTextWithLineBreaks(step.description)}" escape="false" /></span>
+                                                <span class="fullWidth #{authBean.hasPermission('edit')?'draggable':''} recipeStepInner" data-id="#{step.id}"><h:outputText value="#{recipeView.escapeTextWithLineBreaks(step.description)}" escape="false" /></span>
                                             </f:facet>
                                             <f:facet name="input">
                                                 <p:inputTextarea value="#{step.description}" styleClass="recipeStepEditor" autoResize="true">
@@ -112,17 +122,24 @@
                             <div class="ui-grid-col-12">
                                 <br />
                                 <h:panelGroup id="imageArea">
-                                    <h:panelGroup rendered="#{recipeView.selectedRecipe.hasImage()}">
-                                        <p:lightBox styleClass="imagebox" id="lighbox1" >  
-                                            <h:outputLink value="#{recipeView.selectedRecipe.imageUrl}">
-                                                <img src="#{recipeView.selectedRecipe.thumbnailUrl}" />  
-                                            </h:outputLink>
-                                        </p:lightBox>
+                                    <h:panelGroup rendered="#{recipeView.selectedRecipe.hasImage()}" layout="block">
+                                        <div data-featherlight-filter="a" id="gallery">
+                                            <p:repeat value="#{recipeView.medias}" var="media">
+                                                <h:outputLink value="#{media.url}">
+                                                    <div class="recipeMedia" style="background-image: url(#{media.getThumbnailUrl(128)})" />
+                                                </h:outputLink>
+                                            </p:repeat>
+                                        </div>
                                     </h:panelGroup>
                                     <div class="ui-grid-col-4">
-                                        <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true"
+                                        <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true" rendered="#{authBean.hasPermission('edit')}"
                                                       sizeLimit="5000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" update=":recipeForm:imageArea"/>
                                     </div>
+                                    <script>
+                                        jQuery("#gallery").featherlightGallery({
+                                            variant: 'featherlight-gallery2'
+                                        });
+                                    </script>
                                 </h:panelGroup>
                             </div>
                         </div>

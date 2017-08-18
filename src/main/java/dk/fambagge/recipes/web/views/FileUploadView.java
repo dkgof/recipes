@@ -6,9 +6,11 @@
 package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.db.Database;
+import dk.fambagge.recipes.domain.Media;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,18 +42,29 @@ public class FileUploadView implements Serializable {
         try {
             BufferedImage image = ImageIO.read(event.getFile().getInputstream());
             
-            Image scaledInstance = image.getScaledInstance(1080, -1, Image.SCALE_SMOOTH);
-            
-            BufferedImage scaledImage = new BufferedImage(1080, scaledInstance.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
-            scaledImage.getGraphics().drawImage(scaledInstance, 0, 0, null);
-            
-            System.out.println(""+scaledInstance.getClass());
-            
+            BufferedImage scaledImage = Media.scaleImage(image, 1920);
+        
             File outputFile = File.createTempFile("recepies", ".jpg", saveDir);
+
+            try {
+                ImageIO.write(scaledImage, "jpg", outputFile);
+            } catch (IOException ex) {
+                Logger.getLogger(Media.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-            ImageIO.write(scaledImage, "jpg", outputFile);
+            //Find order of next media
+            int order = -1;
+            for(Media m : getRecipeView().getSelectedRecipe().getMedias()) {
+                order = Math.max(order, m.getSortOrder());
+            }
             
-            getRecipeView().getSelectedRecipe().setImgFilename(outputFile.getName());
+            Media media = new Media();
+            media.setSortOrder(order+1);
+            media.setFilename(outputFile.getName());
+            
+            Database.save(media);
+            
+            getRecipeView().getSelectedRecipe().addMedia(media);
             Database.saveOrUpdate(getRecipeView().getSelectedRecipe());
             
         } catch (Exception ex) {

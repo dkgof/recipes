@@ -27,6 +27,14 @@ public class AuthBean implements Serializable {
     private String username;
     private String password;
     
+    public boolean hasPermission(String permission) {
+        if(loggedInUser == null) {
+            return false;
+        }
+        
+        return loggedInUser.hasPermission(permission);
+    }
+    
     public void login() {
         //Make sure database is created
         SessionFactory sessionFactory = Database.getSessionFactory();
