@@ -44,10 +44,10 @@ public class FileUploadView implements Serializable {
             
             BufferedImage scaledImage = Media.scaleImage(image, 1920);
         
-            File outputFile = File.createTempFile("recepies", ".jpg", saveDir);
+            File outputFile = File.createTempFile("recepies", ".png", saveDir);
 
             try {
-                ImageIO.write(scaledImage, "jpg", outputFile);
+                ImageIO.write(scaledImage, "png", outputFile);
             } catch (IOException ex) {
                 Logger.getLogger(Media.class.getName()).log(Level.SEVERE, null, ex);
             }

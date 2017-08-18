@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import net.coobird.thumbnailator.Thumbnails;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
@@ -45,7 +46,7 @@ public class Media implements DomainObject, Serializable, Comparable<Media> {
     }
 
     public String getThumbnailUrl(int width) {
-        File thumbnailFile = new File("./uploads/"+filename.substring(0, filename.lastIndexOf("."))+"-"+width+".jpg");
+        File thumbnailFile = new File("./uploads/"+filename.substring(0, filename.lastIndexOf("."))+"-"+width+".png");
         
         if(!thumbnailFile.exists()) {
             try {
@@ -54,7 +55,7 @@ public class Media implements DomainObject, Serializable, Comparable<Media> {
                 
                 BufferedImage scaledImage = scaleImage(origImage, width);
                 
-                ImageIO.write(scaledImage, "jpg", thumbnailFile);                
+                ImageIO.write(scaledImage, "png", thumbnailFile);                
             } catch (IOException ex) {
                 Logger.getLogger(Media.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -128,15 +129,12 @@ public class Media implements DomainObject, Serializable, Comparable<Media> {
         return Integer.compare(this.sortOrder, m.sortOrder);
     }
 
-    public static BufferedImage scaleImage(BufferedImage image, int wantedWidth) {
+    public static BufferedImage scaleImage(BufferedImage image, int wantedWidth) throws IOException {
         int imageWidth = Math.min(image.getWidth(), wantedWidth);
 
-        Image scaledInstance = image.getScaledInstance(imageWidth, -1, Image.SCALE_FAST);
+        double aspect = image.getWidth() / image.getHeight();
 
-        BufferedImage scaledImage = new BufferedImage(imageWidth, scaledInstance.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
-        scaledImage.getGraphics().drawImage(scaledInstance, 0, 0, null);
-
-        return scaledImage;
+        return Thumbnails.of(image).size(imageWidth, (int)(imageWidth/aspect)).asBufferedImage();
     }
     
     public String toString() {
