@@ -33,7 +33,7 @@
                         <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
                         <h:panelGroup rendered="#{recipe.hasImage()}">
                             <h:link outcome="recipe.xhtml?recipe=#{recipe.id}">
-                            <div style="background-image: url(#{recipe.primaryMedia.getThumbnailUrl(128)});" class="foodIcon"></div>
+                            <div style="background-image: url(#{recipe.primaryMedia.getThumbnailUrl(512)});" class="foodIcon"></div>
                             </h:link>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{!recipe.hasImage()}">

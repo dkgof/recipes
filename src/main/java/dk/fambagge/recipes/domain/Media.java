@@ -131,7 +131,7 @@ public class Media implements DomainObject, Serializable, Comparable<Media> {
     public static BufferedImage scaleImage(BufferedImage image, int wantedWidth) {
         int imageWidth = Math.min(image.getWidth(), wantedWidth);
 
-        Image scaledInstance = image.getScaledInstance(imageWidth, -1, Image.SCALE_SMOOTH);
+        Image scaledInstance = image.getScaledInstance(imageWidth, -1, Image.SCALE_FAST);
 
         BufferedImage scaledImage = new BufferedImage(imageWidth, scaledInstance.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
         scaledImage.getGraphics().drawImage(scaledInstance, 0, 0, null);
