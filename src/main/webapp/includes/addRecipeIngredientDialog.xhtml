@@ -4,24 +4,55 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
-    <p:dialog id="addRecipeIngredientDialog" header="Add Recipe Ingredient" widgetVar="addRecipeIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
+    <p:dialog id="addRecipeIngredientDialog" header="Add Recipe Ingredient" widgetVar="addRecipeIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true" width="450">
         <h:form id="addRecipeIngredient">
-            <h:panelGrid columns="3" cellpadding="5">
-                <h:outputLabel for="ingredient" value="Ingredient:" />
-                <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="contains">
-                    <f:selectItems value="#{addRecipeIngredientView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
-                    <p:ajax event="change" update="@(#addRecipeIngredient\\:measure)"/>
-                </p:selectOneMenu>
-                <p:spacer />
-                <h:outputLabel for="amount" value="Amount:" />
-                <p:inputText id="amount" value="#{addRecipeIngredientView.ingredientAmount}" required="true" />
-                <p:spacer />
-                <h:outputLabel for="measure" value="Measure:" />
-                <p:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeIngredientView.ingredientMeasure}" style="width:100%">
-                    <f:selectItems value="#{addRecipeIngredientView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
-                </p:selectOneMenu>
-                <p:spacer />
-            </h:panelGrid>
+            <div class="ui-grid ui-grid-responsive">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                    <h:outputLabel for="ingredient" value="Ingredient:" />
+                    </div>
+                    <div class="ui-grid-col-7">
+                    <p:selectOneMenu id="ingredient" converter="dk.fambagge.recipes.web.converter.IngredientConverter" value="#{addRecipeIngredientView.ingredient}" style="width:100%" valueChangeListener="#{addRecipeIngredientView.recipeIngredientChange}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{addRecipeIngredientView.allIngredients}" var="man" itemLabel="#{man.name}" itemValue="#{man}" />
+                        <p:ajax event="change" update="@(#addRecipeIngredient\\:measure)"/>
+                    </p:selectOneMenu>
+                    </div>
+                </div>
+
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <h:outputLabel for="amount" value="Amount:" />
+                    </div>
+                    <div class="ui-grid-col-7">
+                        <p:inputText id="amount" value="#{addRecipeIngredientView.ingredientAmount}" required="true" style="width: 100%"/>
+                    </div>
+                </div>
+
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                    <h:outputLabel for="measure" value="Measure:" />
+                    </div>
+                    <div class="ui-grid-col-7">
+                    <p:selectOneMenu id="measure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeIngredientView.ingredientMeasure}" style="width:100%">
+                        <f:selectItems value="#{addRecipeIngredientView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
+                    </p:selectOneMenu>
+                    </div>
+                </div>
+
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                    <h:outputLabel for="convert" value="Convert: " />
+                    </div>
+                    <div class="ui-grid-col-1">
+                    <p:selectBooleanCheckbox value="#{addRecipeIngredientView.convert}" id="convert" />
+                    </div>
+                    <div class="ui-grid-col-6">
+                    <p:selectOneMenu id="convertMeasure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addRecipeIngredientView.convertMeasure}" style="width: 100%">
+                        <f:selectItems value="#{addRecipeIngredientView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
+                    </p:selectOneMenu>
+                    </div>
+                </div>
+            </div>
             <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeIngredientView.addRecipeIngredient(addMethodArgument)}" oncomplete="handleAddRecipeIngredient(xhr, status, args);" update="#{update}" />
         </h:form>
 

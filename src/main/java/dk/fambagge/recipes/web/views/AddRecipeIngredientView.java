@@ -34,6 +34,10 @@ public class AddRecipeIngredientView implements Serializable {
     
     private Measure ingredientMeasure;
 
+    private boolean convert;
+    
+    private Measure convertMeasure;
+    
     /*
     public void addRecipeIngredient(Collection<RecipeIngredient> ingredients) {
         RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), getIngredientAmount(), getIngredientMeasure());
@@ -42,7 +46,15 @@ public class AddRecipeIngredientView implements Serializable {
     */
     
     public void addRecipeIngredient(Recipe recipe) {
-        RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), getIngredientAmount(), getIngredientMeasure());
+        double amount = getIngredientAmount();
+        Measure measure = getIngredientMeasure();
+        
+        if(isConvert()) {
+            amount = measure.convertTo(amount, getConvertMeasure());
+            measure = getConvertMeasure();
+        }
+        
+        RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), amount, measure);
         recipe.addIngredient(recipeIngredient);
         
         Database.saveOrUpdate(recipe);
@@ -53,6 +65,8 @@ public class AddRecipeIngredientView implements Serializable {
         ingredient = null;
         ingredientAmount = 0;
         ingredientMeasure = null;
+        setConvert(false);
+        setConvertMeasure(null);
     }
     
     public void recipeIngredientChange(ValueChangeEvent event) {
@@ -128,5 +142,33 @@ public class AddRecipeIngredientView implements Serializable {
      */
     public void setIngredientMeasure(Measure ingredientMeasure) {
         this.ingredientMeasure = ingredientMeasure;
+    }
+
+    /**
+     * @return the convert
+     */
+    public boolean isConvert() {
+        return convert;
+    }
+
+    /**
+     * @param convert the convert to set
+     */
+    public void setConvert(boolean convert) {
+        this.convert = convert;
+    }
+
+    /**
+     * @return the convertMeasure
+     */
+    public Measure getConvertMeasure() {
+        return convertMeasure;
+    }
+
+    /**
+     * @param convertMeasure the convertMeasure to set
+     */
+    public void setConvertMeasure(Measure convertMeasure) {
+        this.convertMeasure = convertMeasure;
     }
 }
