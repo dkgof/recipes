@@ -8,10 +8,15 @@
         <link href="css/main.css" rel="stylesheet" type="text/css"/>
     </h:head>
     <h:body>
-        
+
         <h:link outcome="ingredients" value="Edit Ingredients" />
         <br />
         <h:link outcome="recipes" value="Edit Recipes" />
+        <br />
+        <br />
+        <h:form>
+            <p:commandLink action="#{authBean.logout()}"/>
+        </h:form>
         <br />
         <br />
         <h:link outcome="/index" value="To frontpage" />
