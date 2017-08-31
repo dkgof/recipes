@@ -210,8 +210,17 @@ public class Recipe implements Serializable, DomainObject {
     }
     
     public void removeMedia(Media m) {
+        int oldOrder = m.getSortOrder();
+        
         medias.remove(m);
         m.delete();
+        
+        for(Media media : medias) {
+            if(media.getSortOrder() > oldOrder) {
+                media.setSortOrder(media.getSortOrder()-1);
+            }
+        }
+        
         Database.saveOrUpdate(this);
     }
     
