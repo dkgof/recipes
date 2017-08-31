@@ -12,13 +12,15 @@
             <link href="css/main.css" rel="stylesheet" type="text/css"/>
         </h:head>
         <h:body>
-            <h:form>
+            <p:growl autoUpdate="true" showDetail="true" />
+            
+            <h:form id="loginForm">
                 <div class="ui-grid-col-2">
                     <h:outputLabel for="username" value="Username:" />
                     <p:inputText id="username" value="#{authBean.username}" />
                     <h:outputLabel for="password" value="Password:" />
                     <p:password id="password" value="#{authBean.password}" />
-                    <p:commandButton value="Login" action="#{authBean.login()}" />
+                    <p:commandButton value="Login" action="#{authBean.login()}" update=":loginForm"/>
                 </div>
             </h:form>
         </h:body>

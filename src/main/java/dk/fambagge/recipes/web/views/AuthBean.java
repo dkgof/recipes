@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.hibernate.SessionFactory;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
  * Allows the user to navigate between instances
@@ -22,12 +24,12 @@ public class AuthBean implements Serializable {
     public static final String REDIRECT_KEY = "RECIPES_REDIRECT";
     public static final String USER_KEY = "RECIPES_USER";
 
-    private User loggedInUser = null;
-    
     private String username;
     private String password;
     
     public boolean hasPermission(String permission) {
+        User loggedInUser = getLoggedInUser();
+        
         if(loggedInUser == null) {
             return false;
         }
@@ -39,23 +41,29 @@ public class AuthBean implements Serializable {
         //Make sure database is created
         SessionFactory sessionFactory = Database.getSessionFactory();
         
-        //Check login
-        System.out.println("Doing login: "+username+" // "+password);
+        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+        User user = User.getFromUsername(username);
         
-        if(username.equals("test") && password.equals("tester")) {
-            loggedInUser = new User();
+        if(user != null && passwordEncryptor.checkPassword(password, user.getPassword())) {
             username = "";
             password = "";
             
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(USER_KEY, loggedInUser);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(USER_KEY, user);
             
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect((String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(REDIRECT_KEY));
+                String redirect = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(REDIRECT_KEY);
+                
+                if(redirect == null || redirect.isEmpty()) {
+                    redirect = "/";
+                }
+                
+                FacesContext.getCurrentInstance().getExternalContext().redirect(redirect);
             } catch (IOException ex) {
                 Logger.getLogger(AuthBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             password = "";
+            FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Username / Password does not check out!"));
         }
     }
 

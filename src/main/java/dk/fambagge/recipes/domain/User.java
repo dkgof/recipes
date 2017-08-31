@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.Database;
@@ -18,26 +19,27 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
  *
  * @author rolf
  */
 @Entity
-@Table(name = "usher_users")
+@Table(name = "users")
 public class User implements Serializable, DomainObject {
+
+    private static final String permissionSplitter = ":";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String email;
-
     private String userName;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private Set<Permission> permissions;
+    private String password;
+    
+    private String permissions;
 
     /**
      * @return the id
@@ -54,30 +56,16 @@ public class User implements Serializable, DomainObject {
     }
 
     /**
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
      * @return the permissions
      */
-    public Set<Permission> getPermissions() {
+    public String getPermissions() {
         return permissions;
     }
 
     /**
      * @param permissions the permissions to set
      */
-    public void setPermissions(Set<Permission> permissions) {
+    public void setPermissions(String permissions) {
         this.permissions = permissions;
     }
 
@@ -87,6 +75,10 @@ public class User implements Serializable, DomainObject {
 
     public static User getFromId(long id) {
         return Database.get("id = " + id, User.class);
+    }
+
+    public static User getFromUsername(String username) {
+        return Database.get("userName = '" + username + "'", User.class);
     }
 
     @Override
@@ -123,7 +115,29 @@ public class User implements Serializable, DomainObject {
         this.userName = userName;
     }
 
-    public boolean hasPermission(String permission) {
-        return true;
+    public boolean hasPermission(String testedPermission) {
+        String[] permissionArray = permissions.split(permissionSplitter);
+        for (String permission : permissionArray) {
+            if (permission.equals(testedPermission)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+        this.password = passwordEncryptor.encryptPassword(password);
     }
 }
