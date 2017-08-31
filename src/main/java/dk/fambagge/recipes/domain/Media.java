@@ -5,6 +5,7 @@
  */
 package dk.fambagge.recipes.domain;
 
+import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -137,5 +138,19 @@ public class Media implements DomainObject, Serializable, Comparable<Media> {
     
     public String toString() {
         return "["+id+"] - "+filename;
+    }
+    
+    public void delete() {
+        Database.delete(this);
+        
+        String prefix = this.filename.substring(0, this.filename.lastIndexOf("."));
+        
+        File uploadDir = new File("./uploads");
+        
+        for(File f : uploadDir.listFiles()) {
+            if(f.getName().startsWith(prefix)) {
+                f.delete();
+            }
+        }
     }
 }

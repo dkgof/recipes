@@ -213,6 +213,10 @@ public class RecipeView  implements Serializable {
             formattedValue = "3/4";
         } else if(isCloseTo(value,0.8)) {
             formattedValue = "4/5";
+        } else if(isCloseTo(value,0.66666666)) {
+            formattedValue = "2/3";
+        } else if(isCloseTo(value,0.33333333)) {
+            formattedValue = "1/3";
         }
         
         return formattedValue;
@@ -288,8 +292,6 @@ public class RecipeView  implements Serializable {
         double someSmallAmount = 0.0001;
         
         boolean result = value > (target-someSmallAmount) && value < (target+someSmallAmount);
-
-        System.out.println(value+" <--> "+target+" ["+result+"]");
         
         return result;
     }

@@ -211,6 +211,8 @@ public class Recipe implements Serializable, DomainObject {
     
     public void removeMedia(Media m) {
         medias.remove(m);
+        m.delete();
+        Database.saveOrUpdate(this);
     }
     
     @Transient
