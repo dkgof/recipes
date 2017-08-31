@@ -44,6 +44,9 @@ public class AuthBean implements Serializable {
         
         if(username.equals("test") && password.equals("tester")) {
             loggedInUser = new User();
+            username = "";
+            password = "";
+            
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(USER_KEY, loggedInUser);
             
             try {
@@ -51,6 +54,8 @@ public class AuthBean implements Serializable {
             } catch (IOException ex) {
                 Logger.getLogger(AuthBean.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
+            password = "";
         }
     }
 
