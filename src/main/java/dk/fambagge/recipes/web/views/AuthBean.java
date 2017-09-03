@@ -81,7 +81,7 @@ public class AuthBean implements Serializable {
     /**
      * @return the loggedInUser
      */
-    public User getLoggedInUser() {
+    private User getLoggedInUser() {
         //Make sure we are always refreshed?
         
         User loggedInUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(USER_KEY);

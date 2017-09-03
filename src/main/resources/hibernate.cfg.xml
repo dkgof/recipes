@@ -8,7 +8,7 @@
     <property name="hibernate.connection.username">recipe</property>
     <property name="hibernate.connection.password">recipe</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <property name="hibernate.hbm2ddl.auto">validate</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
     
     <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
     <property name="hibernate.cache.use_second_level_cache">true</property>
@@ -35,6 +35,7 @@
     <mapping class="dk.fambagge.recipes.domain.Media"/>
     <mapping class="dk.fambagge.recipes.domain.Recipe"/>
     <mapping class="dk.fambagge.recipes.domain.RecipeIngredient"/>
+    <mapping class="dk.fambagge.recipes.domain.RecipeIngredientGroup"/>
     <mapping class="dk.fambagge.recipes.domain.RecipeStep"/>
     <mapping class="dk.fambagge.recipes.domain.CustomMeasure"/>
     <mapping class="dk.fambagge.recipes.domain.User"/>

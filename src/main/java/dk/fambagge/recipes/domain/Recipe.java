@@ -53,6 +53,8 @@ public class Recipe implements Serializable, DomainObject {
 
     private SortedSet<Media> medias;
     
+    private Set<RecipeIngredientGroup> ingredientGroups;
+    
     public Recipe() {
         name = "";
         servings = 0;
@@ -269,5 +271,20 @@ public class Recipe implements Serializable, DomainObject {
     @Transient
     public Media getPrimaryMedia() {
         return medias.first();
+    }
+
+    /**
+     * @return the ingredientGroups
+     */
+    @OneToMany
+    public Set<RecipeIngredientGroup> getIngredientGroups() {
+        return ingredientGroups;
+    }
+
+    /**
+     * @param ingredientGroups the ingredientGroups to set
+     */
+    public void setIngredientGroups(Set<RecipeIngredientGroup> ingredientGroups) {
+        this.ingredientGroups = ingredientGroups;
     }
 }

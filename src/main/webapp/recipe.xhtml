@@ -159,7 +159,7 @@
                 <p:remoteCommand name="doDrop" action="#{recipeView.doDrop()}" update=":recipeForm:recipeSteps" oncomplete="initDND();" />
             </h:form>
 
-            <h:link value="Back" outcome="index" styleClass="hideFromPrint" />
+            <p:link value="Back" outcome="index" styleClass="hideFromPrint" />
 
             <ui:include src="includes/addRecipeIngredientDialog.xhtml">
                 <ui:param name="addMethodArgument" value="#{recipeView.selectedRecipe}" />

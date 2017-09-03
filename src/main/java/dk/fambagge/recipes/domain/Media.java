@@ -7,7 +7,6 @@ package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
