@@ -7,13 +7,20 @@ package dk.fambagge.recipes.domain;
 
 import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -29,8 +36,13 @@ public class RecipeIngredientGroup implements DomainObject, Serializable {
 
     private String name;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private Set<RecipeIngredient> ingredients;
+
+    public RecipeIngredientGroup() {
+        ingredients = new HashSet<>();
+    }
     
     /**
      * @return the id
@@ -58,5 +70,40 @@ public class RecipeIngredientGroup implements DomainObject, Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the ingredients
+     */
+    public Set<RecipeIngredient> getIngredients() {
+        return ingredients;
+    }
+
+    /**
+     * @param ingredients the ingredients to set
+     */
+    public void setIngredients(Set<RecipeIngredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+    
+    public List<RecipeIngredient> getIngredientsSorted() {
+        List<RecipeIngredient> sortedIngredients = new LinkedList<>(getIngredients());
+        
+        Collections.sort(sortedIngredients, (RecipeIngredient ingredient1, RecipeIngredient ingredient2) -> {
+            return ingredient1.getIngredient().getName().compareTo(ingredient2.getIngredient().getName());
+        });
+        
+        return sortedIngredients;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof RecipeIngredientGroup) {
+            RecipeIngredientGroup group = (RecipeIngredientGroup) obj;
+            
+            return this.id == group.id;
+        }
+        
+        return false;
     }
 }

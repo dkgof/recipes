@@ -276,7 +276,8 @@ public class Recipe implements Serializable, DomainObject {
     /**
      * @return the ingredientGroups
      */
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     public Set<RecipeIngredientGroup> getIngredientGroups() {
         return ingredientGroups;
     }
@@ -286,5 +287,13 @@ public class Recipe implements Serializable, DomainObject {
      */
     public void setIngredientGroups(Set<RecipeIngredientGroup> ingredientGroups) {
         this.ingredientGroups = ingredientGroups;
+    }
+
+    public void addIngredientGroup(RecipeIngredientGroup group) {
+        this.ingredientGroups.add(group);
+    }
+
+    public void removeRecipeGroup(RecipeIngredientGroup group) {
+        this.ingredientGroups.remove(group);
     }
 }

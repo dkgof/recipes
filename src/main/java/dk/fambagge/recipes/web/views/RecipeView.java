@@ -11,6 +11,7 @@ import dk.fambagge.recipes.domain.Measure;
 import dk.fambagge.recipes.domain.Media;
 import dk.fambagge.recipes.domain.Recipe;
 import dk.fambagge.recipes.domain.RecipeIngredient;
+import dk.fambagge.recipes.domain.RecipeIngredientGroup;
 import dk.fambagge.recipes.domain.RecipeStep;
 import java.io.IOException;
 import java.io.Serializable;
@@ -37,6 +38,8 @@ public class RecipeView  implements Serializable {
     
     private int customServings;
     private boolean showInGram;
+    
+    private String groupName;
     
     /**
      * @return the selectedRecipe
@@ -85,6 +88,10 @@ public class RecipeView  implements Serializable {
         
         Set<RecipeIngredient> ingredients = getSelectedRecipe().getIngredients();
         
+        for(RecipeIngredientGroup group : getSelectedRecipe().getIngredientGroups()) {
+            ingredients.removeAll(group.getIngredients());
+        }
+        
         sortedIngredients.addAll(ingredients);
         
         Collections.sort(sortedIngredients, (RecipeIngredient ingredient1, RecipeIngredient ingredient2) -> {
@@ -94,6 +101,16 @@ public class RecipeView  implements Serializable {
         return sortedIngredients;
     }
 
+    public List<RecipeIngredientGroup> getIngredientGroupsSorted() {
+        List<RecipeIngredientGroup> sortedGroups = new LinkedList<>(getSelectedRecipe().getIngredientGroups());
+        
+        Collections.sort(sortedGroups, (RecipeIngredientGroup group1, RecipeIngredientGroup group2) -> {
+            return group1.getName().compareTo(group2.getName());
+        });
+
+        return sortedGroups;
+    }
+    
     public void addStep() {
         RecipeStep step = new RecipeStep();
         getSelectedRecipe().addStep(step);
@@ -294,5 +311,41 @@ public class RecipeView  implements Serializable {
         boolean result = value > (target-someSmallAmount) && value < (target+someSmallAmount);
         
         return result;
+    }
+
+    /**
+     * @return the groupName
+     */
+    public String getGroupName() {
+        return groupName;
+    }
+
+    /**
+     * @param groupName the groupName to set
+     */
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+    
+    public void addRecipeGroup() {
+        RecipeIngredientGroup group = new RecipeIngredientGroup();
+        group.setName(groupName);
+        
+        groupName = "";
+        
+        Recipe recipe = getSelectedRecipe();
+        
+        recipe.addIngredientGroup(group);
+        
+        Database.save(group);
+        Database.saveOrUpdate(recipe);
+    }
+    
+    public void deleteRecipeGroup(RecipeIngredientGroup group) {
+        Recipe recipe = getSelectedRecipe();
+        recipe.removeRecipeGroup(group);
+        
+        Database.delete(group);
+        Database.saveOrUpdate(recipe);
     }
 }
