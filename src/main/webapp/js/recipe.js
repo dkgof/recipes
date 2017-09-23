@@ -31,7 +31,7 @@ function initDND() {
 function initGroupDND() {
     console.log("Group DND!");
     
-    jQuery("#recipeForm .ingredientItem").draggable({
+    jQuery("#recipeForm .ingredientItem.draggable").draggable({
         helper: "clone",
         revert: "true",
         cursorAt: {

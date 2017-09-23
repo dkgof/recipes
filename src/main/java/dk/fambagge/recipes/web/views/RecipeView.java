@@ -279,8 +279,10 @@ public class RecipeView  implements Serializable {
             Database.refresh(selectedRecipe);
         }
         
-        System.out.println("Refreshing group");
-        Database.refresh(group);
+        if(group != null) {
+            System.out.println("Refreshing group");
+            Database.refresh(group);
+        }
     }
 
     public void doDropStep() {
