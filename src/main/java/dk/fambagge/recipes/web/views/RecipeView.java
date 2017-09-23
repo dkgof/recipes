@@ -84,20 +84,13 @@ public class RecipeView  implements Serializable {
     }
     
     public List<RecipeIngredient> getIngredientsSorted() {
-        System.out.println("Getting ingredients...");
-        
         List<RecipeIngredient> sortedIngredients = new LinkedList<>();
         
         Set<RecipeIngredient> ingredients = getSelectedRecipe().getIngredients();
         
-        System.out.println("Ingredients in recipe: "+ingredients);
-        
         for(RecipeIngredientGroup group : getSelectedRecipe().getIngredientGroups()) {
-            System.out.println("Ingredients in group ["+group.getName()+"]: "+group.getIngredients());
             ingredients.removeAll(group.getIngredients());
         }
-        
-        System.out.println("Ingredients left: "+ingredients);
         
         sortedIngredients.addAll(ingredients);
         
