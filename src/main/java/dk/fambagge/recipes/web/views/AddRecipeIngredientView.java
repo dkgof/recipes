@@ -49,12 +49,15 @@ public class AddRecipeIngredientView implements Serializable {
         double amount = getIngredientAmount();
         Measure measure = getIngredientMeasure();
         
+        RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), amount, measure);
+        
         if(isConvert()) {
-            amount = measure.convertTo(amount, getConvertMeasure());
-            measure = getConvertMeasure();
+            double convertAmount = recipeIngredient.getAmount(convertMeasure);
+            
+            recipeIngredient.setAmount(convertAmount);
+            recipeIngredient.setMeasure(convertMeasure);
         }
         
-        RecipeIngredient recipeIngredient = new RecipeIngredient(getIngredient(), amount, measure);
         recipe.addIngredient(recipeIngredient);
         
         Database.saveOrUpdate(recipe);

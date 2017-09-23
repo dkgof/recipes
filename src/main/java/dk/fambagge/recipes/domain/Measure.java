@@ -100,7 +100,7 @@ public interface Measure extends Serializable {
             if((targetMeasure instanceof Volume)) {
                 return (amount * this.getFactor()) / targetMeasure.getFactor();
             } else {
-                throw new UnsupportedOperationException("Cannot convert bolume meassure to anything but volume");
+                throw new UnsupportedOperationException("Cannot convert volume meassure to anything but volume");
             }
         }
     }
