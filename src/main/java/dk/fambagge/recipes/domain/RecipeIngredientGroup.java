@@ -5,6 +5,7 @@
  */
 package dk.fambagge.recipes.domain;
 
+import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
 import java.util.Collections;
@@ -29,6 +30,10 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 @Table(name = "recipeingredientgroups")
 public class RecipeIngredientGroup implements DomainObject, Serializable {
+
+    public static RecipeIngredientGroup fromId(int groupId) {
+        return Database.get("id = "+groupId, RecipeIngredientGroup.class);
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -105,5 +110,9 @@ public class RecipeIngredientGroup implements DomainObject, Serializable {
         }
         
         return false;
+    }
+
+    public void addIngredient(RecipeIngredient ingredient) {
+        ingredients.add(ingredient);
     }
 }

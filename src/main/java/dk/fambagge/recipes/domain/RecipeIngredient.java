@@ -5,6 +5,7 @@
  */
 package dk.fambagge.recipes.domain;
 
+import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import dk.fambagge.recipes.domain.Measure.Volume;
 import dk.fambagge.recipes.domain.Measure.Weight;
@@ -24,6 +25,10 @@ import org.hibernate.annotations.Type;
 @Table(name = "recipeingredients")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RecipeIngredient implements Serializable, DomainObject {
+
+    public static RecipeIngredient fromId(int ingredientId) {
+        return Database.get("id = "+ingredientId, RecipeIngredient.class);
+    }
 
     private int id;
     private Ingredient ingredient;
@@ -214,5 +219,10 @@ public class RecipeIngredient implements Serializable, DomainObject {
      */
     public void setGroup(RecipeIngredientGroup group) {
         this.group = group;
+    }
+
+    @Override
+    public String toString() {
+        return "RecipeIngredient ["+ingredient.getName()+"] - "+getAmount()+getMeasure().getSymbol();
     }
 }

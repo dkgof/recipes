@@ -101,6 +101,7 @@ a {
     background: rgba(0,0,0,0.40);
 }
 
+
 .featherlight-next span,
 .featherlight-previous span {
     font-size: 25px;
@@ -111,10 +112,15 @@ a {
 
 .dragHoverTest {
     background: darkslategrey !important;
+
+    .ui-panel-titlebar {
+        background: -webkit-linear-gradient(top,#c1c1c1 0,#cacdd2 100%);
+        background: linear-gradient(top,#c1c1c1 0,#cacdd2 100%);
+    }
 }
 
 .dragActiveTest {
-    background: lightgray;
+    background: lightgray;   
 }
 
 .ui-draggable-helper {
@@ -127,6 +133,14 @@ a {
 
 .ui-state-disabled {
     display: none;
+}
+
+.ingredientGroupList .ui-datalist-content {
+    border: 0;
+}
+
+.recipeGroup .ui-panel-content {
+    padding: 0;
 }
 
 @media print {

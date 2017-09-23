@@ -84,13 +84,20 @@ public class RecipeView  implements Serializable {
     }
     
     public List<RecipeIngredient> getIngredientsSorted() {
+        System.out.println("Getting ingredients...");
+        
         List<RecipeIngredient> sortedIngredients = new LinkedList<>();
         
         Set<RecipeIngredient> ingredients = getSelectedRecipe().getIngredients();
         
+        System.out.println("Ingredients in recipe: "+ingredients);
+        
         for(RecipeIngredientGroup group : getSelectedRecipe().getIngredientGroups()) {
+            System.out.println("Ingredients in group ["+group.getName()+"]: "+group.getIngredients());
             ingredients.removeAll(group.getIngredients());
         }
+        
+        System.out.println("Ingredients left: "+ingredients);
         
         sortedIngredients.addAll(ingredients);
         
@@ -253,7 +260,37 @@ public class RecipeView  implements Serializable {
         this.showInGram = showInGram;
     }
     
-    public void doDrop() {
+    public void doDropIngredient() {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        
+        int ingredientId = Integer.parseInt(params.get("ingredient"));
+        int groupId = Integer.parseInt(params.get("group"));
+
+        System.out.println("Ingredient: "+ingredientId+" - Group: "+groupId);
+        
+        RecipeIngredient ingredient = RecipeIngredient.fromId(ingredientId);
+        RecipeIngredientGroup group = null;
+
+        if(groupId != -1) {
+            group = RecipeIngredientGroup.fromId(groupId);
+            ingredient.setGroup(group);
+        } else {
+            group = ingredient.getGroup();
+            ingredient.setGroup(null);
+        }
+        
+        Database.saveOrUpdate(ingredient);
+        
+        if(selectedRecipe != null) {
+            System.out.println("Refreshing recipe");
+            Database.refresh(selectedRecipe);
+        }
+        
+        System.out.println("Refreshing group");
+        Database.refresh(group);
+    }
+
+    public void doDropStep() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         
         int fromId = Integer.parseInt(params.get("from"));
@@ -344,6 +381,11 @@ public class RecipeView  implements Serializable {
     public void deleteRecipeGroup(RecipeIngredientGroup group) {
         Recipe recipe = getSelectedRecipe();
         recipe.removeRecipeGroup(group);
+        
+        for(RecipeIngredient ingredient : group.getIngredients()) {
+            ingredient.setGroup(null);
+            Database.saveOrUpdate(ingredient);
+        }
         
         Database.delete(group);
         Database.saveOrUpdate(recipe);

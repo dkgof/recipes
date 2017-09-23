@@ -70,18 +70,8 @@
                             <div class="ui-grid-col-4">
                                 <p:panel>
                                     <f:facet name="header">Ingredients <p:commandLink type="button" styleClass="hideFromPrint" value="+Ingredient" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!authBean.hasPermission('edit')}" /><p:commandLink type="button" styleClass="hideFromPrint" value="+Group" onclick="PF('addRecipeGroupDialog').show();" disabled="#{!authBean.hasPermission('edit')}" /></f:facet>
-                                    <ui:repeat var="group" value="#{recipeView.ingredientGroupsSorted}">
-                                        <p:panel>
-                                            <f:facet name="header">
-                                                <h:outputText value="#{group.name}" />
-                                                <p:commandLink value="X" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm">
-                                                    <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
-                                                </p:commandLink>
-                                            </f:facet>
-                                            Ingredients
-                                        </p:panel>
-                                    </ui:repeat>
                                     <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem">
+                                        <div class="ingredientId" data-id="#{ingredient.id}"></div>
                                         <div class="ui-grid-row">
                                             <div class="ui-grid-col-4">
                                                 <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
@@ -104,6 +94,41 @@
                                             </div>
                                         </div>
                                     </p:dataList>
+                                    <ui:repeat var="group" value="#{recipeView.ingredientGroupsSorted}">
+                                        <p:panel class="recipeGroup">
+                                            <div class="groupId" data-id="#{group.id}"></div>
+                                            <f:facet name="header">
+                                                <h:outputText value="#{group.name}" />
+                                                <p:commandLink value="X" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm">
+                                                    <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                                </p:commandLink>
+                                            </f:facet>
+                                            <p:dataList var="ingredient" id="ingredientListGroup" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem" class="ingredientGroupList">
+                                                <div class="ingredientId" data-id="#{ingredient.id}"></div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid-col-4">
+                                                        <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
+                                                    </div>
+                                                    <div class="ui-grid-col-7">
+                                                        <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                                                            <f:facet name="output">
+                                                                <span class="ingredientInfo"><h:outputText value="#{recipeView.formatNumber(recipeView.getScaledIngredientAmount(ingredient))}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
+                                                            </f:facet>
+                                                            <f:facet name="input">
+                                                                <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
+                                                                <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
+                                                            </f:facet>
+                                                        </p:inplace>
+                                                    </div>
+                                                    <div class="ui-grid-col-1">
+                                                        <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
+                                                            <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                                        </p:commandLink>
+                                                    </div>
+                                                </div>
+                                            </p:dataList>
+                                        </p:panel>
+                                    </ui:repeat>
                                     <br />
                                     <h:outputText value="Show all meassures in gram: " styleClass="hideFromPrint" />
                                     <p:selectBooleanCheckbox value="#{recipeView.showInGram}" styleClass="hideFromPrint">
@@ -167,7 +192,8 @@
                     <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
 
-                <p:remoteCommand name="doDrop" action="#{recipeView.doDrop()}" update=":recipeForm:recipeSteps" oncomplete="initDND();" />
+                <p:remoteCommand name="doDropStep" action="#{recipeView.doDropStep()}" update=":recipeForm:recipeSteps" oncomplete="initDND();" />
+                <p:remoteCommand name="doDropIngredient" action="#{recipeView.doDropIngredient()}" update=":recipeForm" oncomplete="initGroupDND();" />
             </h:form>
 
             <p:dialog id="addRecipeGroupDialog" header="Add Recipe Group" widgetVar="addRecipeGroupDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true" width="450">
@@ -198,6 +224,8 @@
             <script type="text/javascript">
                 jQuery(function () {
                     initDND();
+
+                    initGroupDND();
                 });
             </script>
         </h:body>
