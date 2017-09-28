@@ -14,14 +14,14 @@
         <h:body>
             
             <h:form>
-            <p:inputText id="recipeFilter" value="#{recipesView.recipesLazy.filter}"/>
-            <p:commandButton value="Search" update=":recipes"/>
+                <h:outputLabel for="recipeFilter" value="Search:" />
+                <p:inputText id="recipeFilter" value="#{recipesView.recipesLazy.filter}">
+                    <p:ajax event="keyup" update=":recipes" />
+                </p:inputText>
             </h:form>
-
+            <br />
             <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="4" layout="grid"
-                        rows="12" paginator="true" id="recipes" lazy="true"
-                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                        rowsPerPageTemplate="4,8,12">
+                        rows="12" paginator="true" id="recipes" lazy="true" rowsPerPageTemplate="4,8,12">
 
                 <f:facet name="header">
                     Recipes

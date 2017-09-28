@@ -10,7 +10,6 @@ import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Recipe;
 import dk.fambagge.recipes.web.data.LazyRecipeList;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -39,9 +38,7 @@ public class RecipesView implements Serializable {
     
     public List<Recipe> getRecipes() {
         List<Recipe> recipes = new LinkedList<>(Recipe.getAll());;
-        Collections.sort(recipes, (Recipe recipe1, Recipe recipe2) -> {
-            return recipe1.getName().compareTo(recipe2.getName());
-        });
+        
         return recipes;
     }
     

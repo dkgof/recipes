@@ -18,7 +18,8 @@
                     <div class="ui-grid-col-10">
                         <h:form id="form">
                             <p:growl id="msgs" showDetail="true" autoUpdate="true" />
-                            <p:dataTable var="recipe" value="#{recipesView.recipes}" editable="true" id="recipesTable">
+                            <p:dataTable var="recipe" value="#{recipesView.recipesLazy}" lazy="true" editable="true" id="recipesTable" sortBy="#{recipe.name}"
+                                         rows="20" paginator="true" sortField="name" rowsPerPageTemplate="10, 20, 50, 100">
 
                                 <f:facet name="header">
                                     Recipes
@@ -27,16 +28,16 @@
                                 <p:column headerText="Id" sortBy="#{recipe.id}" style="width: 40px;">
                                     <h:outputText value="#{recipe.id}" />
                                 </p:column>
-                                <p:column headerText="Name" sortBy="#{recipe.name}">
+                                <p:column headerText="Name" sortBy="#{recipe.name}" filterBy="#{recipe.name}">
                                     <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{recipe.name}" /></f:facet>
+                                        <f:facet name="output"><p:link href="/recipe.xhtml?recipe=#{recipe.id}"><h:outputText value="#{recipe.name}" /></p:link></f:facet>
                                         <f:facet name="input"><p:inputText value="#{recipe.name}" style="width:100%" /></f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="Servings" sortBy="#{recipe.servings}">
+                                <p:column headerText="Servings">
                                     <h:outputText value="#{recipe.servings}" />
                                 </p:column>
-                                <p:column headerText="Calories" sortBy="#{recipe.energyInCalories}">
+                                <p:column headerText="Calories">
                                     <h:outputText value="#{recipe.energyInCalories}" />
                                 </p:column>
                                 <p:column style="width:32px">
