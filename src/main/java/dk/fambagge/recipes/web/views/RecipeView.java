@@ -86,13 +86,11 @@ public class RecipeView  implements Serializable {
     public List<RecipeIngredient> getIngredientsSorted() {
         List<RecipeIngredient> sortedIngredients = new LinkedList<>();
         
-        Set<RecipeIngredient> ingredients = getSelectedRecipe().getIngredients();
-        
-        for(RecipeIngredientGroup group : getSelectedRecipe().getIngredientGroups()) {
-            ingredients.removeAll(group.getIngredients());
+        for(RecipeIngredient ingredient : getSelectedRecipe().getIngredients()) {
+            if(ingredient.getGroup() == null) {
+                sortedIngredients.add(ingredient);
+            }
         }
-        
-        sortedIngredients.addAll(ingredients);
         
         Collections.sort(sortedIngredients, (RecipeIngredient ingredient1, RecipeIngredient ingredient2) -> {
             return ingredient1.getIngredient().getName().compareTo(ingredient2.getIngredient().getName());
@@ -259,8 +257,6 @@ public class RecipeView  implements Serializable {
         int ingredientId = Integer.parseInt(params.get("ingredient"));
         int groupId = Integer.parseInt(params.get("group"));
 
-        System.out.println("Ingredient: "+ingredientId+" - Group: "+groupId);
-        
         RecipeIngredient ingredient = RecipeIngredient.fromId(ingredientId);
         RecipeIngredientGroup group = null;
 
@@ -275,12 +271,10 @@ public class RecipeView  implements Serializable {
         Database.saveOrUpdate(ingredient);
         
         if(selectedRecipe != null) {
-            System.out.println("Refreshing recipe");
             Database.refresh(selectedRecipe);
         }
         
         if(group != null) {
-            System.out.println("Refreshing group");
             Database.refresh(group);
         }
     }
