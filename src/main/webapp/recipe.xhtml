@@ -102,6 +102,7 @@
                                             <div class="groupId" data-id="#{group.id}"></div>
                                             <f:facet name="header">
                                                 <h:outputText value="#{group.name}" />&nbsp;&nbsp;
+                                                <h:outputText value="(#{recipeView.getCaloriesPerServingForGroup(group)} kcal)" />&nbsp;&nbsp;
                                                 <p:commandLink value="X" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm">
                                                     <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
                                                 </p:commandLink>

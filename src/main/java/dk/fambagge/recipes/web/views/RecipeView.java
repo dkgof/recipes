@@ -119,11 +119,24 @@ public class RecipeView  implements Serializable {
         Database.saveOrUpdate(getSelectedRecipe());
     }
     
-    public int getCaloriesPerServing(RecipeIngredient ingredient) {
-        
+    private double getCaloriesPerServingDouble(RecipeIngredient ingredient) {
         double calories = ingredient.getEnergyInKiloJoules() * Constants.KCAL_PER_KILOJOULE;
         
         calories /= getSelectedRecipe().getServings();
+        
+        return calories;
+    }
+
+    public int getCaloriesPerServing(RecipeIngredient ingredient) {
+        return (int) Math.round(getCaloriesPerServingDouble(ingredient));
+    }
+    
+    public int getCaloriesPerServingForGroup(RecipeIngredientGroup group) {
+        int calories = 0;
+        
+        for(RecipeIngredient ingredient : group.getIngredients()) {
+            calories += getCaloriesPerServingDouble(ingredient);
+        }
         
         return (int) Math.round(calories);
     }
@@ -230,11 +243,13 @@ public class RecipeView  implements Serializable {
     
     public String formatNumber(double value) {
         String formattedValue = String.format("%.1f", value);
+
+        if(Math.floor(value) == value) {
+            formattedValue = Integer.toString((int) value);
+        }
         
         if(!isShowInGram()) {
-            if(Math.floor(value) == value) {
-                formattedValue = Integer.toString((int) value);
-            } else if(isCloseTo(value,0.2)) {
+            if(isCloseTo(value,0.2)) {
                 formattedValue = "1/5";
             } else if(isCloseTo(value,0.25)) {
                 formattedValue = "1/4";
