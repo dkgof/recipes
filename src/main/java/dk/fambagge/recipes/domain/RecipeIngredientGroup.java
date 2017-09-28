@@ -123,4 +123,8 @@ public class RecipeIngredientGroup implements DomainObject, Serializable {
     public void addIngredient(RecipeIngredient ingredient) {
         ingredients.add(ingredient);
     }
+    
+    public void save() {
+        Database.saveOrUpdate(this);
+    }
 }

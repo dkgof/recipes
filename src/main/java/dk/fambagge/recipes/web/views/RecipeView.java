@@ -132,7 +132,7 @@ public class RecipeView  implements Serializable {
     }
     
     public int getCaloriesPerServingForGroup(RecipeIngredientGroup group) {
-        int calories = 0;
+        double calories = 0;
         
         for(RecipeIngredient ingredient : group.getIngredients()) {
             calories += getCaloriesPerServingDouble(ingredient);
@@ -197,7 +197,7 @@ public class RecipeView  implements Serializable {
     }
     
     public void cloneRecipe() {
-        Recipe clonedRecipe = new Recipe(getSelectedRecipe().getName()+" copy", selectedRecipe.getServings());
+        Recipe clonedRecipe = new Recipe(getSelectedRecipe().getName()+" copy", getSelectedRecipe().getServings());
         
         for(RecipeStep step : getSelectedRecipe().getSteps()) {
             RecipeStep clonedStep = new RecipeStep(step.getDescription());
@@ -306,9 +306,7 @@ public class RecipeView  implements Serializable {
         
         Database.saveOrUpdate(ingredient);
         
-        if(getSelectedRecipe() != null) {
-            Database.refresh(getSelectedRecipe());
-        }
+        Database.refresh(getSelectedRecipe());
         
         if(group != null) {
             Database.refresh(group);
@@ -401,6 +399,7 @@ public class RecipeView  implements Serializable {
         
         Database.save(group);
         Database.saveOrUpdate(recipe);
+        Database.refresh(recipe);
     }
     
     public void deleteRecipeGroup(RecipeIngredientGroup group) {
@@ -414,5 +413,6 @@ public class RecipeView  implements Serializable {
         
         Database.delete(group);
         Database.saveOrUpdate(recipe);
+        Database.refresh(recipe);
     }
 }

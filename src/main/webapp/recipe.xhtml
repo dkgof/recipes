@@ -21,6 +21,12 @@
             <script src="js/recipe.js" type="text/javascript"></script>
         </h:head>
         <h:body>
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <img src="/img/ajax-load.gif" />
+            </p:dialog>
+
             <h:form id="recipeForm">
                 <p:defaultCommand target="dummy"/>
                 <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
@@ -92,7 +98,7 @@
                                             </div>
                                             <div class="ui-grid-col-1">
                                                 <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
-                                                    <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                                    <p:confirm header="Remove ingredient" message="Are you sure?" icon="ui-icon-alert" />
                                                 </p:commandLink>
                                             </div>
                                         </div>
@@ -101,10 +107,18 @@
                                         <p:panel class="recipeGroup">
                                             <div class="groupId" data-id="#{group.id}"></div>
                                             <f:facet name="header">
-                                                <h:outputText value="#{group.name}" />&nbsp;&nbsp;
+                                                <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                                                    <f:facet name="output">
+                                                        <h:outputText value="#{group.name}" />
+                                                    </f:facet>
+                                                    <f:facet name="input">
+                                                        <p:inputText value="#{group.name}" />
+                                                        <p:ajax event="save" listener="#{group.save()}" update=":recipeForm" />
+                                                    </f:facet>
+                                                </p:inplace>&nbsp;&nbsp;
                                                 <h:outputText value="(#{recipeView.getCaloriesPerServingForGroup(group)} kcal)" />&nbsp;&nbsp;
-                                                <p:commandLink value="X" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm">
-                                                    <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                                <p:commandLink styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
+                                                    <p:confirm header="Delete group" message="Are you sure?" icon="ui-icon-alert" />
                                                 </p:commandLink>
                                             </f:facet>
                                             <p:dataList var="ingredient" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}" class="ingredientGroupList">
