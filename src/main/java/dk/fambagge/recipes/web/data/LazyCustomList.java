@@ -6,7 +6,7 @@
 package dk.fambagge.recipes.web.data;
 
 import dk.fambagge.recipes.db.Database;
-import dk.fambagge.recipes.domain.Recipe;
+import dk.fambagge.recipes.db.DomainObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,15 +24,20 @@ import org.primefaces.model.SortOrder;
  *
  * @author gof
  */
-public class LazyRecipeList extends LazyDataModel<Recipe> {
+public class LazyCustomList<T extends DomainObject> extends LazyDataModel<T> {
 
     private String customFilter;
     private Map<String, Object> filterMap;
+    private Class<T> domainClass;
+    
+    public LazyCustomList(Class<T> domainClass) {
+        this.domainClass = domainClass;
+    }
     
     @Override
-    public List<Recipe> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+    public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         
-        List<Recipe> results = new ArrayList<>();
+        List<T> results = new ArrayList<>();
         
         filterMap = new HashMap<String, Object>();
         
@@ -48,7 +53,7 @@ public class LazyRecipeList extends LazyDataModel<Recipe> {
             CriteriaBuilder builder = session.getCriteriaBuilder();
 
             CriteriaQuery<Long> criteriaCount = builder.createQuery(Long.class);
-            Root<Recipe> recipeRootCount = criteriaCount.from(Recipe.class);
+            Root<T> rootCount = criteriaCount.from(domainClass);
 
             Predicate[] predicatesCount = new Predicate[filterMap.size()];
 
@@ -58,19 +63,19 @@ public class LazyRecipeList extends LazyDataModel<Recipe> {
                 String filterField = entry.getKey();
                 String filterValue = entry.getValue().toString();
 
-                predicatesCount[i] = builder.like(builder.lower(recipeRootCount.get(filterField)), "%"+filterValue.toLowerCase()+"%");
+                predicatesCount[i] = builder.like(builder.lower(rootCount.get(filterField)), "%"+filterValue.toLowerCase()+"%");
                 i++;
             }
             
-            criteriaCount.select(builder.count(recipeRootCount));
+            criteriaCount.select(builder.count(rootCount));
             criteriaCount.where(predicatesCount);
             
             int count = session.createQuery(criteriaCount).uniqueResult().intValue();
             
             this.setRowCount(count);
             
-            CriteriaQuery<Recipe> criteria = builder.createQuery(Recipe.class);
-            Root<Recipe> recipeRoot = criteria.from(Recipe.class);
+            CriteriaQuery<T> criteria = builder.createQuery(domainClass);
+            Root<T> root = criteria.from(domainClass);
 
             Predicate[] predicates = new Predicate[filterMap.size()];
 
@@ -80,11 +85,11 @@ public class LazyRecipeList extends LazyDataModel<Recipe> {
                 String filterField = entry.getKey();
                 String filterValue = entry.getValue().toString();
 
-                predicates[i] = builder.like(builder.lower(recipeRoot.get(filterField)), "%"+filterValue.toLowerCase()+"%");
+                predicates[i] = builder.like(builder.lower(root.get(filterField)), "%"+filterValue.toLowerCase()+"%");
                 i++;
             }
             
-            criteria.select(recipeRoot);
+            criteria.select(root);
             criteria.where(predicates);
             
             String sortFieldFixed = sortField==null?"name":sortField;
@@ -92,14 +97,14 @@ public class LazyRecipeList extends LazyDataModel<Recipe> {
             
             switch(sortOrderFixed) {
                 case ASCENDING:
-                    criteria.orderBy(builder.asc(recipeRoot.get(sortFieldFixed)));
+                    criteria.orderBy(builder.asc(root.get(sortFieldFixed)));
                     break;
                 case DESCENDING:
-                    criteria.orderBy(builder.desc(recipeRoot.get(sortFieldFixed)));
+                    criteria.orderBy(builder.desc(root.get(sortFieldFixed)));
                     break;
             }
             
-            Query<Recipe> query = session.createQuery(criteria);
+            Query<T> query = session.createQuery(criteria);
             query.setFirstResult(first);
             query.setMaxResults(pageSize);
                     

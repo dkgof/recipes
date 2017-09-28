@@ -8,7 +8,7 @@ package dk.fambagge.recipes.web.views;
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Recipe;
-import dk.fambagge.recipes.web.data.LazyRecipeList;
+import dk.fambagge.recipes.web.data.LazyCustomList;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,20 +29,20 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class RecipesView implements Serializable {
 
-    private LazyRecipeList lazyModel;
+    private LazyCustomList<Recipe> lazyModel;
     
     @PostConstruct
     public void init() {
-        lazyModel = new LazyRecipeList();
+        lazyModel = new LazyCustomList(Recipe.class);
     }
     
     public List<Recipe> getRecipes() {
-        List<Recipe> recipes = new LinkedList<>(Recipe.getAll());;
+        List<Recipe> recipes = new LinkedList<>(Recipe.getAll());
         
         return recipes;
     }
     
-    public LazyRecipeList getRecipesLazy() {
+    public LazyCustomList<Recipe> getRecipesLazy() {
         return lazyModel;
     }
 
