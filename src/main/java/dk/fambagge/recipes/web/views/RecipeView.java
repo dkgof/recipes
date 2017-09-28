@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -193,8 +194,26 @@ public class RecipeView  implements Serializable {
             Database.saveOrUpdate(clonedStep);
         }
         
+        Map<Long, RecipeIngredientGroup> groupMap = new HashMap<>();
+        
         for(RecipeIngredient ingredient : getSelectedRecipe().getIngredients()) {
             RecipeIngredient clonedIngredient = new RecipeIngredient(ingredient.getIngredient(), ingredient.getAmount(), ingredient.getMeasure());
+            
+            RecipeIngredientGroup group = ingredient.getGroup();
+            
+            if(group != null) {
+                RecipeIngredientGroup clonedGroup = groupMap.get(group.getId());
+                
+                if(clonedGroup == null) {
+                    clonedGroup = new RecipeIngredientGroup();
+                    clonedGroup.setName(group.getName());
+                    Database.saveOrUpdate(clonedGroup);
+                    groupMap.put(group.getId(), clonedGroup);
+                }
+                
+                clonedIngredient.setGroup(clonedGroup);
+                clonedRecipe.addIngredientGroup(clonedGroup);
+            }
             
             clonedRecipe.addIngredient(clonedIngredient);
             Database.saveOrUpdate(clonedIngredient);
@@ -212,26 +231,28 @@ public class RecipeView  implements Serializable {
     public String formatNumber(double value) {
         String formattedValue = String.format("%.1f", value);
         
-        if(Math.floor(value) == value) {
-            formattedValue = Integer.toString((int) value);
-        } else if(isCloseTo(value,0.2)) {
-            formattedValue = "1/5";
-        } else if(isCloseTo(value,0.25)) {
-            formattedValue = "1/4";
-        } else if(isCloseTo(value,0.4)) {
-            formattedValue = "2/5";
-        } else if(isCloseTo(value,0.5)) {
-            formattedValue = "1/2";
-        } else if(isCloseTo(value,0.6)) {
-            formattedValue = "3/5";
-        } else if(isCloseTo(value,0.75)) {
-            formattedValue = "3/4";
-        } else if(isCloseTo(value,0.8)) {
-            formattedValue = "4/5";
-        } else if(isCloseTo(value,0.66666666)) {
-            formattedValue = "2/3";
-        } else if(isCloseTo(value,0.33333333)) {
-            formattedValue = "1/3";
+        if(!isShowInGram()) {
+            if(Math.floor(value) == value) {
+                formattedValue = Integer.toString((int) value);
+            } else if(isCloseTo(value,0.2)) {
+                formattedValue = "1/5";
+            } else if(isCloseTo(value,0.25)) {
+                formattedValue = "1/4";
+            } else if(isCloseTo(value,0.4)) {
+                formattedValue = "2/5";
+            } else if(isCloseTo(value,0.5)) {
+                formattedValue = "1/2";
+            } else if(isCloseTo(value,0.6)) {
+                formattedValue = "3/5";
+            } else if(isCloseTo(value,0.75)) {
+                formattedValue = "3/4";
+            } else if(isCloseTo(value,0.8)) {
+                formattedValue = "4/5";
+            } else if(isCloseTo(value,0.66666666)) {
+                formattedValue = "2/3";
+            } else if(isCloseTo(value,0.33333333)) {
+                formattedValue = "1/3";
+            }
         }
         
         return formattedValue;

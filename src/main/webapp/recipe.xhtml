@@ -22,6 +22,9 @@
         </h:head>
         <h:body>
             <h:form id="recipeForm">
+                <p:defaultCommand target="dummy"/>
+                <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+                
                 <p:panel>
                     <f:facet name="header">
                         <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
@@ -62,7 +65,7 @@
 
                                 <br />
                                 <h:panelGroup rendered="#{authBean.hasPermission('edit')}">
-                                    <p:commandButton value="Clone Recipe" type="submit" action="#{recipeView.cloneRecipe()}" process="@this" styleClass="hideFromPrint" />
+                                    <p:commandButton value="Clone Recipe" action="#{recipeView.cloneRecipe()}" process="@this" styleClass="hideFromPrint" />
                                 </h:panelGroup>
                             </div>
                         </div>
@@ -103,7 +106,7 @@
                                                     <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
                                                 </p:commandLink>
                                             </f:facet>
-                                            <p:dataList var="ingredient" id="ingredientListGroup" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}" class="ingredientGroupList">
+                                            <p:dataList var="ingredient" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}" class="ingredientGroupList">
                                                 <div class="ingredientId" data-id="#{ingredient.id}"></div>
                                                 <div class="ui-grid-row">
                                                     <div class="ui-grid-col-4">
@@ -132,7 +135,7 @@
                                     <br />
                                     <h:outputText value="Show all meassures in gram: " styleClass="hideFromPrint" />
                                     <p:selectBooleanCheckbox value="#{recipeView.showInGram}" styleClass="hideFromPrint">
-                                        <p:ajax update=":recipeForm:ingredientList" />
+                                        <p:ajax update="@(#recipeForm\\:ingredientList, .ingredientGroupList)" />
                                     </p:selectBooleanCheckbox>
                                 </p:panel>
                             </div>

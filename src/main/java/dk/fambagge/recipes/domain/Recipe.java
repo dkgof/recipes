@@ -59,6 +59,7 @@ public class Recipe implements Serializable, DomainObject {
         name = "";
         servings = 0;
         ingredients = new HashSet<>();
+        ingredientGroups = new HashSet<>();
         steps = new HashSet<>();
         medias = new TreeSet<>();
     }

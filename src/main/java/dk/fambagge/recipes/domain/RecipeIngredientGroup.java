@@ -112,6 +112,13 @@ public class RecipeIngredientGroup implements DomainObject, Serializable {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + (int) (this.id ^ (this.id >>> 32));
+        return hash;
+    }
+
     public void addIngredient(RecipeIngredient ingredient) {
         ingredients.add(ingredient);
     }
