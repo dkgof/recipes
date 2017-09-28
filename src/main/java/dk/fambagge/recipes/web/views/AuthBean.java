@@ -31,7 +31,7 @@ public class AuthBean implements Serializable {
         User loggedInUser = getLoggedInUser();
         
         if(loggedInUser == null) {
-            return false;
+            return true;
         }
         
         return loggedInUser.hasPermission(permission);

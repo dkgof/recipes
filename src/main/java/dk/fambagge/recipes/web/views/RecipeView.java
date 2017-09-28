@@ -122,7 +122,7 @@ public class RecipeView  implements Serializable {
         
         double calories = ingredient.getEnergyInKiloJoules() * Constants.KCAL_PER_KILOJOULE;
         
-        calories /= selectedRecipe.getServings();
+        calories /= getSelectedRecipe().getServings();
         
         return (int) Math.round(calories);
     }
@@ -134,7 +134,7 @@ public class RecipeView  implements Serializable {
             amount = ingredient.getAmount(Measure.Weight.GRAM);
         }
         
-        return amount * (getCustomServings() / (double)selectedRecipe.getServings());
+        return amount * (getCustomServings() / (double)getSelectedRecipe().getServings());
     }
     
     public String getMeasureSymbol(RecipeIngredient ingredient) {
@@ -152,7 +152,7 @@ public class RecipeView  implements Serializable {
     }
     
     public void deleteIngredient(RecipeIngredient ingredient) {
-        selectedRecipe.removeIngredient(ingredient);
+        getSelectedRecipe().removeIngredient(ingredient);
         saveRecipe();
     }
     
@@ -165,7 +165,7 @@ public class RecipeView  implements Serializable {
     }
     
     public void saveRecipe() {
-        Database.saveOrUpdate(selectedRecipe);
+        Database.saveOrUpdate(getSelectedRecipe());
     }
 
     /**
@@ -183,9 +183,9 @@ public class RecipeView  implements Serializable {
     }
     
     public void cloneRecipe() {
-        Recipe clonedRecipe = new Recipe(selectedRecipe.getName()+" copy", selectedRecipe.getServings());
+        Recipe clonedRecipe = new Recipe(getSelectedRecipe().getName()+" copy", selectedRecipe.getServings());
         
-        for(RecipeStep step : selectedRecipe.getSteps()) {
+        for(RecipeStep step : getSelectedRecipe().getSteps()) {
             RecipeStep clonedStep = new RecipeStep(step.getDescription());
             clonedStep.setSortOrder(step.getSortOrder());
             
@@ -193,7 +193,7 @@ public class RecipeView  implements Serializable {
             Database.saveOrUpdate(clonedStep);
         }
         
-        for(RecipeIngredient ingredient : selectedRecipe.getIngredients()) {
+        for(RecipeIngredient ingredient : getSelectedRecipe().getIngredients()) {
             RecipeIngredient clonedIngredient = new RecipeIngredient(ingredient.getIngredient(), ingredient.getAmount(), ingredient.getMeasure());
             
             clonedRecipe.addIngredient(clonedIngredient);
@@ -270,8 +270,8 @@ public class RecipeView  implements Serializable {
         
         Database.saveOrUpdate(ingredient);
         
-        if(selectedRecipe != null) {
-            Database.refresh(selectedRecipe);
+        if(getSelectedRecipe() != null) {
+            Database.refresh(getSelectedRecipe());
         }
         
         if(group != null) {
@@ -288,7 +288,7 @@ public class RecipeView  implements Serializable {
         RecipeStep fromStep = null;
         RecipeStep toStep = null;
         
-        for(RecipeStep step : selectedRecipe.getSteps()) {
+        for(RecipeStep step : getSelectedRecipe().getSteps()) {
             if(step.getId() == fromId) {
                 fromStep = step;
             } else  if(step.getId() == toId) {
@@ -303,7 +303,7 @@ public class RecipeView  implements Serializable {
             if(toOrder < fromOrder) {
                 //Move from up to to, and move all other down 1
                 
-                for(RecipeStep step : selectedRecipe.getSteps()) {
+                for(RecipeStep step : getSelectedRecipe().getSteps()) {
                     if(step.getSortOrder() >= toOrder && step.getId() != fromStep.getId()) {
                         step.setSortOrder(step.getSortOrder()+1);
                         Database.saveOrUpdate(step);
@@ -313,7 +313,7 @@ public class RecipeView  implements Serializable {
                 Database.saveOrUpdate(fromStep);
             } else {
                 //Move from down to to-1, and move all between from and to up 1
-                for(RecipeStep step : selectedRecipe.getSteps()) {
+                for(RecipeStep step : getSelectedRecipe().getSteps()) {
                     if(step.getSortOrder() <= toOrder && step.getSortOrder() > fromOrder) {
                         step.setSortOrder(step.getSortOrder()-1);
                         Database.saveOrUpdate(step);
@@ -328,7 +328,7 @@ public class RecipeView  implements Serializable {
     }
 
     public List<Media> getMedias() {
-        return new LinkedList<>(selectedRecipe.getMedias());
+        return new LinkedList<>(getSelectedRecipe().getMedias());
     }
     
     private boolean isCloseTo(double value, double target) {

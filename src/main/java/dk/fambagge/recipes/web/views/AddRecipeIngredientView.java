@@ -61,6 +61,7 @@ public class AddRecipeIngredientView implements Serializable {
         recipe.addIngredient(recipeIngredient);
         
         Database.saveOrUpdate(recipe);
+        Database.refresh(recipe);
     }
 
     public void reset() {
