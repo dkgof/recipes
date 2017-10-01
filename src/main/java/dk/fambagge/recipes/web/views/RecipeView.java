@@ -151,6 +151,42 @@ public class RecipeView  implements Serializable {
         return amount * (getCustomServings() / (double)getSelectedRecipe().getServings());
     }
     
+    public String getScaledIngredientAmountFormatted(RecipeIngredient ingredient) {
+        double value = getScaledIngredientAmount(ingredient);
+        
+        String formattedValue = String.format("%.1f", value);
+
+        if(Math.floor(value) == value) {
+            formattedValue = Integer.toString((int) value);
+        }
+        
+        boolean doFraction = true;
+        
+        if(ingredient.getMeasure() == Measure.Weight.GRAM
+            || ingredient.getMeasure() == Measure.Weight.KILOGRAM
+            || ingredient.getMeasure() == Measure.Weight.MILLIGRAM
+            || isShowInGram()
+        ) {
+            doFraction = false;
+        }
+        
+        if(doFraction) {
+            if(isCloseTo(value,0.25)) {
+                formattedValue = "1/4";
+            } else if(isCloseTo(value,0.5)) {
+                formattedValue = "1/2";
+            } else if(isCloseTo(value,0.75)) {
+                formattedValue = "3/4";
+            } else if(isCloseTo(value,0.66666666)) {
+                formattedValue = "2/3";
+            } else if(isCloseTo(value,0.33333333)) {
+                formattedValue = "1/3";
+            }
+        }
+        
+        return formattedValue;
+    }
+    
     public String getMeasureSymbol(RecipeIngredient ingredient) {
         if(showInGram) {
             return Measure.Weight.GRAM.getSymbol();
@@ -241,38 +277,6 @@ public class RecipeView  implements Serializable {
         }
     }
     
-    public String formatNumber(double value) {
-        String formattedValue = String.format("%.1f", value);
-
-        if(Math.floor(value) == value) {
-            formattedValue = Integer.toString((int) value);
-        }
-        
-        if(!isShowInGram()) {
-            if(isCloseTo(value,0.2)) {
-                formattedValue = "1/5";
-            } else if(isCloseTo(value,0.25)) {
-                formattedValue = "1/4";
-            } else if(isCloseTo(value,0.4)) {
-                formattedValue = "2/5";
-            } else if(isCloseTo(value,0.5)) {
-                formattedValue = "1/2";
-            } else if(isCloseTo(value,0.6)) {
-                formattedValue = "3/5";
-            } else if(isCloseTo(value,0.75)) {
-                formattedValue = "3/4";
-            } else if(isCloseTo(value,0.8)) {
-                formattedValue = "4/5";
-            } else if(isCloseTo(value,0.66666666)) {
-                formattedValue = "2/3";
-            } else if(isCloseTo(value,0.33333333)) {
-                formattedValue = "1/3";
-            }
-        }
-        
-        return formattedValue;
-    }
-
     /**
      * @return the showInGram
      */

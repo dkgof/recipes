@@ -88,7 +88,7 @@
                                             <div class="ui-grid-col-7">
                                                 <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
                                                     <f:facet name="output">
-                                                        <span class="ingredientInfo"><h:outputText value="#{recipeView.formatNumber(recipeView.getScaledIngredientAmount(ingredient))}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
+                                                        <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                     </f:facet>
                                                     <f:facet name="input">
                                                         <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
@@ -130,7 +130,7 @@
                                                     <div class="ui-grid-col-7">
                                                         <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
                                                             <f:facet name="output">
-                                                                <span class="ingredientInfo"><h:outputText value="#{recipeView.formatNumber(recipeView.getScaledIngredientAmount(ingredient))}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
+                                                                <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                             </f:facet>
                                                             <f:facet name="input">
                                                                 <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
