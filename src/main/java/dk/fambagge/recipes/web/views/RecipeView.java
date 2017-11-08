@@ -203,6 +203,7 @@ public class RecipeView  implements Serializable {
     
     public void deleteIngredient(RecipeIngredient ingredient) {
         getSelectedRecipe().removeIngredient(ingredient);
+        Database.delete(ingredient);
         saveRecipe();
     }
     

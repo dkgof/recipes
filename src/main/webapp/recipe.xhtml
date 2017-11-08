@@ -177,13 +177,13 @@
                                 <br />
                                 <h:panelGroup id="imageArea">
                                     <h:panelGroup rendered="#{recipeView.selectedRecipe.hasImage()}" layout="block">
-                                        <div data-featherlight-filter="a" id="gallery">
+                                        <div data-featherlight-filter="a.galleryItem" id="gallery">
                                             <p:repeat value="#{recipeView.medias}" var="media">
                                                 <div class="recipeContainer">
                                                     <p:commandLink type="button" action="#{recipeView.selectedRecipe.removeMedia(media)}" value="X" update=":recipeForm:imageArea" disabled="#{!authBean.hasPermission('edit')}" class="delete">
                                                         <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
                                                     </p:commandLink>
-                                                    <h:outputLink value="#{media.url}">
+                                                    <h:outputLink value="#{media.url}" class="galleryItem">
                                                         <div class="recipeMedia" style="background-image: url(#{media.getThumbnailUrl(128)})" >
                                                         </div>
                                                     </h:outputLink>
