@@ -156,7 +156,7 @@
                             </div>
                             <div class="ui-grid-col-8">
                                 <p:panel>
-                                    <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" disabled="#{!authBean.hasPermission('edit')}" /></f:facet>
+                                    <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" disabled="#{!authBean.hasPermission('edit')}" oncomplete="initDND();" /></f:facet>
                                     <p:dataList var="step" value="#{recipeView.stepsSorted}" id="recipeSteps" itemStyleClass="recipeStep">
                                         <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}" effect="none" styleClass="inlineEditor" disabled="#{!authBean.hasPermission('edit')}">
                                             <f:facet name="output">
@@ -211,7 +211,7 @@
                 </p:confirmDialog>
 
                 <p:remoteCommand name="doDropStep" action="#{recipeView.doDropStep()}" update=":recipeForm:recipeSteps" oncomplete="initDND();" />
-                <p:remoteCommand name="doDropIngredient" action="#{recipeView.doDropIngredient()}" update=":recipeForm" oncomplete="initGroupDND();" />
+                <p:remoteCommand name="doDropIngredient" action="#{recipeView.doDropIngredient()}" update=":recipeForm" oncomplete="initGroupDND(); initDND();" />
             </h:form>
 
             <p:dialog id="addRecipeGroupDialog" header="Add Recipe Group" widgetVar="addRecipeGroupDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true" width="450">
@@ -226,7 +226,7 @@
                             </div>
                         </div>
                     </div>
-                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{recipeView.addRecipeGroup}" update=":recipeForm" oncomplete="PF('addRecipeGroupDialog').hide();" />
+                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{recipeView.addRecipeGroup}" update=":recipeForm" oncomplete="PF('addRecipeGroupDialog').hide(); initGroupDND(); initDND();" />
                 </h:form>
 
                 <p:ajax event="close" update=":addRecipeGroup" />
@@ -237,6 +237,7 @@
             <ui:include src="includes/addRecipeIngredientDialog.xhtml">
                 <ui:param name="addMethodArgument" value="#{recipeView.selectedRecipe}" />
                 <ui:param name="update" value=":recipeForm" />
+                <ui:param name="additionalJS" value="initGroupDND(); initDND();" />
             </ui:include>
 
             <script type="text/javascript">
