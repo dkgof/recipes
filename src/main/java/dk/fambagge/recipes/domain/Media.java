@@ -55,7 +55,7 @@ public class Media implements DomainObject, Serializable, Comparable<Media> {
                 
                 scaleImage(origImage, width, thumbnailFile);
             } catch (IOException ex) {
-                Logger.getLogger(Media.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Media.class.getName()).log(Level.WARNING, "Unable to find imagefile: "+filename);
             }
         }
         
