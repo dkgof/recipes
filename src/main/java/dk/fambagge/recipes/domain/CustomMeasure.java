@@ -162,10 +162,7 @@ public class CustomMeasure implements Measure, DomainObject {
             return false;
         }
         final CustomMeasure other = (CustomMeasure) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        return this.id == other.id;
     }
 
     public String toDescriptionString() {

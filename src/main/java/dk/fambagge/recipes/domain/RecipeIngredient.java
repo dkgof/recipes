@@ -131,11 +131,7 @@ public class RecipeIngredient implements Serializable, DomainObject {
             return false;
         }
 
-        if (this.getId() != other.getId()) {
-            return false;
-        }
-
-        return true;
+        return this.getId() == other.getId();
     }
 
     @Override
@@ -191,6 +187,7 @@ public class RecipeIngredient implements Serializable, DomainObject {
             return convertVolume(inputInLiter, Volume.LITER, (Volume) outputMeasure);
         } else {
             //Input is Volume, Output is Weight
+            @SuppressWarnings("ConstantConditions")
             double inputAsLiter = convertVolume(convertAmount, (Volume) inputMeasure, Volume.LITER);
 
             double inputAsGrams = inputAsLiter * ingredient.getWeightToVolume();

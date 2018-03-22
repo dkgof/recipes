@@ -161,11 +161,7 @@ public class Ingredient implements Serializable, DomainObject {
             return false;
         }
 
-        if (this.getId() != other.getId()) {
-            return false;
-        }
-        
-        return true;
+        return this.getId() == other.getId();
     }
 
     @Override
