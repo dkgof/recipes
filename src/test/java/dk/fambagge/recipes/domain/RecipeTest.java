@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
  *
  * @author Gof
  */
+@SuppressWarnings("EmptyMethod")
 public class RecipeTest {
     
     public RecipeTest() {

@@ -23,6 +23,8 @@ import javax.faces.model.SelectItemGroup;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -84,7 +86,7 @@ public class AddIngredientView implements Serializable {
         } catch(Exception e) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage("Error saving ingredient", e.getMessage()));
-            RequestContext.getCurrentInstance().addCallbackParam("errorSaving", true);
+            PrimeFaces.current().ajax().addCallbackParam("errorSaving", true);
             e.printStackTrace();
         }
     }

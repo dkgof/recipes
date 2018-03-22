@@ -18,6 +18,7 @@ import org.junit.Test;
  *
  * @author Gof
  */
+@SuppressWarnings("EmptyMethod")
 public class RecipeIngredientTest {
     
     public RecipeIngredientTest() {
@@ -71,9 +72,8 @@ public class RecipeIngredientTest {
         System.out.println("getIngredient");
         Ingredient ingredient = new Ingredient();
         RecipeIngredient instance = new RecipeIngredient(ingredient, 15.23, Measure.Volume.TEASPOON);
-        Ingredient expResult = ingredient;
         Ingredient result = instance.getIngredient();
-        assertEquals(expResult, result);
+        assertEquals(ingredient, result);
     }
 
     /**
@@ -85,7 +85,7 @@ public class RecipeIngredientTest {
         Ingredient ingredient = new Ingredient();
         ingredient.setWeightToVolume(1000);
         Measure outputMeasure = Volume.LITER;
-        RecipeIngredient instance = new RecipeIngredient(ingredient, 1, Measure.Weight.KILOGRAM);;
+        RecipeIngredient instance = new RecipeIngredient(ingredient, 1, Measure.Weight.KILOGRAM);
         double expResult = 1;
         double result = instance.getAmount(outputMeasure);
         assertEquals(expResult, result, 0.0);

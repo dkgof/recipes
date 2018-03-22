@@ -30,6 +30,7 @@ public class Database {
         return SESSION_FACTORY;
     }
 
+    @SuppressWarnings("EmptyFinallyBlock")
     public static void execute(SessionRunnable runnable) {
         final Session session = Database.getSessionFactory().getCurrentSession();
         boolean newTransaction = false;

@@ -40,11 +40,11 @@ public class AddRecipeView implements Serializable {
 
     public void submitRecipe() {
         Recipe recipe = new Recipe(name, servings);
-        recipeIngredients.stream().forEach((i) -> {
+        recipeIngredients.forEach((i) -> {
             recipe.addIngredient(i);
         });
         
-        recipeSteps.stream().forEach((step) -> {
+        recipeSteps.forEach((step) -> {
             recipe.addStep(step);
         });
         

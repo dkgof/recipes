@@ -19,35 +19,28 @@ import javax.faces.convert.FacesConverter;
 @FacesConverter("dk.fambagge.recipes.web.converter.MeasureConverter")
 public class MeasureConverter implements Converter {
 
+    @SuppressWarnings("EmptyCatchBlock")
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         try {
-            Measure measure = Measure.Weight.valueOf(value);
-            
-            return measure;
+            return Measure.Weight.valueOf(value);
         } catch(Exception e) {
             
         }
         try {
-            Measure measure = Measure.Volume.valueOf(value);
-            
-            return measure;
+            return Measure.Volume.valueOf(value);
         } catch(Exception e) {
             
         }
         try {
-            Measure measure = Measure.Energy.valueOf(value);
-            
-            return measure;
+            return Measure.Energy.valueOf(value);
         } catch(Exception e) {
             
         }
 
         try {
             if(value.startsWith("custom")) {
-                Measure measure = CustomMeasure.getFromId(Integer.parseInt(value.substring(6)));
-                
-                return measure;
+                return CustomMeasure.getFromId(Integer.parseInt(value.substring(6)));
             }
         } catch(Exception e) {
             

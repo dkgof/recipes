@@ -28,12 +28,13 @@ public class LazyCustomList<T extends DomainObject> extends LazyDataModel<T> {
 
     private String customFilter;
     private Map<String, Object> filterMap;
-    private Class<T> domainClass;
+    private final Class<T> domainClass;
     
     public LazyCustomList(Class<T> domainClass) {
         this.domainClass = domainClass;
     }
     
+    @SuppressWarnings("Duplicates")
     @Override
     public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         

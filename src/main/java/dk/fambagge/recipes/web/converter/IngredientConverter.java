@@ -21,10 +21,8 @@ public class IngredientConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         int id = Integer.parseInt(value);
-        
-        Ingredient ing = Ingredient.get(id);
-        
-        return ing;
+
+        return Ingredient.get(id);
     }
 
     @Override

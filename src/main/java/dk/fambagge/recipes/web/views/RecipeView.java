@@ -13,6 +13,8 @@ import dk.fambagge.recipes.domain.Recipe;
 import dk.fambagge.recipes.domain.RecipeIngredient;
 import dk.fambagge.recipes.domain.RecipeIngredientGroup;
 import dk.fambagge.recipes.domain.RecipeStep;
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
@@ -26,7 +28,6 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  *
@@ -372,10 +373,8 @@ public class RecipeView  implements Serializable {
     
     private boolean isCloseTo(double value, double target) {
         double someSmallAmount = 0.0001;
-        
-        boolean result = value > (target-someSmallAmount) && value < (target+someSmallAmount);
-        
-        return result;
+
+        return value > (target-someSmallAmount) && value < (target+someSmallAmount);
     }
 
     /**

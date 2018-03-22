@@ -37,9 +37,8 @@ public class RecipesView implements Serializable {
     }
     
     public List<Recipe> getRecipes() {
-        List<Recipe> recipes = new LinkedList<>(Recipe.getAll());
-        
-        return recipes;
+
+        return new LinkedList<>(Recipe.getAll());
     }
     
     public LazyCustomList<Recipe> getRecipesLazy() {

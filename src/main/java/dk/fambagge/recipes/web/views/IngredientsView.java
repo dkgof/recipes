@@ -66,6 +66,7 @@ public class IngredientsView implements Serializable {
         }
     }
 
+    @SuppressWarnings("EmptyMethod")
     public void onRowCancel(RowEditEvent event) {
     }
     

@@ -1,7 +1,9 @@
 function initDND() {
     console.log("Setting up DND!");
-    
-    jQuery("#recipeForm\\:recipeSteps").find(".draggable").draggable({
+
+    let draggable = jQuery("#recipeForm\\:recipeSteps").find(".draggable");
+
+    draggable.draggable({
         helper: "clone",
         revert: "true",
         cursorAt: {
@@ -15,7 +17,7 @@ function initDND() {
         //zIndex: ++PrimeFaces.zindex
     });
 
-    jQuery("#recipeForm\\:recipeSteps").find(".draggable").droppable({
+    draggable.droppable({
         accept: "#recipeForm\\:recipeSteps .draggable",
         activeClass: 'dragActiveTest',
         hoverClass: 'dragHoverTest',

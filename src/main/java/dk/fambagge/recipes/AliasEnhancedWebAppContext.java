@@ -26,8 +26,7 @@ public class AliasEnhancedWebAppContext extends WebAppContext {
             resourceAliases.entrySet()) {
 
             if (alias.startsWith(oneAlias.getKey())) {
-                String result = alias.replace(oneAlias.getKey(), oneAlias.getValue());
-                return result;
+                return alias.replace(oneAlias.getKey(), oneAlias.getValue());
             }
         }
 
