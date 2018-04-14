@@ -18,7 +18,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
  *
  * @author jbk
  */
-@Named
+@Named(value = "authBean")
 @SessionScoped
 public class AuthBean implements Serializable {
     public static final String REDIRECT_KEY = "RECIPES_REDIRECT";

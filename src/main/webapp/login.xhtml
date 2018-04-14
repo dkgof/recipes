@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -13,7 +13,9 @@
             <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         </h:head>
         <h:body>
-            <p:growl autoUpdate="true" showDetail="true" />
+            <p:growl showDetail="true">
+                <p:autoUpdate />
+            </p:growl>
             
             <h:form id="loginForm">
                 <h:panelGrid columns="2">

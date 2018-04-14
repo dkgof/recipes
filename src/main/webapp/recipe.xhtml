@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -80,7 +80,7 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-4">
                                 <p:panel>
-                                    <f:facet name="header">Ingredients&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Ingredient" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!authBean.hasPermission('edit')}" />&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Group" onclick="PF('addRecipeGroupDialog').show();" disabled="#{!authBean.hasPermission('edit')}" /></f:facet>
+                                    <f:facet name="header">Ingredients <p:commandLink type="button" styleClass="hideFromPrint" value="+Ingredient" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!authBean.hasPermission('edit')}" /> <p:commandLink type="button" styleClass="hideFromPrint" value="+Group" onclick="PF('addRecipeGroupDialog').show();" disabled="#{!authBean.hasPermission('edit')}" /></f:facet>
                                     <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}">
                                         <div class="ingredientId" data-id="#{ingredient.id}"></div>
                                         <div class="ui-grid-row">
@@ -117,8 +117,8 @@
                                                         <p:inputText value="#{group.name}" />
                                                         <p:ajax event="save" listener="#{group.save()}" update=":recipeForm" />
                                                     </f:facet>
-                                                </p:inplace>&nbsp;&nbsp;
-                                                <h:outputText value="(#{recipeView.getCaloriesPerServingForGroup(group)} kcal)" />&nbsp;&nbsp;
+                                                </p:inplace>
+                                                <h:outputText value="(#{recipeView.getCaloriesPerServingForGroup(group)} kcal)" />
                                                 <p:commandLink styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
                                                     <p:confirm header="Delete group" message="Are you sure?" icon="ui-icon-alert" />
                                                 </p:commandLink>

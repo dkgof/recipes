@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -14,10 +14,12 @@
         <h:body>
             <div class="ui-grid ui-grid-responsive">
                 <div class="ui-grid-row">
-                    <div class="ui-grid-col-1">&nbsp;</div>
+                    <div class="ui-grid-col-1"></div>
                     <div class="ui-grid-col-10">
                         <h:form id="form">
-                            <p:growl id="msgs" showDetail="true" autoUpdate="true" />
+                            <p:growl id="msgs" showDetail="true">
+                                <p:autoUpdate />
+                            </p:growl>
                             <p:dataTable var="ingredient" value="#{ingredientsView.ingredientsLazy}" lazy="true" rows="20" paginator="true" editable="true" id="ingredientsTable" sortField="name">
 
                                 <f:facet name="header">
@@ -85,7 +87,7 @@
                             </p:confirmDialog>
                         </h:form>
                     </div>
-                    <div class="ui-grid-col-1">&nbsp;</div>
+                    <div class="ui-grid-col-1"></div>
                 </div>
             </div>
             
