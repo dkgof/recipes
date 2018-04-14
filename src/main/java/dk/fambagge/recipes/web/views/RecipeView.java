@@ -25,15 +25,15 @@ import java.util.Set;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author Gof
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class RecipeView  implements Serializable {
     private Recipe selectedRecipe = null;

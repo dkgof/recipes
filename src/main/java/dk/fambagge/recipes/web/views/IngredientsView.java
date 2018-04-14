@@ -8,7 +8,6 @@ package dk.fambagge.recipes.web.views;
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
-import dk.fambagge.recipes.domain.Recipe;
 import dk.fambagge.recipes.web.data.LazyCustomList;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -18,16 +17,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import org.primefaces.event.RowEditEvent;
 
 /**
  *
  * @author Gof
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class IngredientsView implements Serializable {
     private List<Ingredient> ingredients;

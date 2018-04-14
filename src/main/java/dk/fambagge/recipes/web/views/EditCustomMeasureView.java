@@ -10,14 +10,14 @@ import dk.fambagge.recipes.domain.CustomMeasure;
 import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Measure;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author Gof
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class EditCustomMeasureView implements Serializable {
     private String customMeasureName;
