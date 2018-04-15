@@ -15,16 +15,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 import javax.validation.constraints.DecimalMin;
 
 /**
  *
  * @author Gof
  */
-@Named
+@ManagedBean
 @ViewScoped
 public class AddRecipeIngredientView implements Serializable {
     @DecimalMin(value="0", message="Ingredient amount cannot be less than zero", inclusive = false)

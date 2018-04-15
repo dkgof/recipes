@@ -13,9 +13,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
 
@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
  *
  * @author Gof
  */
-@Named
+@ManagedBean
 @ViewScoped
 public class AddRecipeView implements Serializable {
     @Size(min=2, max=64, message="Recipe name must be between 2-64 characters long")

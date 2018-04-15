@@ -17,15 +17,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 
 /**
  *
  * @author Gof
  */
-@Named
+@ManagedBean
 @ViewScoped
 public class RecipesView implements Serializable {
 
