@@ -33,7 +33,6 @@ public class RecipesView implements Serializable {
     
     @PostConstruct
     public void init() {
-        System.out.println("Constructed CDI bean!");
         lazyModel = new LazyCustomList(Recipe.class);
     }
     

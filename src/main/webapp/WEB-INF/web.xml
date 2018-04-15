@@ -42,6 +42,7 @@
         <param-value>true</param-value>
     </context-param>
 
+<!--
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
         <filter-class>dk.fambagge.recipes.web.auth.AuthenticationFilter</filter-class>
@@ -50,6 +51,7 @@
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/restricted/*</url-pattern>
     </filter-mapping>
+-->
 
     <servlet>
         <servlet-name>default</servlet-name>

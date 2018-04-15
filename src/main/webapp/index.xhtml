@@ -30,8 +30,10 @@
 
                 <p:panel header="#{recipe.name}" style="text-align:center; height: 100%;">
                     <h:panelGrid columns="1" style="width:100%; height:100%;">
+                        <!--
                         <h:outputText value="Serves #{recipe.servings}" />
                         <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
+                        -->
                         <h:panelGroup rendered="#{recipe.hasImage()}">
                             <h:link outcome="recipe.xhtml?recipe=#{recipe.id}">
                                 <div style="background-image: url(#{recipe.primaryMedia.getThumbnailUrl(512)});" class="foodIcon"></div>

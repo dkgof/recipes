@@ -13,47 +13,37 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.omnifaces.filter.HttpFilter;
+import org.omnifaces.util.Servlets;
 
 /**
  *
  * @author rolf
  */
-public class AuthenticationFilter implements Filter {
-
-    private FilterConfig config;
-
-    @Override
-    public void init(FilterConfig filterConfig) {
-        this.config = filterConfig;
-    }
+@WebFilter("/restricted/*")
+public class AuthenticationFilter extends HttpFilter {
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        if (httpRequest.getSession().getAttribute(AuthBean.USER_KEY) == null) {
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, HttpSession session, FilterChain chain) throws ServletException, IOException {
+        if (session.getAttribute(AuthBean.USER_KEY) == null) {
             //Save requested URI
-            String url = httpRequest.getRequestURI();
+            String url = request.getRequestURI();
             
-            if(httpRequest.getQueryString() != null) {
-                url += "?"+httpRequest.getQueryString();
+            if(request.getQueryString() != null) {
+                url += "?"+request.getQueryString();
             }
             
-            httpRequest.getSession().setAttribute(AuthBean.REDIRECT_KEY, url);
+            session.setAttribute(AuthBean.REDIRECT_KEY, url);
             System.out.println("Saving request URL: ["+url+"]");
             
             //Redirect to login
-            httpResponse.sendRedirect("/login.xhtml");
+            Servlets.facesRedirect(request, response, "login.xhtml");
         } else {
             chain.doFilter(request, response);
         }
     }
-
-    @Override
-    public void destroy() {
-        config = null;
-    }
-
 }

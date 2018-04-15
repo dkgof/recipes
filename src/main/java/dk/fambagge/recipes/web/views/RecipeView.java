@@ -27,7 +27,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import org.omnifaces.cdi.Param;
 
 /**
  *
@@ -43,17 +45,13 @@ public class RecipeView  implements Serializable {
     
     private String groupName;
     
+    @Inject @Param(name="recipe")
+    private int recipeId;
+    
     /**
      * @return the selectedRecipe
      */
     public Recipe getSelectedRecipe() {
-        int recipeId = -1;
-        try {
-            recipeId = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("recipe"));
-        } catch(Exception e) {
-            //Ignore
-        }
-        
         if(selectedRecipe == null) {
             if(recipeId != -1) {
                 //We didnt have any recipe
