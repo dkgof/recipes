@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import org.hibernate.SessionFactory;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
@@ -18,7 +18,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
  *
  * @author jbk
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class AuthBean implements Serializable {
     public static final String REDIRECT_KEY = "RECIPES_REDIRECT";

@@ -7,10 +7,8 @@ package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Media;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +16,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.imageio.ImageIO;
-import net.coobird.thumbnailator.Thumbnails;
 import org.primefaces.event.FileUploadEvent;
 
 /**

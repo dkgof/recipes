@@ -40,7 +40,7 @@ public class LazyCustomList<T extends DomainObject> extends LazyDataModel<T> {
         
         List<T> results = new ArrayList<>();
         
-        filterMap = new HashMap<String, Object>();
+        filterMap = new HashMap<>();
         
         if(filters != null) {
             filterMap.putAll(filters);

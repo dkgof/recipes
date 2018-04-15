@@ -15,23 +15,22 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.primefaces.PrimeFaces;
-import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author Gof
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class AddIngredientView implements Serializable {
     @Size(min=2, max=64, message="Ingredient name must be between 2-64 characters long")

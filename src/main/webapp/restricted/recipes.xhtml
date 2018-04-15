@@ -17,7 +17,7 @@
                     <div class="ui-grid-col-1">&nbsp;</div>
                     <div class="ui-grid-col-10">
                         <h:form id="form">
-                            <p:growl id="msgs" showDetail="true" autoUpdate="true" />
+                            <p:growl id="msgs" showDetail="true"><p:autoUpdate /></p:growl>
                             <p:dataTable var="recipe" value="#{recipesView.recipesLazy}" lazy="true" editable="true" id="recipesTable" sortBy="#{recipe.name}"
                                          rows="20" paginator="true" sortField="name" rowsPerPageTemplate="10, 20, 50, 100">
 
