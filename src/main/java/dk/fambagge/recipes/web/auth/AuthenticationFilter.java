@@ -45,7 +45,7 @@ public class AuthenticationFilter implements Filter {
             System.out.println("Saving request URL: ["+url+"]");
             
             //Redirect to login
-            httpResponse.sendRedirect(httpRequest.getContextPath()+"/login.xhtml");
+            httpResponse.sendRedirect("/login.xhtml");
         } else {
             chain.doFilter(request, response);
         }
