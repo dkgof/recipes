@@ -19,16 +19,16 @@
 
                 <f:facet name="header">
                     <div class="ui-g" style="align-items: center;">
-                    <div class="ui-g-4" style="text-align: left;">
-                        <h:form>
-                            <h:outputLabel for="recipeFilter" value="Search:" />
-                            <p:inputText id="recipeFilter" value="#{recipesView.recipesLazy.filter}">
-                                <p:ajax event="keyup" update=":recipes" />
-                            </p:inputText>
-                        </h:form>
-                    </div>
-                    <div class="ui-g-4" style="vertical-align: middle; line-height: 28px;">Recipes</div>
-                    <div class="ui-g-4" />
+                        <div class="ui-g-4" />
+                        <div class="ui-g-4" style="vertical-align: middle; line-height: 28px;">Recipes</div>
+                        <div class="ui-g-4" style="text-align: right;">
+                            <h:form>
+                                <h:outputLabel for="recipeFilter" value="Search:" />
+                                <p:inputText id="recipeFilter" value="#{recipesView.recipesLazy.filter}">
+                                    <p:ajax event="keyup" update=":recipes" />
+                                </p:inputText>
+                            </h:form>
+                        </div>
                     </div>
                 </f:facet>
 
