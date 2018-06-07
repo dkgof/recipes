@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dk.fambagge.recipes.web;
+package dk.fambagge.recipes.web.servlets;
 
 import dk.fambagge.recipes.db.Database;
 import javax.servlet.ServletContextEvent;

@@ -6,24 +6,22 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    <f:view contentType="text/html">
-        <h:head>
-            <title>Recipes - Login</title>
-            <link href="css/main.css" rel="stylesheet" type="text/css"/>
-            <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        </h:head>
-        <h:body>
-            <p:growl showDetail="true"><p:autoUpdate /></p:growl>
-            
-            <h:form id="loginForm">
-                <h:panelGrid columns="2">
-                    <h:outputLabel for="username" value="Username:" />
-                    <p:inputText id="username" value="#{authBean.username}" />
-                    <h:outputLabel for="password" value="Password:" />
-                    <p:password id="password" value="#{authBean.password}" />
-                    <p:commandButton value="Login" action="#{authBean.login()}" update=":loginForm"/>
-                </h:panelGrid>
-            </h:form>
-        </h:body>
-    </f:view>
+    <h:head>
+        <title>Recipes - Login</title>
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
+        <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    </h:head>
+    <h:body>
+        <p:growl showDetail="true"><p:autoUpdate /></p:growl>
+
+        <h:form id="loginForm">
+            <h:panelGrid columns="2">
+                <h:outputLabel for="username" value="Username:" />
+                <p:inputText id="username" value="#{authBean.username}" />
+                <h:outputLabel for="password" value="Password:" />
+                <p:password id="password" value="#{authBean.password}" />
+                <p:commandButton value="Login" action="#{authBean.login()}" update=":loginForm"/>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
 </html>

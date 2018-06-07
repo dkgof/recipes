@@ -6,198 +6,196 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    <f:view contentType="text/html">
-        <h:head>
-            <title>Recipes - Ingredients</title>
-            <link href="css/main.css" rel="stylesheet" type="text/css"/>
-        </h:head>
-        <h:body>
-            <div class="ui-grid ui-grid-responsive">
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-1">&nbsp;</div>
-                    <div class="ui-grid-col-10">
-                        <h:form id="form">
-                            <p:growl id="msgs" showDetail="true"><p:autoUpdate /></p:growl>
-                            <p:dataTable var="ingredient" value="#{ingredientsView.ingredientsLazy}" lazy="true" rows="20" paginator="true" editable="true" id="ingredientsTable" sortField="name">
+    <h:head>
+        <title>Recipes - Ingredients</title>
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:body>
+        <div class="ui-grid ui-grid-responsive">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-1">&nbsp;</div>
+                <div class="ui-grid-col-10">
+                    <h:form id="form">
+                        <p:growl id="msgs" showDetail="true"><p:autoUpdate /></p:growl>
+                        <p:dataTable var="ingredient" value="#{ingredientsView.ingredientsLazy}" lazy="true" rows="20" paginator="true" editable="true" id="ingredientsTable" sortField="name">
 
-                                <f:facet name="header">
-                                    Ingredients
-                                </f:facet>
+                            <f:facet name="header">
+                                Ingredients
+                            </f:facet>
 
-                                <p:ajax event="rowEdit" listener="#{ingredientsView.onRowEdit}" update=":form:msgs" />
-                                <p:ajax event="rowEditCancel" listener="#{ingredientsView.onRowCancel}" update=":form:msgs" />
+                            <p:ajax event="rowEdit" listener="#{ingredientsView.onRowEdit}" update=":form:msgs" />
+                            <p:ajax event="rowEditCancel" listener="#{ingredientsView.onRowCancel}" update=":form:msgs" />
 
-                                <p:column headerText="Id" sortBy="#{ingredient.id}" style="width: 40px;">
-                                    <h:outputText value="#{ingredient.id}" />
-                                </p:column>
-                                <p:column headerText="Name" sortBy="#{ingredient.name}" filterBy="#{ingredient.name}">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{ingredient.name}" /></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{ingredient.name}" style="width:100%" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Energy / 100g" sortBy="#{ingredient.energyPerHundred}">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{ingredient.energyPerHundred}" /></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{ingredient.energyPerHundred}" style="width:100%" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Grams / 1L" sortBy="#{ingredient.weightToVolume}">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{ingredient.weightToVolume}" /></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{ingredient.weightToVolume}" style="width:100%" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Preferred Measure">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{ingredient.preferredMeasure.symbol}" style="width:100%" /></f:facet>
-                                        <f:facet name="input">
-                                            <h:selectOneMenu converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{ingredient.preferredMeasure}" style="width:100%">
-                                                <f:selectItems value="#{ingredientsView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
-                                            </h:selectOneMenu>
-                                        </f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Custom Measure">
-                                    <h:outputText value="#{ingredient.customMeasure!=null?(ingredient.customMeasure.toDescriptionString()):'n/a'}" style="width:100%" />
-                                    <p:commandLink process="@this" styleClass="ui-icon ui-icon-wrench" style="display: inline-block" actionListener="#{editCustomMeasureView.setupCustomEditor(ingredient)}" update=":editCustomMeasure" oncomplete="PF('editCustomMeasureDialog').show();" />
-                                </p:column>
-                                <p:column style="width:32px">
-                                    <p:rowEditor />
-                                </p:column>                
-                                <p:column style="width:32px">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <p:commandLink process="@this" styleClass="ui-icon ui-icon-trash" actionListener="#{ingredientsView.delete(ingredient)}" update=":form">
-                                                <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
-                                            </p:commandLink>
-                                        </f:facet>
-                                        <f:facet name="input"><h:outputText value="" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>                
-                            </p:dataTable>
+                            <p:column headerText="Id" sortBy="#{ingredient.id}" style="width: 40px;">
+                                <h:outputText value="#{ingredient.id}" />
+                            </p:column>
+                            <p:column headerText="Name" sortBy="#{ingredient.name}" filterBy="#{ingredient.name}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{ingredient.name}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{ingredient.name}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Energy / 100g" sortBy="#{ingredient.energyPerHundred}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{ingredient.energyPerHundred}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{ingredient.energyPerHundred}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Grams / 1L" sortBy="#{ingredient.weightToVolume}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{ingredient.weightToVolume}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{ingredient.weightToVolume}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Preferred Measure">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{ingredient.preferredMeasure.symbol}" style="width:100%" /></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{ingredient.preferredMeasure}" style="width:100%">
+                                            <f:selectItems value="#{ingredientsView.measures}" var="man" itemLabel="#{man.symbol}" itemValue="#{man}" />
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Custom Measure">
+                                <h:outputText value="#{ingredient.customMeasure!=null?(ingredient.customMeasure.toDescriptionString()):'n/a'}" style="width:100%" />
+                                <p:commandLink process="@this" styleClass="ui-icon ui-icon-wrench" style="display: inline-block" actionListener="#{editCustomMeasureView.setupCustomEditor(ingredient)}" update=":editCustomMeasure" oncomplete="PF('editCustomMeasureDialog').show();" />
+                            </p:column>
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>                
+                            <p:column style="width:32px">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <p:commandLink process="@this" styleClass="ui-icon ui-icon-trash" actionListener="#{ingredientsView.delete(ingredient)}" update=":form">
+                                            <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                        </p:commandLink>
+                                    </f:facet>
+                                    <f:facet name="input"><h:outputText value="" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>                
+                        </p:dataTable>
 
-                            <p:commandButton value="Add ingredient" icon="ui-icon-extlink" onclick="PF('addIngredientDialog').show();" />
+                        <p:commandButton value="Add ingredient" icon="ui-icon-extlink" onclick="PF('addIngredientDialog').show();" />
 
-                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                            </p:confirmDialog>
-                        </h:form>
-                    </div>
-                    <div class="ui-grid-col-1">&nbsp;</div>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </h:form>
                 </div>
+                <div class="ui-grid-col-1">&nbsp;</div>
             </div>
-            
-            <h:link value="Back" outcome="admin" />
-            
-            <p:dialog id="editCustomMeasureDialog" header="Edit Custom Measure" widgetVar="editCustomMeasureDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
-                <h:form id="editCustomMeasure">
-                    <h:panelGrid columns="3" cellpadding="5">
-                        <h:outputLabel for="customMeasureName" value="Custom Measure Name" />
-                        <p:inputText id="customMeasureName" value="#{editCustomMeasureView.customMeasureName}" required="false" />
-                        <p:spacer />
-                        <h:outputLabel for="customMeasureAmount" value="Reference:" />
-                        <p:inputText id="customMeasureAmount" required="false" value="#{editCustomMeasureView.customMeasureAmount}" />
-                        <p:selectOneMenu id="customReferenceMeasure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{editCustomMeasureView.customMeasureReference}">
-                            <f:selectItem itemLabel="Select One" itemValue="" />
-                            <f:selectItems value="#{addIngredientView.measures}" />
-                        </p:selectOneMenu>
-                        <p:spacer />
-                    </h:panelGrid>
+        </div>
 
-                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{editCustomMeasureView.saveCustomMeasure()}" oncomplete="handleEditCustomMeasure(xhr, status, args);" />
-                </h:form>
+        <h:link value="Back" outcome="admin" />
 
-                <p:ajax event="close" update=":editCustomMeasureDialog :form" listener="#{ingredientsView.reload()}" />
-            </p:dialog>
-            
-            <p:dialog id="addIngredientDialog" header="Add Ingredient" widgetVar="addIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
-                <h:form id="addIngredient">
-                    <h:panelGrid columns="3" cellpadding="5">
-                        <h:outputLabel for="name" value="Name:" />
-                        <p:inputText id="name" value="#{addIngredientView.name}" required="true" />
-                        <p:spacer />
-                        <h:outputLabel for="weightToVolume" value="Grams / 1L:" />
-                        <p:inputText id="weightToVolume" value="#{addIngredientView.weightToVolume}" required="true" />
-                        <p:commandButton value="Calculate density" icon="ui-icon-extlink" onclick="PF('calculateDensityDialog').show(); return false;" />
-                        <h:outputLabel for="energyPerHundred" value="KiloJoule / 100g:" />
-                        <p:inputText id="energyPerHundred" value="#{addIngredientView.energyPerHundred}" required="true" />
-                        <p:selectOneMenu value="#{addIngredientView.energyMeasure}" converter="dk.fambagge.recipes.web.converter.MeasureConverter" style="vertical-align: top;">
-                            <f:selectItems value="#{addIngredientView.energyMeasures}" var="measure" itemValue="#{measure}" itemLabel="#{measure.symbol}"/>
-                        </p:selectOneMenu>
-                        <h:outputLabel for="measures" value="Prefered Measure" />
-                        <p:selectOneMenu id="measures" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addIngredientView.preferedMeasure}">
-                            <f:selectItem itemLabel="Select One" itemValue="" />
-                            <f:selectItems value="#{addIngredientView.measures}" />
-                        </p:selectOneMenu>
-                        <p:spacer />
-                        <h:outputLabel for="customMeasureName" value="Custom Measure Name" />
-                        <p:inputText id="customMeasureName" value="#{addIngredientView.customMeasureName}" required="false" />
-                        <p:spacer />
-                        <h:outputLabel for="customMeasureAmount" value="Reference:" />
-                        <p:inputText id="customMeasureAmount" required="false" value="#{addIngredientView.customMeasureAmount}" />
-                        <p:selectOneMenu id="customReferenceMeasure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addIngredientView.customMeasureReference}">
-                            <f:selectItem itemLabel="Select One" itemValue="" />
-                            <f:selectItems value="#{addIngredientView.measures}" />
-                        </p:selectOneMenu>
-                        <p:spacer />
-                    </h:panelGrid>
+        <p:dialog id="editCustomMeasureDialog" header="Edit Custom Measure" widgetVar="editCustomMeasureDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
+            <h:form id="editCustomMeasure">
+                <h:panelGrid columns="3" cellpadding="5">
+                    <h:outputLabel for="customMeasureName" value="Custom Measure Name" />
+                    <p:inputText id="customMeasureName" value="#{editCustomMeasureView.customMeasureName}" required="false" />
+                    <p:spacer />
+                    <h:outputLabel for="customMeasureAmount" value="Reference:" />
+                    <p:inputText id="customMeasureAmount" required="false" value="#{editCustomMeasureView.customMeasureAmount}" />
+                    <p:selectOneMenu id="customReferenceMeasure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{editCustomMeasureView.customMeasureReference}">
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItems value="#{addIngredientView.measures}" />
+                    </p:selectOneMenu>
+                    <p:spacer />
+                </h:panelGrid>
 
-                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addIngredientView.submitIngredient()}" oncomplete="handleAddIngredient(xhr, status, args);" />
-                </h:form>
+                <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{editCustomMeasureView.saveCustomMeasure()}" oncomplete="handleEditCustomMeasure(xhr, status, args);" />
+            </h:form>
 
-                <p:ajax event="close" update=":addIngredientDialog :form" listener="#{ingredientsView.reload()}" />
-            </p:dialog>
-            
-            <p:dialog id="calculateDensityDialog" header="Calculate Density" widgetVar="calculateDensityDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
-                <h:form>
-                    <h:panelGrid columns="3" cellpadding="5">
-                        <h:outputLabel for="calculateDensityWeight" value="Weight:" />
-                        <p:inputText id="calculateDensityWeight" required="true" value="#{addIngredientView.calculateDensityWeight}"/>
-                        <p:selectOneMenu id="calculateDensityWeightUnit" value="#{addIngredientView.calculateDensityWeightUnit}" converter="dk.fambagge.recipes.web.converter.MeasureConverter">
-                            <f:selectItem itemLabel="Select One" itemValue="" />
-                            <f:selectItems value="#{addIngredientView.weightMeasures}" />
-                        </p:selectOneMenu>
-                        
-                        <h:outputLabel for="calculateDensityVolume" value="Volume:" />
-                        <p:inputText id="calculateDensityVolume" required="true" value="#{addIngredientView.calculateDensityVolume}" />
-                        <p:selectOneMenu id="calculateDensityVolumeUnit" value="#{addIngredientView.calculateDensityVolumeUnit}" converter="dk.fambagge.recipes.web.converter.MeasureConverter">
-                            <f:selectItem itemLabel="Select One" itemValue="" />
-                            <f:selectItems value="#{addIngredientView.volumeMeasures}" />
-                        </p:selectOneMenu>
-                        <p:commandButton value="Calculate" icon="ui-icon-check" actionListener="#{addIngredientView.calculateDensity()}" oncomplete="handleCalculateDensity(xhr, status, args)" update="@(#addIngredient\\:weightToVolume)" />
-                    </h:panelGrid>
-                </h:form>
-                
-                <p:ajax event="close" update=":calculateDensityDialog" />
-            </p:dialog>
-            
-            <script type="text/javascript">
-                function handleAddIngredient(xhr, status, args) {
-                    if (args.validationFailed || args.errorSaving) {
-                        PF('addIngredientDialog').jq.effect("shake", {times: 5}, 100);
-                    } else {
-                        PF('addIngredientDialog').hide();
-                    }
+            <p:ajax event="close" update=":editCustomMeasureDialog :form" listener="#{ingredientsView.reload()}" />
+        </p:dialog>
+
+        <p:dialog id="addIngredientDialog" header="Add Ingredient" widgetVar="addIngredientDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
+            <h:form id="addIngredient">
+                <h:panelGrid columns="3" cellpadding="5">
+                    <h:outputLabel for="name" value="Name:" />
+                    <p:inputText id="name" value="#{addIngredientView.name}" required="true" />
+                    <p:spacer />
+                    <h:outputLabel for="weightToVolume" value="Grams / 1L:" />
+                    <p:inputText id="weightToVolume" value="#{addIngredientView.weightToVolume}" required="true" />
+                    <p:commandButton value="Calculate density" icon="ui-icon-extlink" onclick="PF('calculateDensityDialog').show(); return false;" />
+                    <h:outputLabel for="energyPerHundred" value="KiloJoule / 100g:" />
+                    <p:inputText id="energyPerHundred" value="#{addIngredientView.energyPerHundred}" required="true" />
+                    <p:selectOneMenu value="#{addIngredientView.energyMeasure}" converter="dk.fambagge.recipes.web.converter.MeasureConverter" style="vertical-align: top;">
+                        <f:selectItems value="#{addIngredientView.energyMeasures}" var="measure" itemValue="#{measure}" itemLabel="#{measure.symbol}"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel for="measures" value="Prefered Measure" />
+                    <p:selectOneMenu id="measures" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addIngredientView.preferedMeasure}">
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItems value="#{addIngredientView.measures}" />
+                    </p:selectOneMenu>
+                    <p:spacer />
+                    <h:outputLabel for="customMeasureName" value="Custom Measure Name" />
+                    <p:inputText id="customMeasureName" value="#{addIngredientView.customMeasureName}" required="false" />
+                    <p:spacer />
+                    <h:outputLabel for="customMeasureAmount" value="Reference:" />
+                    <p:inputText id="customMeasureAmount" required="false" value="#{addIngredientView.customMeasureAmount}" />
+                    <p:selectOneMenu id="customReferenceMeasure" converter="dk.fambagge.recipes.web.converter.MeasureConverter" value="#{addIngredientView.customMeasureReference}">
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItems value="#{addIngredientView.measures}" />
+                    </p:selectOneMenu>
+                    <p:spacer />
+                </h:panelGrid>
+
+                <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addIngredientView.submitIngredient()}" oncomplete="handleAddIngredient(xhr, status, args);" />
+            </h:form>
+
+            <p:ajax event="close" update=":addIngredientDialog :form" listener="#{ingredientsView.reload()}" />
+        </p:dialog>
+
+        <p:dialog id="calculateDensityDialog" header="Calculate Density" widgetVar="calculateDensityDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
+            <h:form>
+                <h:panelGrid columns="3" cellpadding="5">
+                    <h:outputLabel for="calculateDensityWeight" value="Weight:" />
+                    <p:inputText id="calculateDensityWeight" required="true" value="#{addIngredientView.calculateDensityWeight}"/>
+                    <p:selectOneMenu id="calculateDensityWeightUnit" value="#{addIngredientView.calculateDensityWeightUnit}" converter="dk.fambagge.recipes.web.converter.MeasureConverter">
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItems value="#{addIngredientView.weightMeasures}" />
+                    </p:selectOneMenu>
+
+                    <h:outputLabel for="calculateDensityVolume" value="Volume:" />
+                    <p:inputText id="calculateDensityVolume" required="true" value="#{addIngredientView.calculateDensityVolume}" />
+                    <p:selectOneMenu id="calculateDensityVolumeUnit" value="#{addIngredientView.calculateDensityVolumeUnit}" converter="dk.fambagge.recipes.web.converter.MeasureConverter">
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItems value="#{addIngredientView.volumeMeasures}" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Calculate" icon="ui-icon-check" actionListener="#{addIngredientView.calculateDensity()}" oncomplete="handleCalculateDensity(xhr, status, args)" update="@(#addIngredient\\:weightToVolume)" />
+                </h:panelGrid>
+            </h:form>
+
+            <p:ajax event="close" update=":calculateDensityDialog" />
+        </p:dialog>
+
+        <script type="text/javascript">
+            function handleAddIngredient(xhr, status, args) {
+                if (args.validationFailed || args.errorSaving) {
+                    PF('addIngredientDialog').jq.effect("shake", {times: 5}, 100);
+                } else {
+                    PF('addIngredientDialog').hide();
                 }
-                
-                function handleEditCustomMeasure(xhr, status, args) {
-                    if (args.validationFailed || args.errorSaving) {
-                        PF('editCustomMeasureDialog').jq.effect("shake", {times: 5}, 100);
-                    } else {
-                        PF('editCustomMeasureDialog').hide();
-                    }
+            }
+
+            function handleEditCustomMeasure(xhr, status, args) {
+                if (args.validationFailed || args.errorSaving) {
+                    PF('editCustomMeasureDialog').jq.effect("shake", {times: 5}, 100);
+                } else {
+                    PF('editCustomMeasureDialog').hide();
                 }
-                
-                function handleCalculateDensity(xhr, status, args) {
-                    if (args.validationFailed || args.errorSaving) {
-                        PF('calculateDensityDialog').jq.effect("shake", {times: 5}, 100);
-                    } else {
-                        PF('calculateDensityDialog').hide();
-                    }
+            }
+
+            function handleCalculateDensity(xhr, status, args) {
+                if (args.validationFailed || args.errorSaving) {
+                    PF('calculateDensityDialog').jq.effect("shake", {times: 5}, 100);
+                } else {
+                    PF('calculateDensityDialog').hide();
                 }
-            </script>            
-        </h:body>
-    </f:view>
+            }
+        </script>            
+    </h:body>
 </html>

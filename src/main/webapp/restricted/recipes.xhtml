@@ -6,108 +6,106 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    <f:view contentType="text/html">
-        <h:head>
-            <title>Recipes - Recipes</title>
-            <link href="css/main.css" rel="stylesheet" type="text/css"/>
-        </h:head>
-        <h:body>
-            <div class="ui-grid ui-grid-responsive">
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-1">&nbsp;</div>
-                    <div class="ui-grid-col-10">
-                        <h:form id="form">
-                            <p:growl id="msgs" showDetail="true"><p:autoUpdate /></p:growl>
-                            <p:dataTable var="recipe" value="#{recipesView.recipesLazy}" lazy="true" editable="true" id="recipesTable" sortBy="#{recipe.name}"
-                                         rows="20" paginator="true" sortField="name" rowsPerPageTemplate="10, 20, 50, 100">
+    <h:head>
+        <title>Recipes - Recipes</title>
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:body>
+        <div class="ui-grid ui-grid-responsive">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-1">&nbsp;</div>
+                <div class="ui-grid-col-10">
+                    <h:form id="form">
+                        <p:growl id="msgs" showDetail="true"><p:autoUpdate /></p:growl>
+                        <p:dataTable var="recipe" value="#{recipesView.recipesLazy}" lazy="true" editable="true" id="recipesTable" sortBy="#{recipe.name}"
+                                     rows="20" paginator="true" sortField="name" rowsPerPageTemplate="10, 20, 50, 100">
 
-                                <f:facet name="header">
-                                    Recipes
-                                </f:facet>
-
-                                <p:column headerText="Id" sortBy="#{recipe.id}" style="width: 40px;">
-                                    <h:outputText value="#{recipe.id}" />
-                                </p:column>
-                                <p:column headerText="Name" sortBy="#{recipe.name}" filterBy="#{recipe.name}">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><p:link href="/recipe.xhtml?recipe=#{recipe.id}"><h:outputText value="#{recipe.name}" /></p:link></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{recipe.name}" style="width:100%" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                                <p:column headerText="Servings">
-                                    <h:outputText value="#{recipe.servings}" />
-                                </p:column>
-                                <p:column headerText="Calories">
-                                    <h:outputText value="#{recipe.energyInCalories}" />
-                                </p:column>
-                                <p:column style="width:32px">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <p:commandLink process="@this" styleClass="ui-icon ui-icon-trash" actionListener="#{recipesView.delete(recipe)}" update=":form">
-                                                <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
-                                            </p:commandLink>
-                                        </f:facet>
-                                        <f:facet name="input"><h:outputText value="" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>                
-                            </p:dataTable>
-
-                            <p:commandButton value="Add Recipe" icon="ui-icon-extlink" onclick="PF('addRecipeDialog').show();" />
-
-                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                            </p:confirmDialog>
-                        </h:form>
-                    </div>
-                    <div class="ui-grid-col-1">&nbsp;</div>
-                </div>
-            </div>
-
-            <h:link value="Back" outcome="admin" />
-
-            <p:dialog id="addRecipeDialog" header="Add Recipe" widgetVar="addRecipeDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
-                <h:form id="addRecipe">
-                    <h:panelGrid columns="3" cellpadding="5">
-                        <h:outputLabel for="name" value="Name:" />
-                        <p:inputText id="name" value="#{addRecipeView.name}" required="true" />
-                        <p:spacer />
-                        <h:outputLabel for="servings" value="Servings:" />
-                        <p:inputText id="servings" value="#{addRecipeView.servings}" required="true" />
-                        <p:spacer />
-                        <p:dataList value="#{addRecipeView.ingredients}" var="ingredient" type="definition" id="ingredientList">
                             <f:facet name="header">
-                                Ingredients
+                                Recipes
                             </f:facet>
-                            <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
-                            <div class="ingredientStats">
-                                <span class="ingredientInfo"><h:outputText value="#{ingredient.amount}" /> <h:outputText value="#{ingredient.measure.symbol}" /></span>
-                            </div>
-                        </p:dataList>
-                        <p:commandButton type="button" value="Add Ingredient" icon="ui-icon-extlink" onclick="PF('addRecipeIngredientDialog').show();" />
-                    </h:panelGrid>
-                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeView.submitRecipe()}" oncomplete="handleAddRecipe(xhr, status, args);" />
-                </h:form>
 
-                <p:ajax event="close" update=":addRecipe :form" listener="#{addRecipeView.reset()}" />
-            </p:dialog>
+                            <p:column headerText="Id" sortBy="#{recipe.id}" style="width: 40px;">
+                                <h:outputText value="#{recipe.id}" />
+                            </p:column>
+                            <p:column headerText="Name" sortBy="#{recipe.name}" filterBy="#{recipe.name}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><p:link href="/recipe.xhtml?recipe=#{recipe.id}"><h:outputText value="#{recipe.name}" /></p:link></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{recipe.name}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Servings">
+                                <h:outputText value="#{recipe.servings}" />
+                            </p:column>
+                            <p:column headerText="Calories">
+                                <h:outputText value="#{recipe.energyInCalories}" />
+                            </p:column>
+                            <p:column style="width:32px">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <p:commandLink process="@this" styleClass="ui-icon ui-icon-trash" actionListener="#{recipesView.delete(recipe)}" update=":form">
+                                            <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                        </p:commandLink>
+                                    </f:facet>
+                                    <f:facet name="input"><h:outputText value="" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>                
+                        </p:dataTable>
 
-            <ui:include src="../includes/addRecipeIngredientDialog.xhtml">
-                <ui:param name="addMethodArgument" value="#{addRecipeView.ingredients}" />
-                <ui:param name="update" value=":addRecipe:ingredientList" />
-            </ui:include>
+                        <p:commandButton value="Add Recipe" icon="ui-icon-extlink" onclick="PF('addRecipeDialog').show();" />
 
-            <script type="text/javascript">
-                function handleAddRecipe(xhr, status, args) {
-                    if (args.validationFailed || args.errorSaving) {
-                        PF('addRecipeDialog').jq.effect("shake", {times: 5}, 100);
-                    } else {
-                        PF('addRecipeDialog').hide();
-                    }
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                            <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                    </h:form>
+                </div>
+                <div class="ui-grid-col-1">&nbsp;</div>
+            </div>
+        </div>
+
+        <h:link value="Back" outcome="admin" />
+
+        <p:dialog id="addRecipeDialog" header="Add Recipe" widgetVar="addRecipeDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true">
+            <h:form id="addRecipe">
+                <h:panelGrid columns="3" cellpadding="5">
+                    <h:outputLabel for="name" value="Name:" />
+                    <p:inputText id="name" value="#{addRecipeView.name}" required="true" />
+                    <p:spacer />
+                    <h:outputLabel for="servings" value="Servings:" />
+                    <p:inputText id="servings" value="#{addRecipeView.servings}" required="true" />
+                    <p:spacer />
+                    <p:dataList value="#{addRecipeView.ingredients}" var="ingredient" type="definition" id="ingredientList">
+                        <f:facet name="header">
+                            Ingredients
+                        </f:facet>
+                        <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
+                        <div class="ingredientStats">
+                            <span class="ingredientInfo"><h:outputText value="#{ingredient.amount}" /> <h:outputText value="#{ingredient.measure.symbol}" /></span>
+                        </div>
+                    </p:dataList>
+                    <p:commandButton type="button" value="Add Ingredient" icon="ui-icon-extlink" onclick="PF('addRecipeIngredientDialog').show();" />
+                </h:panelGrid>
+                <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeView.submitRecipe()}" oncomplete="handleAddRecipe(xhr, status, args);" />
+            </h:form>
+
+            <p:ajax event="close" update=":addRecipe :form" listener="#{addRecipeView.reset()}" />
+        </p:dialog>
+
+        <ui:include src="../includes/addRecipeIngredientDialog.xhtml">
+            <ui:param name="addMethodArgument" value="#{addRecipeView.ingredients}" />
+            <ui:param name="update" value=":addRecipe:ingredientList" />
+        </ui:include>
+
+        <script type="text/javascript">
+            function handleAddRecipe(xhr, status, args) {
+                if (args.validationFailed || args.errorSaving) {
+                    PF('addRecipeDialog').jq.effect("shake", {times: 5}, 100);
+                } else {
+                    PF('addRecipeDialog').hide();
                 }
-            </script>
+            }
+        </script>
 
-        </h:body>
-    </f:view>
+    </h:body>
 </html>
 

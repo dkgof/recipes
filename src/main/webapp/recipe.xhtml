@@ -6,250 +6,248 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    <f:view contentType="text/html">
-        <h:head>
-            <title>Recipes - Recipe</title>
+    <h:head>
+        <title>Recipes - Recipe</title>
 
-            <link href="css/featherlight.min.css" rel="stylesheet" type="text/css"/>
-            <link href="css/featherlight.gallery.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/featherlight.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/featherlight.gallery.min.css" rel="stylesheet" type="text/css"/>
 
-            <link href="css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
 
-            <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-            <script src="js/featherlight.min.js" type="text/javascript"></script>
-            <script src="js/featherlight.gallery.min.js" type="text/javascript"></script>
+        <script src="js/featherlight.min.js" type="text/javascript"></script>
+        <script src="js/featherlight.gallery.min.js" type="text/javascript"></script>
 
-            <script src="js/recipe.js" type="text/javascript"></script>
-        </h:head>
-        <h:body>
-            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <script src="js/recipe.js" type="text/javascript"></script>
+    </h:head>
+    <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 
-            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-                <img src="/img/ajax-load.gif" />
-            </p:dialog>
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <img src="/img/ajax-load.gif" />
+        </p:dialog>
 
-            <h:form id="recipeForm">
-                <p:defaultCommand target="dummy"/>
-                <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
+        <h:form id="recipeForm">
+            <p:defaultCommand target="dummy"/>
+            <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/>
 
-                <p:panel>
-                    <f:facet name="header">
-                        <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
-                            <f:facet name="output">
-                                <h:outputText value="#{recipeView.selectedRecipe.name}" />
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:inputText value="#{recipeView.selectedRecipe.name}" />
-                                <p:ajax event="save" listener="#{recipeView.saveRecipe()}" update=":recipeForm" />
-                            </f:facet>
+            <p:panel>
+                <f:facet name="header">
+                    <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                        <f:facet name="output">
+                            <h:outputText value="#{recipeView.selectedRecipe.name}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{recipeView.selectedRecipe.name}" />
+                            <p:ajax event="save" listener="#{recipeView.saveRecipe()}" update=":recipeForm" />
+                        </f:facet>
 
-                        </p:inplace>
-                    </f:facet>
-                    <div class="ui-grid ui-grid-responsive">
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-12">
-                                Serves: <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
-                                    <f:facet name="output">
-                                        <h:outputText value="#{recipeView.selectedRecipe.servings}" />
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <p:spinner value="#{recipeView.selectedRecipe.servings}" stepFactor="1" size="3" />
-                                        <p:ajax event="save" update=":recipeForm" listener="#{recipeView.saveRecipe}" />
-                                    </f:facet>
-                                </p:inplace><br />
-                                Energy/serving: <h:outputText value="#{recipeView.selectedRecipe.caloriesPerServing}" /> kcal
-                                <br />
-                                <br />
-                                Adjust servings for current view: <p:inplace editor="true">
-                                    <f:facet name="output">
-                                        <h:outputText value="#{recipeView.customServings}" />
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <p:spinner value="#{recipeView.customServings}" stepFactor="1" size="3" />
-                                        <p:ajax event="save" update=":recipeForm" />
-                                    </f:facet>
-                                </p:inplace><br />
+                    </p:inplace>
+                </f:facet>
+                <div class="ui-grid ui-grid-responsive">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            Serves: <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                                <f:facet name="output">
+                                    <h:outputText value="#{recipeView.selectedRecipe.servings}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:spinner value="#{recipeView.selectedRecipe.servings}" stepFactor="1" size="3" />
+                                    <p:ajax event="save" update=":recipeForm" listener="#{recipeView.saveRecipe}" />
+                                </f:facet>
+                            </p:inplace><br />
+                            Energy/serving: <h:outputText value="#{recipeView.selectedRecipe.caloriesPerServing}" /> kcal
+                            <br />
+                            <br />
+                            Adjust servings for current view: <p:inplace editor="true">
+                                <f:facet name="output">
+                                    <h:outputText value="#{recipeView.customServings}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:spinner value="#{recipeView.customServings}" stepFactor="1" size="3" />
+                                    <p:ajax event="save" update=":recipeForm" />
+                                </f:facet>
+                            </p:inplace><br />
 
-                                <br />
-                                <h:panelGroup rendered="#{authBean.hasPermission('edit')}">
-                                    <p:commandButton value="Clone Recipe" action="#{recipeView.cloneRecipe()}" process="@this" styleClass="hideFromPrint" />
-                                </h:panelGroup>
-                            </div>
+                            <br />
+                            <h:panelGroup rendered="#{authBean.hasPermission('edit')}">
+                                <p:commandButton value="Clone Recipe" action="#{recipeView.cloneRecipe()}" process="@this" styleClass="hideFromPrint" />
+                            </h:panelGroup>
                         </div>
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4">
-                                <p:panel>
-                                    <f:facet name="header">Ingredients&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Ingredient" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!authBean.hasPermission('edit')}" />&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Group" onclick="PF('addRecipeGroupDialog').show();" disabled="#{!authBean.hasPermission('edit')}" /></f:facet>
-                                    <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}">
-                                        <div class="ingredientId" data-id="#{ingredient.id}"></div>
-                                        <div class="ui-grid-row">
-                                            <div class="ui-grid-col-4">
-                                                <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
-                                            </div>
-                                            <div class="ui-grid-col-7">
-                                                <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
-                                                    <f:facet name="output">
-                                                        <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
-                                                    </f:facet>
-                                                    <f:facet name="input">
-                                                        <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
-                                                        <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
-                                                    </f:facet>
-                                                </p:inplace>
-                                            </div>
-                                            <div class="ui-grid-col-1">
-                                                <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
-                                                    <p:confirm header="Remove ingredient" message="Are you sure?" icon="ui-icon-alert" />
-                                                </p:commandLink>
-                                            </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4">
+                            <p:panel>
+                                <f:facet name="header">Ingredients&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Ingredient" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!authBean.hasPermission('edit')}" />&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Group" onclick="PF('addRecipeGroupDialog').show();" disabled="#{!authBean.hasPermission('edit')}" /></f:facet>
+                                <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}">
+                                    <div class="ingredientId" data-id="#{ingredient.id}"></div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-4">
+                                            <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
                                         </div>
-                                    </p:dataList>
-                                    <ui:repeat var="group" value="#{recipeView.ingredientGroupsSorted}">
-                                        <p:panel class="recipeGroup">
-                                            <div class="groupId" data-id="#{group.id}"></div>
-                                            <f:facet name="header">
-                                                <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
-                                                    <f:facet name="output">
-                                                        <h:outputText value="#{group.name}" />
-                                                    </f:facet>
-                                                    <f:facet name="input">
-                                                        <p:inputText value="#{group.name}" />
-                                                        <p:ajax event="save" listener="#{group.save()}" update=":recipeForm" />
-                                                    </f:facet>
-                                                </p:inplace>&nbsp;&nbsp;
-                                                <h:outputText value="(#{recipeView.getCaloriesPerServingForGroup(group)} kcal)" />&nbsp;&nbsp;
-                                                <p:commandLink styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
-                                                    <p:confirm header="Delete group" message="Are you sure?" icon="ui-icon-alert" />
-                                                </p:commandLink>
-                                            </f:facet>
-                                            <p:dataList var="ingredient" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}" class="ingredientGroupList">
-                                                <div class="ingredientId" data-id="#{ingredient.id}"></div>
-                                                <div class="ui-grid-row">
-                                                    <div class="ui-grid-col-4">
-                                                        <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
-                                                    </div>
-                                                    <div class="ui-grid-col-7">
-                                                        <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
-                                                            <f:facet name="output">
-                                                                <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
-                                                            </f:facet>
-                                                            <f:facet name="input">
-                                                                <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
-                                                                <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
-                                                            </f:facet>
-                                                        </p:inplace>
-                                                    </div>
-                                                    <div class="ui-grid-col-1">
-                                                        <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
-                                                            <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
-                                                        </p:commandLink>
-                                                    </div>
+                                        <div class="ui-grid-col-7">
+                                            <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                                                <f:facet name="output">
+                                                    <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
+                                                    <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
+                                                </f:facet>
+                                            </p:inplace>
+                                        </div>
+                                        <div class="ui-grid-col-1">
+                                            <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
+                                                <p:confirm header="Remove ingredient" message="Are you sure?" icon="ui-icon-alert" />
+                                            </p:commandLink>
+                                        </div>
+                                    </div>
+                                </p:dataList>
+                                <ui:repeat var="group" value="#{recipeView.ingredientGroupsSorted}">
+                                    <p:panel class="recipeGroup">
+                                        <div class="groupId" data-id="#{group.id}"></div>
+                                        <f:facet name="header">
+                                            <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{group.name}" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{group.name}" />
+                                                    <p:ajax event="save" listener="#{group.save()}" update=":recipeForm" />
+                                                </f:facet>
+                                            </p:inplace>&nbsp;&nbsp;
+                                            <h:outputText value="(#{recipeView.getCaloriesPerServingForGroup(group)} kcal)" />&nbsp;&nbsp;
+                                            <p:commandLink styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
+                                                <p:confirm header="Delete group" message="Are you sure?" icon="ui-icon-alert" />
+                                            </p:commandLink>
+                                        </f:facet>
+                                        <p:dataList var="ingredient" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}" class="ingredientGroupList">
+                                            <div class="ingredientId" data-id="#{ingredient.id}"></div>
+                                            <div class="ui-grid-row">
+                                                <div class="ui-grid-col-4">
+                                                    <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
                                                 </div>
-                                            </p:dataList>
-                                        </p:panel>
-                                    </ui:repeat>
-                                    <br />
-                                    <h:outputText value="Show all meassures in gram: " styleClass="hideFromPrint" />
-                                    <p:selectBooleanCheckbox value="#{recipeView.showInGram}" styleClass="hideFromPrint">
-                                        <p:ajax update="@(#recipeForm\\:ingredientList, .ingredientGroupList)" />
-                                    </p:selectBooleanCheckbox>
-                                </p:panel>
-                            </div>
-                            <div class="ui-grid-col-8">
-                                <p:panel>
-                                    <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" disabled="#{!authBean.hasPermission('edit')}" oncomplete="initDND();" /></f:facet>
-                                    <p:dataList var="step" value="#{recipeView.stepsSorted}" id="recipeSteps" itemStyleClass="recipeStep">
-                                        <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}" effect="none" styleClass="inlineEditor" disabled="#{!authBean.hasPermission('edit')}">
-                                            <f:facet name="output">
-                                                <span class="fullWidth #{authBean.hasPermission('edit')?'draggable':''} recipeStepInner" data-id="#{step.id}"><h:outputText value="#{recipeView.escapeTextWithLineBreaks(step.description)}" escape="false" /></span>
-                                            </f:facet>
-                                            <f:facet name="input">
-                                                <p:inputTextarea value="#{step.description}" styleClass="recipeStepEditor" autoResize="true">
-                                                    <p:ajax event="blur" process="@this" onstart="PF('inplaceStep_#{step.id}').save();" listener="#{recipeView.inlineSaveRecipeStep(step)}" update="@this" oncomplete="initDND();" />
-                                                </p:inputTextarea>
-                                            </f:facet>
-                                        </p:inplace>
-                                    </p:dataList>
-                                </p:panel>
-                            </div>
-                        </div>
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-12">
-                                <br />
-                                <h:panelGroup id="imageArea">
-                                    <h:panelGroup rendered="#{recipeView.selectedRecipe.hasImage()}" layout="block">
-                                        <div data-featherlight-filter="a.galleryItem" id="gallery">
-                                            <p:repeat value="#{recipeView.medias}" var="media">
-                                                <div class="recipeContainer">
-                                                    <p:commandLink type="button" action="#{recipeView.selectedRecipe.removeMedia(media)}" value="X" update=":recipeForm:imageArea" disabled="#{!authBean.hasPermission('edit')}" class="delete">
+                                                <div class="ui-grid-col-7">
+                                                    <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                                                        <f:facet name="output">
+                                                            <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
+                                                        </f:facet>
+                                                        <f:facet name="input">
+                                                            <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
+                                                            <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
+                                                        </f:facet>
+                                                    </p:inplace>
+                                                </div>
+                                                <div class="ui-grid-col-1">
+                                                    <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
                                                         <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
                                                     </p:commandLink>
-                                                    <h:outputLink value="#{media.url}" class="galleryItem">
-                                                        <div class="recipeMedia" style="background-image: url(#{media.getThumbnailUrl(128)})" >
-                                                        </div>
-                                                    </h:outputLink>
                                                 </div>
-                                            </p:repeat>
-                                        </div>
-                                    </h:panelGroup>
-                                    <div class="ui-grid-col-4">
-                                        <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true" rendered="#{authBean.hasPermission('edit')}"
-                                                      sizeLimit="25000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" update=":recipeForm:imageArea"/>
-                                    </div>
-                                    <script>
-                                        jQuery("#gallery").featherlightGallery({
-                                            variant: 'featherlight-gallery2'
-                                        });
-                                    </script>
-                                </h:panelGroup>
-                            </div>
+                                            </div>
+                                        </p:dataList>
+                                    </p:panel>
+                                </ui:repeat>
+                                <br />
+                                <h:outputText value="Show all meassures in gram: " styleClass="hideFromPrint" />
+                                <p:selectBooleanCheckbox value="#{recipeView.showInGram}" styleClass="hideFromPrint">
+                                    <p:ajax update="@(#recipeForm\\:ingredientList, .ingredientGroupList)" />
+                                </p:selectBooleanCheckbox>
+                            </p:panel>
+                        </div>
+                        <div class="ui-grid-col-8">
+                            <p:panel>
+                                <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" disabled="#{!authBean.hasPermission('edit')}" oncomplete="initDND();" /></f:facet>
+                                <p:dataList var="step" value="#{recipeView.stepsSorted}" id="recipeSteps" itemStyleClass="recipeStep">
+                                    <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}" effect="none" styleClass="inlineEditor" disabled="#{!authBean.hasPermission('edit')}">
+                                        <f:facet name="output">
+                                            <span class="fullWidth #{authBean.hasPermission('edit')?'draggable':''} recipeStepInner" data-id="#{step.id}"><h:outputText value="#{recipeView.escapeTextWithLineBreaks(step.description)}" escape="false" /></span>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputTextarea value="#{step.description}" styleClass="recipeStepEditor" autoResize="true">
+                                                <p:ajax event="blur" process="@this" onstart="PF('inplaceStep_#{step.id}').save();" listener="#{recipeView.inlineSaveRecipeStep(step)}" update="@this" oncomplete="initDND();" />
+                                            </p:inputTextarea>
+                                        </f:facet>
+                                    </p:inplace>
+                                </p:dataList>
+                            </p:panel>
                         </div>
                     </div>
-                </p:panel>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <br />
+                            <h:panelGroup id="imageArea">
+                                <h:panelGroup rendered="#{recipeView.selectedRecipe.hasImage()}" layout="block">
+                                    <div data-featherlight-filter="a.galleryItem" id="gallery">
+                                        <p:repeat value="#{recipeView.medias}" var="media">
+                                            <div class="recipeContainer">
+                                                <p:commandLink type="button" action="#{recipeView.selectedRecipe.removeMedia(media)}" value="X" update=":recipeForm:imageArea" disabled="#{!authBean.hasPermission('edit')}" class="delete">
+                                                    <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                                </p:commandLink>
+                                                <h:outputLink value="#{media.url}" class="galleryItem">
+                                                    <div class="recipeMedia" style="background-image: url(#{media.getThumbnailUrl(128)})" >
+                                                    </div>
+                                                </h:outputLink>
+                                            </div>
+                                        </p:repeat>
+                                    </div>
+                                </h:panelGroup>
+                                <div class="ui-grid-col-4">
+                                    <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true" rendered="#{authBean.hasPermission('edit')}"
+                                                  sizeLimit="25000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" update=":recipeForm:imageArea"/>
+                                </div>
+                                <script>
+                                    jQuery("#gallery").featherlightGallery({
+                                        variant: 'featherlight-gallery2'
+                                    });
+                                </script>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
 
-                <p:remoteCommand name="doDropStep" action="#{recipeView.doDropStep()}" update=":recipeForm:recipeSteps" oncomplete="initDND();" />
-                <p:remoteCommand name="doDropIngredient" action="#{recipeView.doDropIngredient()}" update=":recipeForm" oncomplete="initGroupDND(); initDND();" />
+            <p:remoteCommand name="doDropStep" action="#{recipeView.doDropStep()}" update=":recipeForm:recipeSteps" oncomplete="initDND();" />
+            <p:remoteCommand name="doDropIngredient" action="#{recipeView.doDropIngredient()}" update=":recipeForm" oncomplete="initGroupDND(); initDND();" />
+        </h:form>
+
+        <p:dialog id="addRecipeGroupDialog" header="Add Recipe Group" widgetVar="addRecipeGroupDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true" width="450">
+            <h:form id="addRecipeGroup">
+                <div class="ui-grid ui-grid-responsive">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-6">
+                            <h:outputLabel for="groupName" value="Group name:" />
+                        </div>
+                        <div class="ui-grid-col-6">
+                            <p:inputText id="groupName" value="#{recipeView.groupName}" />
+                        </div>
+                    </div>
+                </div>
+                <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{recipeView.addRecipeGroup}" update=":recipeForm" oncomplete="PF('addRecipeGroupDialog').hide(); initGroupDND(); initDND();" />
             </h:form>
 
-            <p:dialog id="addRecipeGroupDialog" header="Add Recipe Group" widgetVar="addRecipeGroupDialog" modal="true" showEffect="fade" hideEffect="fade" dynamic="true" width="450">
-                <h:form id="addRecipeGroup">
-                    <div class="ui-grid ui-grid-responsive">
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-6">
-                                <h:outputLabel for="groupName" value="Group name:" />
-                            </div>
-                            <div class="ui-grid-col-6">
-                                <p:inputText id="groupName" value="#{recipeView.groupName}" />
-                            </div>
-                        </div>
-                    </div>
-                    <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{recipeView.addRecipeGroup}" update=":recipeForm" oncomplete="PF('addRecipeGroupDialog').hide(); initGroupDND(); initDND();" />
-                </h:form>
+            <p:ajax event="close" update=":addRecipeGroup" />
+        </p:dialog>
 
-                <p:ajax event="close" update=":addRecipeGroup" />
-            </p:dialog>
+        <p:link value="Back" outcome="index" styleClass="hideFromPrint" />
 
-            <p:link value="Back" outcome="index" styleClass="hideFromPrint" />
+        <ui:include src="includes/addRecipeIngredientDialog.xhtml">
+            <ui:param name="addMethodArgument" value="#{recipeView.selectedRecipe}" />
+            <ui:param name="update" value=":recipeForm" />
+            <ui:param name="additionalJS" value="initGroupDND(); initDND();" />
+        </ui:include>
 
-            <ui:include src="includes/addRecipeIngredientDialog.xhtml">
-                <ui:param name="addMethodArgument" value="#{recipeView.selectedRecipe}" />
-                <ui:param name="update" value=":recipeForm" />
-                <ui:param name="additionalJS" value="initGroupDND(); initDND();" />
-            </ui:include>
+        <script type="text/javascript">
+            jQuery(function () {
+                initDND();
 
-            <script type="text/javascript">
-                jQuery(function () {
-                    initDND();
-
-                    initGroupDND();
-                });
-            </script>
-        </h:body>
-    </f:view>
+                initGroupDND();
+            });
+        </script>
+    </h:body>
 </html>
 

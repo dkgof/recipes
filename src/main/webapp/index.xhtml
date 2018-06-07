@@ -6,51 +6,49 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    <f:view contentType="text/html">
-        <h:head>
-            <title>Recipes - Recipes</title>
-            <link href="css/main.css" rel="stylesheet" type="text/css"/>
-            <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        </h:head>
-        <h:body>
+    <h:head>
+        <title>Recipes - Recipes</title>
+        <link href="css/main.css" rel="stylesheet" type="text/css"/>
+        <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    </h:head>
+    <h:body>
 
-            <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="4" layout="grid"
-                        rows="12" paginator="true" id="recipes" lazy="true" rowsPerPageTemplate="4,8,12">
+        <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="4" layout="grid"
+                    rows="12" paginator="true" id="recipes" lazy="true" rowsPerPageTemplate="4,8,12">
 
-                <f:facet name="header">
-                    <div class="ui-g" style="align-items: center;">
-                        <div class="ui-g-4" />
-                        <div class="ui-g-4" style="vertical-align: middle; line-height: 28px;">Recipes</div>
-                        <div class="ui-g-4" style="text-align: right;">
-                            <h:form>
-                                <h:outputLabel for="recipeFilter" value="Search:" />
-                                <p:inputText id="recipeFilter" value="#{recipesView.recipesLazy.filter}">
-                                    <p:ajax event="keyup" update=":recipes" />
-                                </p:inputText>
-                            </h:form>
-                        </div>
+            <f:facet name="header">
+                <div class="ui-g" style="align-items: center;">
+                    <div class="ui-g-4" />
+                    <div class="ui-g-4" style="vertical-align: middle; line-height: 28px;">Recipes</div>
+                    <div class="ui-g-4" style="text-align: right;">
+                        <h:form>
+                            <h:outputLabel for="recipeFilter" value="Search:" />
+                            <p:inputText id="recipeFilter" value="#{recipesView.recipesLazy.filter}">
+                                <p:ajax event="keyup" update=":recipes" />
+                            </p:inputText>
+                        </h:form>
                     </div>
-                </f:facet>
+                </div>
+            </f:facet>
 
-                <p:panel header="#{recipe.name}" style="text-align:center; height: 100%;">
-                    <h:panelGrid columns="1" style="width:100%; height:100%;">
-                        <!--
-                        <h:outputText value="Serves #{recipe.servings}" />
-                        <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
-                        -->
-                        <h:panelGroup rendered="#{recipe.hasImage()}">
-                            <h:link outcome="recipe.xhtml?recipe=#{recipe.id}">
-                                <div style="background-image: url(#{recipe.primaryMedia.getThumbnailUrl(512)});" class="foodIcon"></div>
-                            </h:link>
-                        </h:panelGroup>
-                        <h:panelGroup rendered="#{!recipe.hasImage()}">
-                            <div class="foodIcon"></div>
-                        </h:panelGroup>
-                        <h:link value="Goto" outcome="recipe.xhtml?recipe=#{recipe.id}" />
-                    </h:panelGrid>
-                </p:panel>
-            </p:dataGrid>
-            <h:link value="Admin page" outcome="restricted/admin" />
-        </h:body>
-    </f:view>
+            <p:panel header="#{recipe.name}" style="text-align:center; height: 100%;">
+                <h:panelGrid columns="1" style="width:100%; height:100%;">
+                    <!--
+                    <h:outputText value="Serves #{recipe.servings}" />
+                    <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
+                    -->
+                    <h:panelGroup rendered="#{recipe.hasImage()}">
+                        <h:link outcome="recipe.xhtml?recipe=#{recipe.id}">
+                            <div style="background-image: url(#{recipe.primaryMedia.getThumbnailUrl(512)});" class="foodIcon"></div>
+                        </h:link>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{!recipe.hasImage()}">
+                        <div class="foodIcon"></div>
+                    </h:panelGroup>
+                    <h:link value="Goto" outcome="recipe.xhtml?recipe=#{recipe.id}" />
+                </h:panelGrid>
+            </p:panel>
+        </p:dataGrid>
+        <h:link value="Admin page" outcome="restricted/admin" />
+    </h:body>
 </html>
