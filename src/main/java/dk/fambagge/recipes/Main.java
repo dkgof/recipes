@@ -54,7 +54,8 @@ public class Main {
                 //Running from deployed zipfile
                 System.out.println("Deployed zipfile!");
                 webContext.setBaseResource(new ResourceCollection(new String[]{
-                    "./webapp"
+                    "./webapp",
+                    "./lib"
                 }));
                 webContext.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*/*.jar");
             } else {
