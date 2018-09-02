@@ -10,16 +10,15 @@ import dk.fambagge.recipes.domain.Ingredient;
 import dk.fambagge.recipes.domain.Recipe;
 import dk.fambagge.recipes.web.data.LazyCustomList;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import org.omnifaces.cdi.ViewScoped;
 
 /**
  *
@@ -31,14 +30,14 @@ public class RecipesView implements Serializable {
 
     private LazyCustomList<Recipe> lazyModel;
     
+    @Inject
+    RecipesViewSession recipesViewSession;
+    
     @PostConstruct
     public void init() {
         lazyModel = new LazyCustomList(Recipe.class);
-    }
-    
-    public List<Recipe> getRecipes() {
-
-        return new LinkedList<>(Recipe.getAll());
+        lazyModel.setPageSize(recipesViewSession.getRowPerPage());
+        lazyModel.setFilter(recipesViewSession.getFilterString());
     }
     
     public LazyCustomList<Recipe> getRecipesLazy() {
@@ -56,5 +55,14 @@ public class RecipesView implements Serializable {
         
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Recipe deleted"));
+    }
+    
+    public void setFilter(String filterString) {
+        recipesViewSession.setFilterString(filterString);
+        lazyModel.setFilter(filterString);
+    }
+    
+    public String getFilter() {
+        return recipesViewSession.getFilterString();
     }
 }

@@ -4,13 +4,27 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
         <title>Recipes - Recipes</title>
         <link href="css/main.css" rel="stylesheet" type="text/css"/>
         <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    </h:head>
+
+        <script src="js/CaviTouch.min.js" type="text/javascript"></script>
+
+        <script>
+            function catchRowChangeEvents() {
+                jQuery(function () {
+                    PF('recipesWV').paginator.rppSelect.change(function () {
+                        savePaginator([{name: 'rows', value: this.value}]);
+                    });
+                });
+            }
+        </script>    </h:head>
     <h:body>
         <div class="ui-g ui-widget-header" style="align-items: center;">
             <div class="ui-g-4" />
@@ -18,37 +32,61 @@
             <div class="ui-g-4 ui-widget" style="text-align: right;">
                 <h:form>
                     <h:outputLabel for="recipeFilter" value="Search:" />
-                    <p:inputText id="recipeFilter" value="#{recipesView.recipesLazy.filter}" size="10">
-                        <p:ajax event="keyup" update=":recipes" />
+                    <p:inputText id="recipeFilter" value="#{recipesView.filter}" size="10">
+                        <p:ajax event="keyup" update=":recipes" oncomplete="PF('recipesWV').getPaginator().setPage(0);" />
                     </p:inputText>
                 </h:form>
             </div>
         </div>
 
-        <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="4" layout="grid"
-                    rows="12" paginator="true" id="recipes" lazy="true" rowsPerPageTemplate="4,8,12">
+            <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="4" layout="grid" widgetVar="recipesWV"
+                    rows="#{recipesViewSession.rowPerPage}" paginator="true" id="recipes" lazy="true" rowsPerPageTemplate="4,8,12" first="#{recipesViewSession.first}">
+            <p:ajax event="page" listener="#{recipesViewSession.onPage}" />
             <h:link outcome="recipe.xhtml?recipe=#{recipe.id}" style="text-decoration: none;">
-            <p:panel header="#{recipe.name}" style="text-align:center; height: 100%; text-decoration: none;">
-                <h:panelGrid columns="1" style="width:100%; height:100%;">
-                    <!--
-                    <h:outputText value="Serves #{recipe.servings}" />
-                    <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
-                    -->
-                    <h:panelGroup rendered="#{recipe.hasImage()}">
+                <p:panel header="#{recipe.name}" style="text-align:center; height: 100%; text-decoration: none;">
+                    <h:panelGrid columns="1" style="width:100%; height:100%;">
+                        <!--
+                        <h:outputText value="Serves #{recipe.servings}" />
+                        <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
+                        -->
+                        <h:panelGroup rendered="#{recipe.hasImage()}">
                             <div style="background-image: url(#{recipe.primaryMedia.getThumbnailUrl(512)});" class="foodIcon"></div>
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{!recipe.hasImage()}">
-                        <div class="foodIcon"></div>
-                    </h:panelGroup>
-                </h:panelGrid>
-            </p:panel>
-                </h:link>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{!recipe.hasImage()}">
+                            <div class="foodIcon"></div>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+            </h:link>
         </p:dataGrid>
+
+        <script>
+            jQuery(function () {
+                //<![CDATA[
+                let recipes = jQuery("#recipes");
+
+                new CaviTouch(recipes, {
+                    preventDefaultEvents: ["move"]
+                });
+
+                recipes.on("caviSwipeLeft", function (evt) {
+                    jQuery(".ui-paginator-next").click();
+                });
+                recipes.on("caviSwipeRight", function (evt) {
+                    jQuery(".ui-paginator-prev").click();
+                });
+            });
+
+            //!]]>
+        </script>
 
         <h:form>
             <p:remoteCommand name="updateRecipes" update=":recipes" />
+            <p:remoteCommand name="savePaginator" action="#{recipesViewSession.saveRowsPerPage}" process="@this" />
         </h:form>
 
         <h:link value="Admin page" outcome="restricted/admin" />
+        
+        <o:onloadScript>catchRowChangeEvents();</o:onloadScript>
     </h:body>
 </html>

@@ -10,6 +10,10 @@
             <source>target/${pom.artifactId}-${pom.version}.jar</source>
             <outputDirectory>./</outputDirectory>
         </file>
+        <file>
+            <source>ehcache.xml</source>
+            <outputDirectory>./</outputDirectory>
+        </file>
     </files>  
     <fileSets>
         <fileSet>
