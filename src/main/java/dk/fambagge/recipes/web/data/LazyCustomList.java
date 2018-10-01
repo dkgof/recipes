@@ -63,7 +63,7 @@ public class LazyCustomList<T extends DomainObject> extends LazyDataModel<T> {
             for(Entry<String, Object> entry : filterMap.entrySet()) {
                 String filterField = entry.getKey();
                 String filterValue = entry.getValue().toString();
-
+                
                 predicatesCount[i] = builder.like(builder.lower(rootCount.get(filterField)), "%"+filterValue.toLowerCase()+"%");
                 i++;
             }

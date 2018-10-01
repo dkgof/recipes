@@ -17,16 +17,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
+import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.RowEditEvent;
 
 /**
  *
  * @author Gof
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class IngredientsView implements Serializable {
     private List<Ingredient> ingredients;

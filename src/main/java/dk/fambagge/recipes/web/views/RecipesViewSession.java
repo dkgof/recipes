@@ -21,7 +21,7 @@ import org.primefaces.event.data.PageEvent;
 public class RecipesViewSession implements Serializable {
 
     private int page = 0;
-    private int rowPerPage = 8;
+    private int rowPerPage = 12;
     private String filterString = "";
 
     /**

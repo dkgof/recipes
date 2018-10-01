@@ -32,15 +32,15 @@
             <div class="ui-g-4 ui-widget" style="text-align: right;">
                 <h:form>
                     <h:outputLabel for="recipeFilter" value="Search:" />
-                    <p:inputText id="recipeFilter" value="#{recipesView.filter}" size="10">
+                    <p:inputText id="recipeFilter" value="#{recipesViewFrontpage.filter}" size="10">
                         <p:ajax event="keyup" update=":recipes" oncomplete="PF('recipesWV').getPaginator().setPage(0);" />
                     </p:inputText>
                 </h:form>
             </div>
         </div>
 
-            <p:dataGrid var="recipe" value="#{recipesView.recipesLazy}" columns="4" layout="grid" widgetVar="recipesWV"
-                    rows="#{recipesViewSession.rowPerPage}" paginator="true" id="recipes" lazy="true" rowsPerPageTemplate="4,8,12" first="#{recipesViewSession.first}">
+            <p:dataGrid var="recipe" value="#{recipesViewFrontpage.recipesLazy}" columns="4" layout="grid" widgetVar="recipesWV"
+                    rows="#{recipesViewSession.rowPerPage}" paginator="true" id="recipes" lazy="true" rowsPerPageTemplate="4,8,12,16" first="#{recipesViewSession.first}">
             <p:ajax event="page" listener="#{recipesViewSession.onPage}" />
             <h:link outcome="recipe.xhtml?recipe=#{recipe.id}" style="text-decoration: none;">
                 <p:panel header="#{recipe.name}" style="text-align:center; height: 100%; text-decoration: none;">

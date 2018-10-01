@@ -12,21 +12,21 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
+import javax.inject.Named;
 import org.primefaces.event.FileUploadEvent;
 
 /**
  *
  * @author Rolf Bagge
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class FileUploadView implements Serializable {
     
-    @ManagedProperty(value="#{recipeView}")
+    @Inject
     private RecipeView recipeView;
     
     public void handleFileUpload(FileUploadEvent event) {

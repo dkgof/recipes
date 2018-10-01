@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.omnifaces.cdi.ViewScoped;
 
@@ -25,29 +26,30 @@ import org.omnifaces.cdi.ViewScoped;
  */
 @Named
 @ViewScoped
-public class RecipesView implements Serializable {
+public class RecipesViewFrontpage implements Serializable {
 
     private LazyCustomList<Recipe> lazyModel;
+    
+    @Inject
+    RecipesViewSession recipesViewSession;
     
     @PostConstruct
     public void init() {
         lazyModel = new LazyCustomList(Recipe.class);
+        lazyModel.setPageSize(recipesViewSession.getRowPerPage());
+        lazyModel.setFilter(recipesViewSession.getFilterString());
     }
     
     public LazyCustomList<Recipe> getRecipesLazy() {
         return lazyModel;
     }
 
-    public Set<Ingredient> getAvailableIngredients() {
-        return Ingredient.getAll();
+    public void setFilter(String filterString) {
+        recipesViewSession.setFilterString(filterString);
+        lazyModel.setFilter(filterString);
     }
     
-    public void delete(Recipe recipe) {
-        Logger.getLogger("Recipes").log(Level.INFO, "Delete: {0}", recipe.getId());
-        
-        Database.delete(recipe);
-        
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Recipe deleted"));
+    public String getFilter() {
+        return recipesViewSession.getFilterString();
     }
 }
