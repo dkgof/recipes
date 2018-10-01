@@ -28,6 +28,8 @@ public class AuthBean implements Serializable {
     private String password;
     
     public boolean hasPermission(String permission) {
+        System.out.println("Checking permission: "+permission);
+        
         User loggedInUser = getLoggedInUser();
         
         if(loggedInUser == null) {

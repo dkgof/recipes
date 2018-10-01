@@ -4,8 +4,11 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
+    <c:set var="canEdit" value="#{authBean.hasPermission('edit')}" scope="request" />
+    
     <h:head>
         <title>Recipes - Recipe</title>
 
@@ -34,7 +37,7 @@
 
             <p:panel>
                 <f:facet name="header">
-                    <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                    <p:inplace editor="true" disabled="#{!canEdit}">
                         <f:facet name="output">
                             <h:outputText value="#{recipeView.selectedRecipe.name}" />
                         </f:facet>
@@ -48,7 +51,7 @@
                 <div class="ui-grid ui-grid-responsive">
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            Serves: <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                            Serves: <p:inplace editor="true" disabled="#{!canEdit}">
                                 <f:facet name="output">
                                     <h:outputText value="#{recipeView.selectedRecipe.servings}" />
                                 </f:facet>
@@ -71,7 +74,7 @@
                             </p:inplace><br />
 
                             <br />
-                            <h:panelGroup rendered="#{authBean.hasPermission('edit')}">
+                            <h:panelGroup rendered="#{canEdit}">
                                 <p:commandButton value="Clone Recipe" action="#{recipeView.cloneRecipe()}" process="@this" styleClass="hideFromPrint" />
                             </h:panelGroup>
                         </div>
@@ -79,15 +82,15 @@
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-4">
                             <p:panel>
-                                <f:facet name="header">Ingredients&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Ingredient" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!authBean.hasPermission('edit')}" />&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Group" onclick="PF('addRecipeGroupDialog').show();" disabled="#{!authBean.hasPermission('edit')}" /></f:facet>
-                                <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}">
+                                <f:facet name="header">Ingredients&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Ingredient" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!canEdit}" />&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Group" onclick="PF('addRecipeGroupDialog').show();" disabled="#{!canEdit}" /></f:facet>
+                                <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{canEdit?'draggable':''}">
                                     <div class="ingredientId" data-id="#{ingredient.id}"></div>
                                     <div class="ui-grid-row">
                                         <div class="ui-grid-col-4">
                                             <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
                                         </div>
                                         <div class="ui-grid-col-7">
-                                            <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                                            <p:inplace editor="true" disabled="#{!canEdit}">
                                                 <f:facet name="output">
                                                     <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                 </f:facet>
@@ -98,7 +101,7 @@
                                             </p:inplace>
                                         </div>
                                         <div class="ui-grid-col-1">
-                                            <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
+                                            <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!canEdit}">
                                                 <p:confirm header="Remove ingredient" message="Are you sure?" icon="ui-icon-alert" />
                                             </p:commandLink>
                                         </div>
@@ -108,7 +111,7 @@
                                     <p:panel class="recipeGroup">
                                         <div class="groupId" data-id="#{group.id}"></div>
                                         <f:facet name="header">
-                                            <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                                            <p:inplace editor="true" disabled="#{!canEdit}">
                                                 <f:facet name="output">
                                                     <h:outputText value="#{group.name}" />
                                                 </f:facet>
@@ -118,18 +121,18 @@
                                                 </f:facet>
                                             </p:inplace>&nbsp;&nbsp;
                                             <h:outputText value="(#{recipeView.getCaloriesPerServingForGroup(group)} kcal)" />&nbsp;&nbsp;
-                                            <p:commandLink styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
+                                            <p:commandLink styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm" disabled="#{!canEdit}">
                                                 <p:confirm header="Delete group" message="Are you sure?" icon="ui-icon-alert" />
                                             </p:commandLink>
                                         </f:facet>
-                                        <p:dataList var="ingredient" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{authBean.hasPermission('edit')?'draggable':''}" class="ingredientGroupList">
+                                        <p:dataList var="ingredient" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{canEdit?'draggable':''}" class="ingredientGroupList">
                                             <div class="ingredientId" data-id="#{ingredient.id}"></div>
                                             <div class="ui-grid-row">
                                                 <div class="ui-grid-col-4">
                                                     <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
                                                 </div>
                                                 <div class="ui-grid-col-7">
-                                                    <p:inplace editor="true" disabled="#{!authBean.hasPermission('edit')}">
+                                                    <p:inplace editor="true" disabled="#{!canEdit}">
                                                         <f:facet name="output">
                                                             <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                         </f:facet>
@@ -140,7 +143,7 @@
                                                     </p:inplace>
                                                 </div>
                                                 <div class="ui-grid-col-1">
-                                                    <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!authBean.hasPermission('edit')}">
+                                                    <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!canEdit}">
                                                         <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
                                                     </p:commandLink>
                                                 </div>
@@ -157,11 +160,11 @@
                         </div>
                         <div class="ui-grid-col-8">
                             <p:panel>
-                                <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" disabled="#{!authBean.hasPermission('edit')}" oncomplete="initDND();" /></f:facet>
+                                <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" disabled="#{!canEdit}" oncomplete="initDND();" /></f:facet>
                                 <p:dataList var="step" value="#{recipeView.stepsSorted}" id="recipeSteps" itemStyleClass="recipeStep">
-                                    <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}" effect="none" styleClass="inlineEditor" disabled="#{!authBean.hasPermission('edit')}">
+                                    <p:inplace event="dblclick" widgetVar="inplaceStep_#{step.id}" effect="none" styleClass="inlineEditor" disabled="#{!canEdit}">
                                         <f:facet name="output">
-                                            <span class="fullWidth #{authBean.hasPermission('edit')?'draggable':''} recipeStepInner" data-id="#{step.id}"><h:outputText value="#{recipeView.escapeTextWithLineBreaks(step.description)}" escape="false" /></span>
+                                            <span class="fullWidth #{canEdit?'draggable':''} recipeStepInner" data-id="#{step.id}"><h:outputText value="#{recipeView.escapeTextWithLineBreaks(step.description)}" escape="false" /></span>
                                         </f:facet>
                                         <f:facet name="input">
                                             <p:inputTextarea value="#{step.description}" styleClass="recipeStepEditor" autoResize="true">
@@ -181,7 +184,7 @@
                                     <div data-featherlight-filter="a.galleryItem" id="gallery">
                                         <p:repeat value="#{recipeView.medias}" var="media">
                                             <div class="recipeContainer">
-                                                <p:commandLink type="button" action="#{recipeView.selectedRecipe.removeMedia(media)}" value="X" update=":recipeForm:imageArea" disabled="#{!authBean.hasPermission('edit')}" class="delete">
+                                                <p:commandLink type="button" action="#{recipeView.selectedRecipe.removeMedia(media)}" value="X" update=":recipeForm:imageArea" disabled="#{!canEdit}" class="delete">
                                                     <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
                                                 </p:commandLink>
                                                 <h:outputLink value="#{media.url}" class="galleryItem">
@@ -193,7 +196,7 @@
                                     </div>
                                 </h:panelGroup>
                                 <div class="ui-grid-col-4">
-                                    <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true" rendered="#{authBean.hasPermission('edit')}"
+                                    <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true" rendered="#{canEdit}"
                                                   sizeLimit="25000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" update=":recipeForm:imageArea"/>
                                 </div>
                                 <script>

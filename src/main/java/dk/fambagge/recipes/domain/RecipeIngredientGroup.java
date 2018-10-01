@@ -20,7 +20,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -42,12 +41,7 @@ public class RecipeIngredientGroup implements DomainObject, Serializable {
 
     private String name;
 
-    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private Set<RecipeIngredient> ingredients;
-
     public RecipeIngredientGroup() {
-        ingredients = new HashSet<>();
     }
     
     /**
@@ -82,16 +76,9 @@ public class RecipeIngredientGroup implements DomainObject, Serializable {
      * @return the ingredients
      */
     public Set<RecipeIngredient> getIngredients() {
-        return ingredients;
+        return RecipeIngredient.getAllInGroup(this);
     }
 
-    /**
-     * @param ingredients the ingredients to set
-     */
-    public void setIngredients(Set<RecipeIngredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-    
     public List<RecipeIngredient> getIngredientsSorted() {
         List<RecipeIngredient> sortedIngredients = new LinkedList<>(getIngredients());
         
@@ -120,10 +107,6 @@ public class RecipeIngredientGroup implements DomainObject, Serializable {
         return hash;
     }
 
-    public void addIngredient(RecipeIngredient ingredient) {
-        ingredients.add(ingredient);
-    }
-    
     public void save() {
         Database.saveOrUpdate(this);
     }

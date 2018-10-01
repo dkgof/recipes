@@ -11,6 +11,7 @@ import dk.fambagge.recipes.domain.Measure.Volume;
 import dk.fambagge.recipes.domain.Measure.Weight;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
@@ -28,6 +29,10 @@ public class RecipeIngredient implements Serializable, DomainObject {
 
     public static RecipeIngredient fromId(int ingredientId) {
         return Database.get("id = "+ingredientId, RecipeIngredient.class);
+    }
+
+    public static Set<RecipeIngredient> getAllInGroup(RecipeIngredientGroup group) {
+        return Database.getAll("group = "+group.getId(), RecipeIngredient.class);
     }
 
     private int id;

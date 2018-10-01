@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
@@ -23,6 +24,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
  */
 @Entity
 @Table(name = "users")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements Serializable, DomainObject {
 
     private static final String permissionSplitter = ":";
