@@ -66,14 +66,15 @@
                 let recipes = jQuery("#recipes");
 
                 new CaviTouch(recipes, {
-                    preventDefaultEvents: ["move"]
+                    preventDefaultEvents: [],
+                    stopPropagationEvents: []
                 });
 
                 recipes.on("caviSwipeLeft", function (evt) {
-                    jQuery(".ui-paginator-next").click();
+                    PF('recipesWV').paginator.next();
                 });
                 recipes.on("caviSwipeRight", function (evt) {
-                    jQuery(".ui-paginator-prev").click();
+                    PF('recipesWV').paginator.prev();
                 });
             });
 

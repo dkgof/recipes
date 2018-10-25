@@ -9,6 +9,7 @@ and open the template in the editor.
 */
 
 body {
+    touch-action: none;
 }
 
 .actionButtons td, .actionButtons tr {
