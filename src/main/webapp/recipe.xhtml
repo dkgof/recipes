@@ -95,7 +95,7 @@
                                                     <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                 </f:facet>
                                                 <f:facet name="input">
-                                                    <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
+                                                    <p:spinner value="#{ingredient.amount}" stepFactor="0.001" size="5" /> #{ingredient.measure.symbol}
                                                     <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
                                                 </f:facet>
                                             </p:inplace>
@@ -137,7 +137,7 @@
                                                             <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                         </f:facet>
                                                         <f:facet name="input">
-                                                            <p:spinner value="#{ingredient.amount}" stepFactor="0.1" size="5" /> #{ingredient.measure.symbol}
+                                                            <p:spinner value="#{ingredient.amount}" stepFactor="0.001" size="5" /> #{ingredient.measure.symbol}
                                                             <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
                                                         </f:facet>
                                                     </p:inplace>

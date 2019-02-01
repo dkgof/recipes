@@ -174,12 +174,18 @@ public class RecipeView  implements Serializable {
                 formattedValue = "1/4";
             } else if(isCloseTo(value,0.5)) {
                 formattedValue = "1/2";
+            } else if(isCloseTo(value,0.2)) {
+                formattedValue = "1/5";
             } else if(isCloseTo(value,0.75)) {
                 formattedValue = "3/4";
             } else if(isCloseTo(value,0.66666666)) {
                 formattedValue = "2/3";
             } else if(isCloseTo(value,0.33333333)) {
                 formattedValue = "1/3";
+            } else if(isCloseTo(value,0.16666666)) {
+                formattedValue = "1/6";
+            } else if(isCloseTo(value,0.125)) {
+                formattedValue = "1/8";
             }
         }
         
