@@ -217,7 +217,16 @@ public class RecipeView  implements Serializable {
     }
     
     public void inlineSaveRecipeStep(RecipeStep step) {
-        Database.saveOrUpdate(step);
+        if(step.getDescription().trim().length() == 0) {
+            Recipe recipe = getSelectedRecipe();
+            recipe.removeStep(step);
+            Database.delete(step);
+            Database.saveOrUpdate(recipe);
+            Database.refresh(recipe);
+        } else {
+            //Update recipe step
+            Database.saveOrUpdate(step);
+        }
     }
     
     public void saveRecipe() {

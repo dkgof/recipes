@@ -297,4 +297,8 @@ public class Recipe implements Serializable, DomainObject {
     public void removeRecipeGroup(RecipeIngredientGroup group) {
         this.ingredientGroups.remove(group);
     }
+
+    public void removeStep(RecipeStep step) {
+        this.steps.remove(step);
+    }
 }
