@@ -10,14 +10,14 @@
         <jsr107:defaults enable-management="true" enable-statistics="true" default-template="default" />
     </service>
 
-    <cache alias="org.hibernate.cache.spi.QueryResultsRegion">
+    <cache alias="default-query-results-region">
         <expiry>
             <tti unit="seconds">300</tti>
         </expiry>
         <heap>1024</heap>
     </cache>
 
-    <cache alias="org.hibernate.cache.spi.TimestampsRegion">
+    <cache alias="default-update-timestamps-region">
         <expiry>
             <none />
         </expiry>
@@ -40,5 +40,5 @@
 	<cache alias="dk.fambagge.recipes.domain.CustomMeasure" uses-template="default" /> 
 	<cache alias="dk.fambagge.recipes.domain.Media" uses-template="default" /> 
 	<cache alias="dk.fambagge.recipes.domain.RecipeStep" uses-template="default" /> 
-	
+	<cache alias="dk.fambagge.recipes.domain.User" uses-template="default" /> 
 </config>

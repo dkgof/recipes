@@ -6,6 +6,8 @@
 package dk.fambagge.recipes;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
@@ -41,9 +43,12 @@ public class Main {
 
             webContext.setContextPath("/");
 
+            List<String> webjars = new LinkedList<>();
+            webjars.add("omnifaces-3.2.jar");
+            
             webContext.setConfigurations(new Configuration[]{
                 new AnnotationConfiguration(), new WebXmlConfiguration(),
-                new WebInfConfiguration(), new NonWarConfiguration(),
+                new WebInfConfiguration(), new NonWarConfiguration(webjars),
                 new PlusConfiguration(), new MetaInfConfiguration(),
                 new FragmentConfiguration(), new EnvConfiguration()
             });
