@@ -44,7 +44,7 @@ public class Main {
             webContext.setContextPath("/");
 
             List<String> webjars = new LinkedList<>();
-            webjars.add("omnifaces-3.2.jar");
+            webjars.add("omnifaces-3.3.jar");
             
             webContext.setConfigurations(new Configuration[]{
                 new AnnotationConfiguration(), new WebXmlConfiguration(),

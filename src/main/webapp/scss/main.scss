@@ -51,11 +51,13 @@ a {
 .recipeStep {
     margin-bottom: 1em;
 
-    .inlineEditor .ui-inplace-display {
-        min-height: 1em;
-        width: 100%;
+    .inlineEditor {
+        .ui-inplace-display {
+            min-height: 1em;
+            width: 100%;
+        }
     }
-
+    
     .ui-state-highlight {
         width: 100%;
         border: 0 !important;
@@ -64,7 +66,6 @@ a {
 }
 
 .recipeStepInner {
-    display: inline-block;
     width: 100%;
     min-height: 1em;
 }
@@ -144,6 +145,10 @@ a {
 
 .recipeGroup .ui-panel-content {
     padding: 0;
+}
+
+a:visited, a.active {
+    color: #007ad9
 }
 
 @media print {

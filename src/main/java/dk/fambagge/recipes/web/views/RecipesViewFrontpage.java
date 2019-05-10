@@ -52,4 +52,10 @@ public class RecipesViewFrontpage implements Serializable {
     public String getFilter() {
         return recipesViewSession.getFilterString();
     }
+    
+    public String createGridCacheKey(Recipe recipe) {
+        StringBuilder sb = new StringBuilder();
+        
+        return "Recipe#"+(recipe!=null?recipe.getId():-1);
+    }
 }

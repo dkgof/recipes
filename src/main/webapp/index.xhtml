@@ -39,27 +39,28 @@
             </div>
         </div>
 
-            <p:dataGrid var="recipe" value="#{recipesViewFrontpage.recipesLazy}" columns="4" layout="grid" widgetVar="recipesWV"
+        <p:dataGrid var="recipe" value="#{recipesViewFrontpage.recipesLazy}" columns="4" layout="grid" widgetVar="recipesWV"
                     rows="#{recipesViewSession.rowPerPage}" paginator="true" id="recipes" lazy="true" rowsPerPageTemplate="4,8,12,16" first="#{recipesViewSession.first}">
             <p:ajax event="page" listener="#{recipesViewSession.onPage}" />
-            <h:link outcome="recipe.xhtml?recipe=#{recipe.id}" style="text-decoration: none;">
-                <p:panel header="#{recipe.name}" style="text-align:center; height: 100%; text-decoration: none;">
-                    <h:panelGrid columns="1" style="width:100%; height:100%;">
-                        <!--
-                        <h:outputText value="Serves #{recipe.servings}" />
-                        <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
-                        -->
-                        <h:panelGroup rendered="#{recipe.hasImage()}">
-                            <div style="background-image: url(#{recipe.primaryMedia.getThumbnailUrl(512)});" class="foodIcon"></div>
-                        </h:panelGroup>
-                        <h:panelGroup rendered="#{!recipe.hasImage()}">
-                            <div class="foodIcon"></div>
-                        </h:panelGroup>
-                    </h:panelGrid>
-                </p:panel>
-            </h:link>
-        </p:dataGrid>
-
+            <o:cache key="#{recipesViewFrontpage.createGridCacheKey(recipe)}">
+                <h:link outcome="recipe.xhtml?recipe=#{recipe.id}" style="text-decoration: none;">
+                    <p:panel header="#{recipe.name}" style="text-align:center; height: 100%; text-decoration: none;">
+                        <h:panelGrid columns="1" style="width:100%; height:100%;">
+                            <!--
+                            <h:outputText value="Serves #{recipe.servings}" />
+                            <h:outputText value="#{recipe.caloriesPerServing} kcal per serving" />
+                            -->
+                            <h:panelGroup rendered="#{recipe.hasImage()}">
+                                <div style="background-image: url(#{recipe.primaryMedia.getThumbnailUrl(512)});" class="foodIcon"></div>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{!recipe.hasImage()}">
+                                <div class="foodIcon"></div>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:panel>
+                </h:link>
+            </o:cache>
+    </p:dataGrid>
         <script>
             jQuery(function () {
                 //<![CDATA[
@@ -87,7 +88,7 @@
         </h:form>
 
         <h:link value="Admin page" outcome="restricted/admin" />
-        
+
         <o:onloadScript>catchRowChangeEvents();</o:onloadScript>
     </h:body>
 </html>
