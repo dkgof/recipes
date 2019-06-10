@@ -7,6 +7,7 @@ package dk.fambagge.recipes.web.views;
 
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.Media;
+import dk.fambagge.recipes.domain.Recipe;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
@@ -55,8 +56,10 @@ public class FileUploadView implements Serializable {
             
             Database.save(media);
             
-            getRecipeView().getSelectedRecipe().addMedia(media);
-            Database.saveOrUpdate(getRecipeView().getSelectedRecipe());
+            Recipe selectedRecipe = getRecipeView().getSelectedRecipe();
+            
+            selectedRecipe.addMedia(media);
+            Database.saveOrUpdate(selectedRecipe);
             
         } catch (Exception ex) {
             Logger.getLogger(FileUploadView.class.getName()).log(Level.SEVERE, "Error during file upload!", ex);

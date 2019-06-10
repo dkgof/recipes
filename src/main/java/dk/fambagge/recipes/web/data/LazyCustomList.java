@@ -23,6 +23,7 @@ import org.primefaces.model.SortOrder;
 /**
  *
  * @author gof
+ * @param <T>
  */
 public class LazyCustomList<T extends DomainObject> extends LazyDataModel<T> {
 

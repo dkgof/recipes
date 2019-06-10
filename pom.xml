@@ -21,17 +21,17 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>5.4.2.Final</version>
+            <version>5.4.3.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.2.Final</version>
+            <version>5.4.3.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jcache</artifactId>
-            <version>5.4.2.Final</version>
+            <version>5.4.3.Final</version>
         </dependency>
         <dependency>
             <groupId>org.ehcache</groupId>
@@ -60,19 +60,6 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.camel/camel-jasypt -->
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-jasypt</artifactId>
-            <version>2.23.2</version>
-        </dependency>
-        <!--
-        <dependency>
-            <groupId>org.jasypt</groupId>
-            <artifactId>jasypt</artifactId>
-            <version>1.9.2</version>
-        </dependency>
-        -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -176,6 +163,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>5.4.2.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.2</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <build>
