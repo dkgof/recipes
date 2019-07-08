@@ -1,6 +1,17 @@
 {
-  "short_name": "Opskrifter",
-  "name": "Fambagge Opskrifter",
-  "start_url": "/index.xhtml",
-  "display": "standalone"
+    "short_name": "Opskrifter",
+    "name": "Fambagge Opskrifter",
+    "start_url": "/",
+    "display": "standalone",
+    "icons": [{
+            "src": "/img/recipe192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/images/recipe512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
 }

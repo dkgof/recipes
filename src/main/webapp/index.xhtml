@@ -51,7 +51,7 @@
                     </h:panelGrid>
                 </p:panel>
             </h:link>
-    </p:dataGrid>
+        </p:dataGrid>
         <script>
             jQuery(function () {
                 //<![CDATA[
@@ -81,5 +81,19 @@
         <h:link value="Admin page" outcome="restricted/admin" />
 
         <o:onloadScript>catchRowChangeEvents();</o:onloadScript>
+
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function () {
+                    navigator.serviceWorker.register('/sw.js').then(function (registration) {
+                        // Registration was successful
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    }, function (err) {
+                        // registration failed :(
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }
+        </script>
     </h:body>
 </html>
