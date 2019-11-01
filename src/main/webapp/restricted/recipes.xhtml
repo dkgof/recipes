@@ -40,8 +40,9 @@
                             <p:column style="width:32px">
                                 <p:cellEditor>
                                     <f:facet name="output">
-                                        <p:commandLink process="@this" styleClass="ui-icon ui-icon-trash" actionListener="#{recipesView.delete(recipe)}" update=":form">
-                                            <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                        <p:commandLink process="@this" actionListener="#{recipesView.delete(recipe)}" update=":form">
+                                            <i class="pi pi-trash"></i>
+                                            <p:confirm header="Delete" message="Are you sure?" icon="pi pi-exclamation-triangle" />
                                         </p:commandLink>
                                     </f:facet>
                                     <f:facet name="input"><h:outputText value="" /></f:facet>
@@ -49,11 +50,11 @@
                             </p:column>                
                         </p:dataTable>
 
-                        <p:commandButton value="Add Recipe" icon="ui-icon-extlink" onclick="PF('addRecipeDialog').show();" />
+                        <p:commandButton value="Add Recipe" icon="pi pi-plus" onclick="PF('addRecipeDialog').show();" />
 
                         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                            <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                            <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
                         </p:confirmDialog>
                     </h:form>
                 </div>
@@ -81,9 +82,9 @@
                             <span class="ingredientInfo"><h:outputText value="#{ingredient.amount}" /> <h:outputText value="#{ingredient.measure.symbol}" /></span>
                         </div>
                     </p:dataList>
-                    <p:commandButton type="button" value="Add Ingredient" icon="ui-icon-extlink" onclick="PF('addRecipeIngredientDialog').show();" />
+                    <p:commandButton type="button" value="Add Ingredient" icon="pi pi-plus" onclick="PF('addRecipeIngredientDialog').show();" />
                 </h:panelGrid>
-                <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeView.submitRecipe()}" oncomplete="handleAddRecipe(xhr, status, args);" />
+                <p:commandButton value="Add" icon="pi pi-check" actionListener="#{addRecipeView.submitRecipe()}" oncomplete="handleAddRecipe(xhr, status, args);" />
             </h:form>
 
             <p:ajax event="close" update=":addRecipe :form" listener="#{addRecipeView.reset()}" />

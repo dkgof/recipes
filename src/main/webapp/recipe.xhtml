@@ -101,8 +101,9 @@
                                             </p:inplace>
                                         </div>
                                         <div class="ui-grid-col">
-                                            <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!canEdit}">
-                                                <p:confirm header="Remove ingredient" message="Are you sure?" icon="ui-icon-alert" />
+                                            <p:commandLink type="button" styleClass="hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!canEdit}">
+                                                <i class="pi pi-trash"></i>
+                                                <p:confirm header="Remove ingredient" message="Are you sure?" icon="pi pi-exclamation-triangle" />
                                             </p:commandLink>
                                         </div>
                                     </div>
@@ -121,8 +122,9 @@
                                                 </f:facet>
                                             </p:inplace>&nbsp;&nbsp;
                                             <h:outputText value="(#{recipeView.getCaloriesPerServingForGroup(group)} kcal)" />&nbsp;&nbsp;
-                                            <p:commandLink styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm" disabled="#{!canEdit}">
-                                                <p:confirm header="Delete group" message="Are you sure?" icon="ui-icon-alert" />
+                                            <p:commandLink styleClass="hideFromPrint" style="display: inline-block;" action="#{recipeView.deleteRecipeGroup(group)}" update=":recipeForm" disabled="#{!canEdit}">
+                                                <i class="pi pi-trash"></i>
+                                                <p:confirm header="Delete group" message="Are you sure?" icon="pi pi-exclamation-triangle" />
                                             </p:commandLink>
                                         </f:facet>
                                         <p:dataList var="ingredient" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{canEdit?'draggable':''}" class="ingredientGroupList">
@@ -143,8 +145,9 @@
                                                     </p:inplace>
                                                 </div>
                                                 <div class="ui-grid-col-1">
-                                                    <p:commandLink type="button" styleClass="ui-icon ui-icon-trash hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!canEdit}">
-                                                        <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                                    <p:commandLink type="button" styleClass="hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!canEdit}">
+                                                        <i class="pi pi-trash"></i>
+                                                        <p:confirm header="Delete" message="Are you sure?" icon="pi pi-exclamation-triangle" />
                                                     </p:commandLink>
                                                 </div>
                                             </div>
@@ -185,7 +188,7 @@
                                         <p:repeat value="#{recipeView.medias}" var="media">
                                             <div class="recipeContainer">
                                                 <p:commandLink type="button" action="#{recipeView.selectedRecipe.removeMedia(media)}" value="X" update=":recipeForm:imageArea" disabled="#{!canEdit}" class="delete">
-                                                    <p:confirm header="Delete" message="Are you sure?" icon="ui-icon-alert" />
+                                                    <p:confirm header="Delete" message="Are you sure?" icon="pi pi-exclamation-triangle" />
                                                 </p:commandLink>
                                                 <h:outputLink value="#{media.url}" class="galleryItem">
                                                     <div class="recipeMedia" style="background-image: url(#{media.getThumbnailUrl(128)})" >
@@ -210,8 +213,8 @@
                 </div>
             </p:panel>
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                <p:commandButton value="Delete" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="Cancel" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
             </p:confirmDialog>
 
             <p:remoteCommand name="doDropStep" action="#{recipeView.doDropStep()}" update=":recipeForm:recipeSteps" oncomplete="initDND();" />
@@ -230,7 +233,7 @@
                         </div>
                     </div>
                 </div>
-                <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{recipeView.addRecipeGroup}" update=":recipeForm" oncomplete="PF('addRecipeGroupDialog').hide(); initGroupDND(); initDND();" />
+                <p:commandButton value="Add" icon="pi pi-check" actionListener="#{recipeView.addRecipeGroup}" update=":recipeForm" oncomplete="PF('addRecipeGroupDialog').hide(); initGroupDND(); initDND();" />
             </h:form>
 
             <p:ajax event="close" update=":addRecipeGroup" />

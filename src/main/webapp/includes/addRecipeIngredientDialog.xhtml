@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addRecipeIngredientView.addRecipeIngredient(addMethodArgument)}" oncomplete="handleAddRecipeIngredient(xhr, status, args); #{additionalJS}" update="#{update}" />
+            <p:commandButton value="Add" icon="pi pi-check" actionListener="#{addRecipeIngredientView.addRecipeIngredient(addMethodArgument)}" oncomplete="handleAddRecipeIngredient(xhr, status, args); #{additionalJS}" update="#{update}" />
         </h:form>
 
         <p:ajax event="close" update=":addRecipeIngredient" listener="#{addRecipeIngredientView.reset()}" />
