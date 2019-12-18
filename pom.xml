@@ -16,22 +16,22 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.28</version>
+            <version>1.7.29</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>5.4.7.Final</version>
+            <version>5.4.10.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.7.Final</version>
+            <version>5.4.10.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jcache</artifactId>
-            <version>5.4.7.Final</version>
+            <version>5.4.10.Final</version>
         </dependency>
         <dependency>
             <groupId>org.ehcache</groupId>
@@ -68,25 +68,25 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
-            <version>9.4.21.v20190926</version>
+            <version>9.4.24.v20191120</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-continuation</artifactId>
-            <version>9.4.21.v20190926</version>
+            <version>9.4.24.v20191120</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-annotations</artifactId>
-            <version>9.4.21.v20190926</version>
+            <version>9.4.24.v20191120</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-plus</artifactId>
-            <version>9.4.21.v20190926</version>
+            <version>9.4.24.v20191120</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -132,12 +132,12 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
-            <version>3.3</version>
+            <version>3.4.1</version>
         </dependency>    
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-core</artifactId>
-            <version>3.1.2.Final</version>
+            <version>3.1.3.Final</version>
         </dependency>    
         <dependency>
             <groupId>javax.xml.bind</groupId>
