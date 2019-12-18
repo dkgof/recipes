@@ -32,7 +32,8 @@ public class RecipeIngredient implements Serializable, DomainObject {
     }
 
     public static Set<RecipeIngredient> getAllInGroup(RecipeIngredientGroup group) {
-        return Database.getAll("group = "+group.getId(), RecipeIngredient.class);
+        Set<RecipeIngredient> ingredients = Database.getAll("group = "+group.getId(), RecipeIngredient.class);
+        return ingredients;
     }
 
     private int id;
@@ -225,6 +226,6 @@ public class RecipeIngredient implements Serializable, DomainObject {
 
     @Override
     public String toString() {
-        return "RecipeIngredient ["+ingredient.getName()+"] - "+getAmount()+getMeasure().getSymbol();
+        return "RecipeIngredient("+ingredient.getId()+") ["+ingredient.getName()+"] - "+getAmount()+getMeasure().getSymbol();
     }
 }

@@ -48,6 +48,8 @@ public class RecipeView  implements Serializable {
     @Inject @Param(name="recipe")
     private int recipeId;
     
+    private Map<RecipeIngredientGroup, Set<RecipeIngredient>> groupIngredientCache = new HashMap<>();
+    
     /**
      * @return the selectedRecipe
      */
@@ -109,6 +111,24 @@ public class RecipeView  implements Serializable {
         return sortedGroups;
     }
     
+    public Set<RecipeIngredient> getIngredientGroupIngredients(RecipeIngredientGroup group) {
+        if(!groupIngredientCache.containsKey(group)) {
+            groupIngredientCache.put(group, RecipeIngredient.getAllInGroup(group));
+        }
+        
+        return groupIngredientCache.get(group);
+    }
+    
+
+    public List<RecipeIngredient> getIngredientGroupIngredientsSorted(RecipeIngredientGroup group) {
+        List<RecipeIngredient> sortedIngredients = new LinkedList<>(getIngredientGroupIngredients(group));
+        
+        Collections.sort(sortedIngredients, (RecipeIngredient ingredient1, RecipeIngredient ingredient2) -> {
+            return ingredient1.getIngredient().getName().compareTo(ingredient2.getIngredient().getName());
+        });
+        
+        return sortedIngredients;
+    }    
     public void addStep() {
         RecipeStep step = new RecipeStep();
         getSelectedRecipe().addStep(step);
@@ -133,7 +153,7 @@ public class RecipeView  implements Serializable {
     public int getCaloriesPerServingForGroup(RecipeIngredientGroup group) {
         double calories = 0;
         
-        for(RecipeIngredient ingredient : group.getIngredients()) {
+        for(RecipeIngredient ingredient : getIngredientGroupIngredients(group)) {
             calories += getCaloriesPerServingDouble(ingredient);
         }
         
@@ -207,12 +227,19 @@ public class RecipeView  implements Serializable {
     }
     
     public void deleteIngredient(RecipeIngredient ingredient) {
+        RecipeIngredientGroup group = ingredient.getGroup();
         getSelectedRecipe().removeIngredient(ingredient);
         Database.delete(ingredient);
+        
+        if(group != null && groupIngredientCache.containsKey(group)) {
+            groupIngredientCache.get(group).remove(ingredient);
+        }
+        
         saveRecipe();
     }
     
     public void inlineIngredientSave(RecipeIngredient ingredient) {
+        System.out.println("Saving ingredient: "+ingredient+" - "+ingredient.getAmount());
         Database.saveOrUpdate(ingredient);
     }
     
@@ -316,11 +343,20 @@ public class RecipeView  implements Serializable {
         RecipeIngredientGroup group = null;
 
         if(groupId != -1) {
+            RecipeIngredientGroup oldGroup = ingredient.getGroup();
+            
             group = RecipeIngredientGroup.fromId(groupId);
             ingredient.setGroup(group);
+            groupIngredientCache.remove(group);
+            
+            if(oldGroup != null && groupIngredientCache.containsKey(oldGroup)) {
+            groupIngredientCache.remove(oldGroup);
+            }
+            
         } else {
             group = ingredient.getGroup();
             ingredient.setGroup(null);
+            groupIngredientCache.remove(group);
         }
         
         Database.saveOrUpdate(ingredient);
@@ -423,10 +459,12 @@ public class RecipeView  implements Serializable {
         Recipe recipe = getSelectedRecipe();
         recipe.removeRecipeGroup(group);
         
-        for(RecipeIngredient ingredient : group.getIngredients()) {
+        for(RecipeIngredient ingredient : getIngredientGroupIngredients(group)) {
             ingredient.setGroup(null);
             Database.saveOrUpdate(ingredient);
         }
+        
+        groupIngredientCache.remove(group);
         
         Database.delete(group);
         Database.saveOrUpdate(recipe);

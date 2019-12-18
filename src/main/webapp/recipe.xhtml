@@ -96,7 +96,7 @@
                                                 </f:facet>
                                                 <f:facet name="input">
                                                     <p:spinner value="#{ingredient.amount}" stepFactor="0.001" size="5" /> #{ingredient.measure.symbol}
-                                                    <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
+                                                    <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" oncomplete="initGroupDND(); initDND();" />
                                                 </f:facet>
                                             </p:inplace>
                                         </div>
@@ -118,7 +118,7 @@
                                                 </f:facet>
                                                 <f:facet name="input">
                                                     <p:inputText value="#{group.name}" />
-                                                    <p:ajax event="save" listener="#{group.save()}" update=":recipeForm" />
+                                                    <p:ajax event="save" listener="#{group.save()}" update=":recipeForm" oncomplete="initGroupDND(); initDND();" />
                                                 </f:facet>
                                             </p:inplace>&nbsp;&nbsp;
                                             <h:outputText value="(#{recipeView.getCaloriesPerServingForGroup(group)} kcal)" />&nbsp;&nbsp;
@@ -127,7 +127,7 @@
                                                 <p:confirm header="Delete group" message="Are you sure?" icon="pi pi-exclamation-triangle" />
                                             </p:commandLink>
                                         </f:facet>
-                                        <p:dataList var="ingredient" value="#{group.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{canEdit?'draggable':''}" class="ingredientGroupList">
+                                        <p:dataList var="ingredient" value="#{recipeView.getIngredientGroupIngredientsSorted(group)}" type="definition" itemStyleClass="ingredientItem #{canEdit?'draggable':''}" class="ingredientGroupList">
                                             <div class="ingredientId" data-id="#{ingredient.id}"></div>
                                             <div class="ui-grid-row">
                                                 <div class="ui-grid-col-4">
@@ -140,7 +140,7 @@
                                                         </f:facet>
                                                         <f:facet name="input">
                                                             <p:spinner value="#{ingredient.amount}" stepFactor="0.001" size="5" /> #{ingredient.measure.symbol}
-                                                            <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" />
+                                                            <p:ajax event="save" listener="#{recipeView.inlineIngredientSave(ingredient)}" update=":recipeForm" oncomplete="initGroupDND(); initDND();" />
                                                         </f:facet>
                                                     </p:inplace>
                                                 </div>

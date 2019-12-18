@@ -8,20 +8,11 @@ package dk.fambagge.recipes.domain;
 import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.db.DomainObject;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -70,23 +61,6 @@ public class RecipeIngredientGroup implements DomainObject, Serializable {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * @return the ingredients
-     */
-    public Set<RecipeIngredient> getIngredients() {
-        return RecipeIngredient.getAllInGroup(this);
-    }
-
-    public List<RecipeIngredient> getIngredientsSorted() {
-        List<RecipeIngredient> sortedIngredients = new LinkedList<>(getIngredients());
-        
-        Collections.sort(sortedIngredients, (RecipeIngredient ingredient1, RecipeIngredient ingredient2) -> {
-            return ingredient1.getIngredient().getName().compareTo(ingredient2.getIngredient().getName());
-        });
-        
-        return sortedIngredients;
     }
 
     @Override
