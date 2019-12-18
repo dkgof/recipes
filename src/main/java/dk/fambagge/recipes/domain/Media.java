@@ -130,7 +130,7 @@ public class Media implements DomainObject, Serializable, Comparable<Media> {
     public static void scaleImage(BufferedImage image, int wantedWidth, File thumbnailFile) throws IOException {
         int imageWidth = Math.min(image.getWidth(), wantedWidth);
 
-        double aspect = image.getWidth() / image.getHeight();
+        double aspect = image.getWidth() / (double) image.getHeight();
 
         Thumbnails.of(image).size(imageWidth, (int)(imageWidth/aspect)).outputFormat("jpg").outputQuality(0.9).toFile(thumbnailFile);
     }
