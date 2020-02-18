@@ -23,16 +23,12 @@
     <property name="hibernate.format_sql">true</property>
     -->
     
-    <property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
-    <property name="hibernate.c3p0.acquire_increment">1</property>
-    <property name="hibernate.c3p0.idle_test_period">600</property>
-    <property name="hibernate.c3p0.min_size">5</property>
-    <property name="hibernate.c3p0.max_size">20</property>
-    <property name="hibernate.c3p0.max_statements">100</property>
-    <property name="hibernate.c3p0.timeout">300</property>
-    <property name="hibernate.c3p0.acquireRetryAttempts">1</property>
-    <property name="hibernate.c3p0.acquireRetryDelay">250</property>
-    
+    <property name="connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+    <property name="hibernate.hikari.connectionTimeout">5000</property>
+    <property name="hibernate.hikari.minimumIdle">10</property>
+    <property name="hibernate.hikari.maximumPoolSize">10</property>
+    <property name="hibernate.hikari.idleTimeout">600000</property>
+            
     <mapping class="dk.fambagge.recipes.domain.Ingredient"/>
     <mapping class="dk.fambagge.recipes.domain.Media"/>
     <mapping class="dk.fambagge.recipes.domain.Recipe"/>
