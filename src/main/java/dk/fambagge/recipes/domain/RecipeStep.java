@@ -36,7 +36,7 @@ public class RecipeStep implements Serializable, DomainObject {
     /**
      * @return the description
      */
-    @Column( name = "description", nullable = false)
+    @Column( name = "description", nullable = false, length = 1024)
     public String getDescription() {
         /*
         if(description.trim().isEmpty()) {
