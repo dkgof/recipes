@@ -39,7 +39,7 @@ public class FileUploadView implements Serializable {
         System.out.println("Upload directory: "+saveDir.getAbsolutePath());
         
         try {
-            BufferedImage image = ImageIO.read(event.getFile().getInputstream());
+            BufferedImage image = ImageIO.read(event.getFile().getInputStream());
             
             File outputFile = File.createTempFile("recepies", ".jpg", saveDir);
             Media.scaleImage(image, 1920, outputFile);

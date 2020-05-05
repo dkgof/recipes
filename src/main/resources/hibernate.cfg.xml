@@ -4,7 +4,7 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://10.0.1.151/recipe</property>
+    <property name="hibernate.connection.url">jdbc:mysql://10.0.1.11/recipe</property>
     <property name="hibernate.connection.username">recipe</property>
     <property name="hibernate.connection.password">recipe</property>
     <property name="hibernate.current_session_context_class">thread</property>
