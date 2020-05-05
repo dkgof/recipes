@@ -199,7 +199,7 @@
                                     </div>
                                 </h:panelGroup>
                                 <div class="ui-grid-col-4">
-                                    <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true" rendered="#{canEdit}"
+                                    <p:fileUpload listener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="true" rendered="#{canEdit}"
                                                   sizeLimit="25000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/" update=":recipeForm:imageArea"/>
                                 </div>
                                 <script>
