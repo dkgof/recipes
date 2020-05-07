@@ -137,7 +137,7 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
-            <version>3.4.1</version>
+            <version>3.6</version>
         </dependency>    
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
