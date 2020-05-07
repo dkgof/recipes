@@ -45,12 +45,16 @@ public class LazyCustomList<T extends DomainObject> extends LazyDataModel<T> {
         filterMap = new HashMap<>();
         
         if(filters != null) {
-            filterMap.putAll(filters);
+            filters.forEach((key, value)->{
+                filterMap.put(value.getFilterField(), value.getFilterValue());
+            });
         }
         
         if(customFilter != null) {
             filterMap.put("name", customFilter);
         }
+        
+        System.out.println(""+filterMap);
         
         Database.execute((session) -> {
             CriteriaBuilder builder = session.getCriteriaBuilder();
