@@ -46,7 +46,9 @@ public class LazyCustomList<T extends DomainObject> extends LazyDataModel<T> {
         
         if(filters != null) {
             filters.forEach((key, value)->{
-                filterMap.put(value.getFilterField(), value.getFilterValue());
+                if(value.getFilterValue() != null) {
+                    filterMap.put(value.getFilterField(), value.getFilterValue());
+                }
             });
         }
         
