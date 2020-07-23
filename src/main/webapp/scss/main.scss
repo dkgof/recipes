@@ -1,12 +1,5 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : May 29, 2014, 4:31:11 PM
-    Author     : Gof
-*/
+$panelBackground: #cbeaff;
+$darkerPanelBackground: #9cd7ff;
 
 body {
     touch-action: pan-y;
@@ -18,12 +11,8 @@ body {
     padding: 0 !important;
 }
 
-a:visited {
-    color: black;
-}
-
-a {
-    color: black;
+a, a:visited, a.active {
+    //color: $french-sky-blue;
 }
 
 .foodIcon {
@@ -147,12 +136,203 @@ a {
     padding: 0;
 }
 
-a:visited, a.active {
-    color: #007ad9
-}
-
 @media print {
     .hideFromPrint {
         display: none;
     }
+}
+
+html {
+    padding-top: 4em;
+    display: flex;
+    justify-content: center;
+    min-height:100vh;
+    background: linear-gradient(to bottom, #007eff10, #007eff3d);
+
+    /*
+    &:before {
+        content: "Recipes - Better Food, Any Time";
+        border-bottom: 2px solid black;
+        padding: 0.5em 2em;
+        position: absolute;
+        top: 0.5em;
+        font-size: 1.25rem;
+        font-family: sans-serif;
+        font-weight: bold;
+    }
+    */
+}
+@media print {
+    html {
+        padding-top: 0;
+        
+        &:before, .ui-chkbox-box, a[href="/index.xhtml"], #recipeForm\:imageArea, .ingredientItem .ui-commandlink {
+            display: none !important;
+        }
+    }
+}
+
+body {
+    width: 65em;    
+
+    .ui-panel .ui-panel-titlebar {
+        border: 0;
+        background-color: $panelBackground;
+    }
+    .ui-panel .ui-panel-content, .ui-datagrid .ui-datagrid-content {
+        border: 0;
+        //border-top: 2px solid $bdazzled-blue;        
+    }
+    
+    .ui-paginator {
+        border: 0;
+        display: flex;
+        justify-content: center;
+        //background: $darkerPanelBackground;        
+        select {
+            border: 0;
+            background: transparent;
+            cursor: pointer;            
+        }
+        
+        .ui-paginator-pages .ui-paginator-page.ui-state-active {
+            background-color: $darkerPanelBackground;
+            //color: #065100;        
+        }
+        
+        /*
+        .ui-paginator-pages .ui-paginator-page.ui-state-hover {
+            background-color: $french-sky-blue;
+            opacity: 0.9;
+        }
+        */
+    }
+}
+
+#recipeForm\:ingredientList_content {
+    border: none;
+    padding: 0;
+    
+    .ingredientItem {
+        .ui-grid-col-6 {
+            font-family: sans-serif;
+        }
+
+        .ingredientInfo {
+            display: block;
+            margin-left: 0;
+            margin-right: 0.5em;
+            
+            &:first-of-type {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.ui-grid-row {
+    .ui-widget-content {
+        background: red;
+    }
+    .ui-grid-col-7 {
+        margin-left: 1em;
+    }
+}
+
+#recipeForm\:recipeSteps_content {
+    border: 0;
+    padding: 0;        
+        
+    ul {
+        list-style: upper-roman;
+        padding-left: 2em;        
+    }
+}
+
+a[href*="/index.xhtml"]{
+    padding: 1em;
+    display: block;
+    font-weight: bold;
+    
+    &:before {
+        content: "< ";
+    }
+}
+
+[data-widget*="recipeForm"]>.ui-widget-content>.ui-grid{
+    display: flex;
+    flex-direction: column;
+    
+    .ui-grid-row {
+        padding-bottom: 0.5em;
+        &:last-child {
+            order: -1;
+        }            
+    }
+}
+
+
+/* Search page */
+
+.ui-g-4 {
+    display: none;
+    
+    &[style="text-align: right;"]{
+        display: block;
+        text-align: center !important;
+        width: 100%;
+        label {
+            display: none;            
+        }
+        input {
+            width: 17em;
+            //background: $electric-blue;
+            //border: 1px solid $french-sky-blue;
+            border-radius: 1em;            
+            padding: 0.5em 1em;     
+            padding-right: 2em;
+            position: relative;
+            &:before {
+                position: absolute;
+                right: 0;
+                content: "\e908";
+                font-family: 'primeicons';
+                font-style: normal;
+                font-weight: normal;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 1;                
+            }
+        }
+    }
+}
+a[href*="/restricted/admin.xhtml"]{
+    padding: 0.5rem;
+    display: block;
+    font-weight: bold;
+    font-size: 0;
+    text-align: right;
+    
+    &:before {
+        content: "π";
+        font-size: 1.25rem;
+        opacity: 0.5;
+    }
+}
+[data-widget*="recipes"] .ui-widget-content {
+    padding: 0 !important;
+    table {
+        border-collapse: collapse;
+        background: $darkerPanelBackground;
+    }
+}
+.ui-datagrid-column .ui-panel-titlebar {
+    display: flex;
+    flex-direction: column;
+    height: 5em;
+    justify-content: center;    
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar {
+    background-color: $panelBackground;
 }
