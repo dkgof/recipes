@@ -28,10 +28,12 @@
             <div class="ui-g-4 ui-widget" style="vertical-align: middle; line-height: 28px; text-align: center;">Recipes</div>
             <div class="ui-g-4 ui-widget" style="text-align: right;">
                 <h:form>
-                    <h:outputLabel for="recipeFilter" value="Search:" />
-                    <p:inputText id="recipeFilter" value="#{recipesViewFrontpage.filter}" size="10">
-                        <p:ajax event="keyup" update=":recipes" oncomplete="PF('recipesWV').getPaginator().setPage(0);" />
-                    </p:inputText>
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="pi pi-search"></i></span>
+                        <p:inputText id="recipeFilter" value="#{recipesViewFrontpage.filter}" size="10" placeholder="Search">
+                            <p:ajax event="keyup" update=":recipes" oncomplete="PF('recipesWV').getPaginator().setPage(0);" />
+                        </p:inputText>
+                    </div>
                 </h:form>
             </div>
         </div>

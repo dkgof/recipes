@@ -149,9 +149,8 @@ html {
     min-height:100vh;
     background: linear-gradient(to bottom, #007eff10, #007eff3d);
 
-    /*
     &:before {
-        content: "Recipes - Better Food, Any Time";
+        content: "Bagge's Mad";
         border-bottom: 2px solid black;
         padding: 0.5em 2em;
         position: absolute;
@@ -160,7 +159,6 @@ html {
         font-family: sans-serif;
         font-weight: bold;
     }
-    */
 }
 @media print {
     html {
@@ -277,31 +275,31 @@ a[href*="/index.xhtml"]{
 .ui-g-4 {
     display: none;
     
-    &[style="text-align: right;"]{
+    &[style="text-align: right;"] {
+        .ui-inputgroup {
+            text-align: center !important;
+            display: flex;
+            justify-content: center;
+            
+            .ui-inputgroup-addon:first-child {
+                background-color: $panelBackground;
+            }
+        }
+        
         display: block;
-        text-align: center !important;
         width: 100%;
         label {
-            display: none;            
+            //display: none;            
         }
         input {
             width: 17em;
             //background: $electric-blue;
             //border: 1px solid $french-sky-blue;
-            border-radius: 1em;            
             padding: 0.5em 1em;     
             padding-right: 2em;
-            position: relative;
-            &:before {
-                position: absolute;
-                right: 0;
-                content: "\e908";
-                font-family: 'primeicons';
-                font-style: normal;
-                font-weight: normal;
-                font-variant: normal;
-                text-transform: none;
-                line-height: 1;                
+            
+            &::placeholder {
+                opacity: 0.5;
             }
         }
     }
