@@ -92,7 +92,7 @@
                                         <div class="ui-grid-col-6">
                                             <p:inplace editor="true" disabled="#{!canEdit}">
                                                 <f:facet name="output">
-                                                    <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
+                                                    <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" class="amount" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" class="unit" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                 </f:facet>
                                                 <f:facet name="input">
                                                     <p:spinner value="#{ingredient.amount}" stepFactor="0.001" size="5" /> #{ingredient.measure.symbol}
@@ -101,7 +101,7 @@
                                             </p:inplace>
                                         </div>
                                         <div class="ui-grid-col">
-                                            <p:commandLink type="button" styleClass="hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" disabled="#{!canEdit}">
+                                            <p:commandLink type="button" styleClass="hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" rendered="#{canEdit}">
                                                 <i class="pi pi-trash"></i>
                                                 <p:confirm header="Remove ingredient" message="Are you sure?" icon="pi pi-exclamation-triangle" />
                                             </p:commandLink>
@@ -239,8 +239,11 @@
             <p:ajax event="close" update=":addRecipeGroup" />
         </p:dialog>
 
-        <p:link value="Back" outcome="index" styleClass="hideFromPrint" />
-
+        <div class="bottomBar">
+            <p:link value="Back" outcome="index" styleClass="hideFromPrint" />
+            <p:link value="Login" outcome="login.xhtml?redirect=recipe.xhtml%3Frecipe%3D#{recipeView.selectedRecipe.id}" rendered="#{!canEdit}" />
+        </div>
+        
         <ui:include src="includes/addRecipeIngredientDialog.xhtml">
             <ui:param name="addMethodArgument" value="#{recipeView.selectedRecipe}" />
             <ui:param name="update" value=":recipeForm" />

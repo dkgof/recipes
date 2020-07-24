@@ -5,6 +5,10 @@ body {
     touch-action: pan-y;
 }
 
+#recipes {
+    user-select: none;
+}
+
 .actionButtons td, .actionButtons tr {
     border: 0 !important;
     background: transparent !important;
@@ -27,6 +31,10 @@ a, a:visited, a.active {
 
 .ingredientInfo {
     margin-left: 0.5em;
+
+    .unit {
+        margin-left: 0.25em;
+    }
 }
 
 .ingredientStats {
@@ -46,7 +54,7 @@ a, a:visited, a.active {
             width: 100%;
         }
     }
-    
+
     .ui-state-highlight {
         width: 100%;
         border: 0 !important;
@@ -70,7 +78,7 @@ a, a:visited, a.active {
 .recipeContainer {
     position: relative;
     display: inline-block;
-    
+
     .delete {
         position: absolute;
         right: 0;
@@ -163,7 +171,7 @@ html {
 @media print {
     html {
         padding-top: 0;
-        
+
         &:before, .ui-chkbox-box, a[href="/index.xhtml"], #recipeForm\:imageArea, .ingredientItem .ui-commandlink {
             display: none !important;
         }
@@ -181,7 +189,7 @@ body {
         border: 0;
         //border-top: 2px solid $bdazzled-blue;        
     }
-    
+
     .ui-paginator {
         border: 0;
         display: flex;
@@ -192,12 +200,12 @@ body {
             background: transparent;
             cursor: pointer;            
         }
-        
+
         .ui-paginator-pages .ui-paginator-page.ui-state-active {
             background-color: $darkerPanelBackground;
             //color: #065100;        
         }
-        
+
         /*
         .ui-paginator-pages .ui-paginator-page.ui-state-hover {
             background-color: $french-sky-blue;
@@ -210,7 +218,7 @@ body {
 #recipeForm\:ingredientList_content {
     border: none;
     padding: 0;
-    
+
     .ingredientItem {
         .ui-grid-col-6 {
             font-family: sans-serif;
@@ -220,7 +228,7 @@ body {
             display: block;
             margin-left: 0;
             margin-right: 0.5em;
-            
+
             &:first-of-type {
                 font-weight: bold;
             }
@@ -240,27 +248,17 @@ body {
 #recipeForm\:recipeSteps_content {
     border: 0;
     padding: 0;        
-        
+
     ul {
         list-style: upper-roman;
         padding-left: 2em;        
     }
 }
 
-a[href*="/index.xhtml"]{
-    padding: 1em;
-    display: block;
-    font-weight: bold;
-    
-    &:before {
-        content: "< ";
-    }
-}
-
 [data-widget*="recipeForm"]>.ui-widget-content>.ui-grid{
     display: flex;
     flex-direction: column;
-    
+
     .ui-grid-row {
         padding-bottom: 0.5em;
         &:last-child {
@@ -274,18 +272,18 @@ a[href*="/index.xhtml"]{
 
 .ui-g-4 {
     display: none;
-    
+
     &[style="text-align: right;"] {
         .ui-inputgroup {
             text-align: center !important;
             display: flex;
             justify-content: center;
-            
+
             .ui-inputgroup-addon:first-child {
                 background-color: $panelBackground;
             }
         }
-        
+
         display: block;
         width: 100%;
         label {
@@ -297,26 +295,14 @@ a[href*="/index.xhtml"]{
             //border: 1px solid $french-sky-blue;
             padding: 0.5em 1em;     
             padding-right: 2em;
-            
+
             &::placeholder {
                 opacity: 0.5;
             }
         }
     }
 }
-a[href*="/restricted/admin.xhtml"]{
-    padding: 0.5rem;
-    display: block;
-    font-weight: bold;
-    font-size: 0;
-    text-align: right;
-    
-    &:before {
-        content: "π";
-        font-size: 1.25rem;
-        opacity: 0.5;
-    }
-}
+
 [data-widget*="recipes"] .ui-widget-content {
     padding: 0 !important;
     table {
@@ -333,4 +319,37 @@ a[href*="/restricted/admin.xhtml"]{
 
 body .ui-fileupload .ui-fileupload-buttonbar {
     background-color: $panelBackground;
+}
+
+.bottomBar {
+    position: relative;
+
+    a[href*="/index.xhtml"]{
+        position: absolute;
+        padding: 0.5rem;
+        font-weight: bold;
+
+        &:before {
+            content: "< ";
+        }
+    }
+
+    a[href*="/login.xhtml"]{
+        padding: 0.5rem;
+        font-weight: bold;
+        position: absolute;
+        right: 0em;
+    }
+
+    a[href*="/restricted/admin.xhtml"]{
+        padding: 0.5rem;
+        font-weight: bold;
+        position: absolute;
+        right: 0em;
+
+        &:before {
+            content: "π";
+            opacity: 0.5;
+        }
+    }
 }

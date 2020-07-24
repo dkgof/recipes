@@ -4,6 +4,8 @@ import dk.fambagge.recipes.db.Database;
 import dk.fambagge.recipes.domain.User;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
@@ -26,6 +28,8 @@ public class AuthBean implements Serializable {
 
     private String username;
     private String password;
+    
+    private String redirectRequestUrl;
     
     public boolean hasPermission(String permission) {
         System.out.println("Checking permission: "+permission);
@@ -53,8 +57,16 @@ public class AuthBean implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(USER_KEY, user);
             
             try {
-                String redirect = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(REDIRECT_KEY);
+                String redirect = null;
                 
+                if(redirectRequestUrl != null && !redirectRequestUrl.isBlank()) {
+                    redirect = URLDecoder.decode(redirectRequestUrl, Charset.forName("UTF-8"));
+                } else {
+                    redirect = this.getRedirectUrl();
+                }
+                
+                System.out.println(redirect);
+
                 if(redirect == null || redirect.isEmpty()) {
                     redirect = "/";
                 }
@@ -97,7 +109,11 @@ public class AuthBean implements Serializable {
     }
 
     public String getRedirectUrl() {
-        return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(REDIRECT_KEY).toString();
+        try {
+            return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(REDIRECT_KEY).toString();
+        } catch(NullPointerException e) {
+            return null;
+        }
     }
 
     /**
@@ -126,5 +142,19 @@ public class AuthBean implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the redirectRequestUrl
+     */
+    public String getRedirectRequestUrl() {
+        return redirectRequestUrl;
+    }
+
+    /**
+     * @param redirectRequestUrl the redirectRequestUrl to set
+     */
+    public void setRedirectRequestUrl(String redirectRequestUrl) {
+        this.redirectRequestUrl = redirectRequestUrl;
     }
 }
