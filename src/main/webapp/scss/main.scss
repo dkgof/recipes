@@ -31,9 +31,16 @@ a, a:visited, a.active {
 
 .ingredientInfo {
     margin-left: 0.5em;
+    padding: 0;
 
     .unit {
         margin-left: 0.25em;
+    }
+}
+
+.ingredientInfoEditor {
+    span {
+        padding: 0 !important;
     }
 }
 
@@ -215,9 +222,14 @@ body {
     }
 }
 
-#recipeForm\:ingredientList_content {
-    border: none;
-    padding: 0;
+#recipeForm\:ingredientList_content, .ingredientGroupList {
+    .ui-datalist-content {
+        border: none !important;
+        padding: 0;
+    }
+    
+    border: none !important;
+    //padding: 0;
 
     .ingredientItem {
         .ui-grid-col-6 {
@@ -353,3 +365,10 @@ body .ui-fileupload .ui-fileupload-buttonbar {
         }
     }
 }
+
+.ingredientsCol {
+    .ui-panel-content {
+        padding: 0 !important;
+    }
+}
+

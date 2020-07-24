@@ -80,17 +80,17 @@
                         </div>
                     </div>
                     <div class="ui-grid-row">
-                        <div class="ui-grid-col-5">
+                        <div class="ui-grid-col-5 ingredientsCol">
                             <p:panel>
                                 <f:facet name="header">Ingredients&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Ingredient" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!canEdit}" />&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Group" onclick="PF('addRecipeGroupDialog').show();" disabled="#{!canEdit}" /></f:facet>
                                 <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{canEdit?'draggable':''}">
                                     <div class="ingredientId" data-id="#{ingredient.id}"></div>
                                     <div class="ui-grid-row">
-                                        <div class="ui-grid-col-6">
+                                        <div class="ui-grid-col-8">
                                             <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
                                         </div>
                                         <div class="ui-grid-col-6">
-                                            <p:inplace editor="true" disabled="#{!canEdit}">
+                                            <p:inplace editor="true" disabled="#{!canEdit}" class="ingredientInfoEditor">
                                                 <f:facet name="output">
                                                     <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" class="amount" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" class="unit" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                 </f:facet>
@@ -100,12 +100,12 @@
                                                 </f:facet>
                                             </p:inplace>
                                         </div>
-                                        <div class="ui-grid-col">
+                                        <h:panelGroup class="ui-grid-col-1" rendered="#{canEdit}">
                                             <p:commandLink type="button" styleClass="hideFromPrint" style="display: inline-block;" actionListener="#{recipeView.deleteIngredient(ingredient)}" update=":recipeForm" rendered="#{canEdit}">
                                                 <i class="pi pi-trash"></i>
                                                 <p:confirm header="Remove ingredient" message="Are you sure?" icon="pi pi-exclamation-triangle" />
                                             </p:commandLink>
-                                        </div>
+                                        </h:panelGroup>
                                     </div>
                                 </p:dataList>
                                 <ui:repeat var="group" value="#{recipeView.ingredientGroupsSorted}">
@@ -130,13 +130,13 @@
                                         <p:dataList var="ingredient" value="#{recipeView.getIngredientGroupIngredientsSorted(group)}" type="definition" itemStyleClass="ingredientItem #{canEdit?'draggable':''}" class="ingredientGroupList">
                                             <div class="ingredientId" data-id="#{ingredient.id}"></div>
                                             <div class="ui-grid-row">
-                                                <div class="ui-grid-col-4">
+                                                <div class="ui-grid-col-8">
                                                     <span class="ingredientInfo"><h:outputText value="#{ingredient.ingredient.name}" /></span>
                                                 </div>
-                                                <div class="ui-grid-col-7">
-                                                    <p:inplace editor="true" disabled="#{!canEdit}">
+                                                <div class="ui-grid-col-6">
+                                                    <p:inplace editor="true" disabled="#{!canEdit}" class="ingredientInfoEditor">
                                                         <f:facet name="output">
-                                                            <span class="ingredientInfo"><h:outputText value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
+                                                            <span class="ingredientInfo"><h:outputText class="amount" value="#{recipeView.getScaledIngredientAmountFormatted(ingredient)}" /> <h:outputText class="unit" value="#{recipeView.getMeasureSymbol(ingredient)}" /></span><span class="ingredientInfo">(<h:outputText value="#{recipeView.getCaloriesPerServing(ingredient)}" /> kcal)</span>
                                                         </f:facet>
                                                         <f:facet name="input">
                                                             <p:spinner value="#{ingredient.amount}" stepFactor="0.001" size="5" /> #{ingredient.measure.symbol}
@@ -161,7 +161,7 @@
                                 </p:selectBooleanCheckbox>
                             </p:panel>
                         </div>
-                        <div class="ui-grid-col-7">
+                        <div class="ui-grid-col-7 stepsCol">
                             <p:panel>
                                 <f:facet name="header">Steps <p:commandLink type="button"  value="+" styleClass="hideFromPrint" actionListener="#{recipeView.addStep()}" update="@(#recipeForm\\:recipeSteps)" disabled="#{!canEdit}" oncomplete="initDND();" /></f:facet>
                                 <p:dataList var="step" value="#{recipeView.stepsSorted}" id="recipeSteps" itemStyleClass="recipeStep">
