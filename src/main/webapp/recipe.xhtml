@@ -83,7 +83,7 @@
                         <div class="ui-grid-col-5 ingredientsCol">
                             <p:panel>
                                 <f:facet name="header">Ingredients&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Ingredient" onclick="PF('addRecipeIngredientDialog').show();" disabled="#{!canEdit}" />&nbsp;&nbsp;&nbsp;<p:commandLink type="button" styleClass="hideFromPrint" value="+Group" onclick="PF('addRecipeGroupDialog').show();" disabled="#{!canEdit}" /></f:facet>
-                                <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{canEdit?'draggable':''}">
+                                <p:dataList var="ingredient" id="ingredientList" value="#{recipeView.ingredientsSorted}" type="definition" itemStyleClass="ingredientItem #{canEdit?'draggable':''}" emptyMessage="">
                                     <div class="ingredientId" data-id="#{ingredient.id}"></div>
                                     <div class="ui-grid-row">
                                         <div class="ui-grid-col-8">

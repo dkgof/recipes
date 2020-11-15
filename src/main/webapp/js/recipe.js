@@ -1,38 +1,40 @@
 function initDND() {
-    console.log("Setting up DND!");
+    setTimeout(() => {
+        console.log("Setting up steps DND!");
 
-    let draggable = jQuery("#recipeForm\\:recipeSteps").find(".draggable");
+        let draggable = jQuery("#recipeForm\\:recipeSteps").find(".draggable");
 
-    draggable.draggable({
-        helper: "clone",
-        revert: "true",
-        cursorAt: {
-            left: 150,
-            top: 15
-        },
-        start: function (e, ui)
-        {
-            $(ui.helper).addClass("ui-draggable-helper");
-        }
-        //zIndex: ++PrimeFaces.zindex
-    });
+        draggable.draggable({
+            helper: "clone",
+            revert: "true",
+            cursorAt: {
+                left: 150,
+                top: 15
+            },
+            start: function (e, ui)
+            {
+                $(ui.helper).addClass("ui-draggable-helper");
+            }
+            //zIndex: ++PrimeFaces.zindex
+        });
 
-    draggable.droppable({
-        accept: "#recipeForm\\:recipeSteps .draggable",
-        activeClass: 'dragActiveTest',
-        hoverClass: 'dragHoverTest',
-        drop: function (event, ui) {
-             doDropStep([
-             {name: 'from', value: jQuery(ui.draggable).data("id")},
-             {name: 'to', value: jQuery(this).data("id")}
-             ]);
-        }
-    });
+        draggable.droppable({
+            accept: "#recipeForm\\:recipeSteps .draggable",
+            activeClass: 'dragActiveTest',
+            hoverClass: 'dragHoverTest',
+            drop: function (event, ui) {
+                doDropStep([
+                    {name: 'from', value: jQuery(ui.draggable).data("id")},
+                    {name: 'to', value: jQuery(this).data("id")}
+                ]);
+            }
+        });
+    }, 250);
 }
 
 function initGroupDND() {
     console.log("Group DND!");
-    
+
     jQuery("#recipeForm .ingredientItem.draggable").draggable({
         helper: "clone",
         revert: "true",
@@ -57,14 +59,14 @@ function initGroupDND() {
             ]);
         }
     });
-    
+
     jQuery("#recipeForm\\:ingredientList").droppable({
         accept: "#recipeForm .ingredientItem",
         activeClass: 'dragActiveTest',
         hoverClass: 'dragHoverTest',
         drop: function (event, ui) {
             console.log("Drop on me!");
-            
+
             doDropIngredient([
                 {name: 'ingredient', value: jQuery(ui.draggable).find(".ingredientId").data("id")},
                 {name: 'group', value: -1}

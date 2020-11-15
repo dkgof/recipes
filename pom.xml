@@ -21,12 +21,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.22.Final</version>
+            <version>5.4.23.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jcache</artifactId>
-            <version>5.4.22.Final</version>
+            <version>5.4.23.Final</version>
         </dependency>
         <dependency>
             <groupId>org.ehcache</groupId>
@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-hikaricp</artifactId>
-            <version>5.4.22.Final</version>
+            <version>5.4.23.Final</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.21</version>
+            <version>8.0.22</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -68,31 +68,31 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
-            <version>9.4.32.v20200930</version>
+            <version>9.4.34.v20201102</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-continuation</artifactId>
-            <version>9.4.32.v20200930</version>
+            <version>9.4.34.v20201102</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-annotations</artifactId>
-            <version>9.4.32.v20200930</version>
+            <version>9.4.34.v20201102</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-plus</artifactId>
-            <version>9.4.32.v20200930</version>
+            <version>9.4.34.v20201102</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
-            <version>0.4.12</version>
+            <version>0.4.13</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -132,7 +132,7 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
-            <version>3.8</version>
+            <version>3.8.1</version>
         </dependency>    
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
