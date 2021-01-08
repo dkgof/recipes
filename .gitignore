@@ -1,3 +1,4 @@
 /target/
 /uploads/
 /src/test/java/dk/fambagge/recipes/domain/PasswordCreator.java
+/nbproject/

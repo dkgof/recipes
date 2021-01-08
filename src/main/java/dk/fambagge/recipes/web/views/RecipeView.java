@@ -173,10 +173,24 @@ public class RecipeView  implements Serializable {
     public String getScaledIngredientAmountFormatted(RecipeIngredient ingredient) {
         double value = getScaledIngredientAmount(ingredient);
         
-        String formattedValue = String.format("%.1f", value);
+        return getFormattedValue(ingredient, value);
+    }
+
+    public String getFormattedValue(RecipeIngredient ingredient, double value) {
+        String formattedValue = String.format("%.3f", value);
 
         if(Math.floor(value) == value) {
             formattedValue = Integer.toString((int) value);
+        }
+        
+        if(formattedValue.indexOf(",") != -1 || formattedValue.indexOf(".") != -1) {
+            while(true) {
+                if(formattedValue.charAt(formattedValue.length()-1) == '0') {
+                    formattedValue = formattedValue.substring(0, formattedValue.length()-1);
+                } else {
+                    break;
+                }
+            }
         }
         
         boolean doFraction = true;
